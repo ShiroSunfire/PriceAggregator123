@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbK-KA-dWB">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--LogScreen-->
+        <scene sceneID="Yb8-HN-tzM">
+            <objects>
+                <viewController storyboardIdentifier="Load" id="fbK-KA-dWB" userLabel="LogScreen" customClass="LoginViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zMj-LU-Njr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ew-av-QeJ" userLabel="topview">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="407"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ore-CI-sGi" userLabel="Photo">
+                                        <rect key="frame" x="55" y="75" width="265" height="257"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Ore-CI-sGi" secondAttribute="trailing" constant="55" id="Adk-GH-FaG"/>
+                                    <constraint firstItem="Ore-CI-sGi" firstAttribute="top" secondItem="9Ew-av-QeJ" secondAttribute="top" constant="75" id="Q9W-Zx-Pvz"/>
+                                    <constraint firstItem="Ore-CI-sGi" firstAttribute="centerY" secondItem="9Ew-av-QeJ" secondAttribute="centerY" id="lnu-9e-EYy"/>
+                                    <constraint firstItem="Ore-CI-sGi" firstAttribute="leading" secondItem="9Ew-av-QeJ" secondAttribute="leading" constant="55" id="nsd-g6-zoG"/>
+                                    <constraint firstItem="Ore-CI-sGi" firstAttribute="centerX" secondItem="9Ew-av-QeJ" secondAttribute="centerX" id="yHg-Ul-OEC"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8a-82-q3W" userLabel="logview">
+                                <rect key="frame" x="86" y="408" width="203" height="259"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tcd-12-cVN">
+                                        <rect key="frame" x="0.0" y="160" width="203" height="69"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDr-9v-Yfa">
+                                                <rect key="frame" x="0.0" y="0.0" width="61" height="56"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="61" id="6bh-Vd-ewI"/>
+                                                    <constraint firstAttribute="height" constant="56" id="CKa-q1-q5e"/>
+                                                    <constraint firstAttribute="width" constant="61" id="ClD-Wd-Cab"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="56" id="eDp-l2-b0b"/>
+                                                </constraints>
+                                                <state key="normal" title="Facebook" image="facebook"/>
+                                                <connections>
+                                                    <action selector="fbLog:" destination="fbK-KA-dWB" eventType="touchUpInside" id="yDF-2h-Wb8"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9e-Cm-Djo">
+                                                <rect key="frame" x="77" y="6" width="52" height="46"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="52" id="Tk3-ih-bPV"/>
+                                                    <constraint firstAttribute="height" constant="46" id="u6P-iK-FAG"/>
+                                                </constraints>
+                                                <state key="normal" title="Twitter" image="twitter"/>
+                                                <connections>
+                                                    <action selector="twLog:" destination="fbK-KA-dWB" eventType="touchUpInside" id="LJD-Rk-ckq"/>
+                                                    <action selector="twitterLoginTapped:" destination="fbK-KA-dWB" eventType="touchUpInside" id="FKx-G8-W7s"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7at-it-S6B">
+                                                <rect key="frame" x="153" y="7" width="50" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="6uK-Of-FRo"/>
+                                                    <constraint firstAttribute="height" constant="40" id="zJP-xg-Wb1"/>
+                                                </constraints>
+                                                <state key="normal" title="Gmail" image="gmail"/>
+                                                <connections>
+                                                    <action selector="gmLog:" destination="fbK-KA-dWB" eventType="touchUpInside" id="Uzj-jY-fcG"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="7at-it-S6B" firstAttribute="leading" secondItem="p9e-Cm-Djo" secondAttribute="trailing" constant="24" id="3GX-Nw-qg3"/>
+                                            <constraint firstItem="KDr-9v-Yfa" firstAttribute="top" secondItem="tcd-12-cVN" secondAttribute="top" id="CPz-jQ-euH"/>
+                                            <constraint firstItem="KDr-9v-Yfa" firstAttribute="leading" secondItem="tcd-12-cVN" secondAttribute="leading" id="Ykl-ym-inV"/>
+                                            <constraint firstItem="7at-it-S6B" firstAttribute="top" secondItem="tcd-12-cVN" secondAttribute="top" constant="7" id="YqV-1o-1dc"/>
+                                            <constraint firstAttribute="bottom" secondItem="KDr-9v-Yfa" secondAttribute="bottom" constant="13" id="a6N-eV-mOW"/>
+                                            <constraint firstAttribute="trailing" secondItem="7at-it-S6B" secondAttribute="trailing" id="pdV-7U-ijw"/>
+                                            <constraint firstItem="p9e-Cm-Djo" firstAttribute="leading" secondItem="KDr-9v-Yfa" secondAttribute="trailing" constant="16" id="weg-86-y7W"/>
+                                            <constraint firstItem="p9e-Cm-Djo" firstAttribute="top" secondItem="tcd-12-cVN" secondAttribute="top" constant="6" id="yAE-0H-iWe"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="tcd-12-cVN" secondAttribute="trailing" id="0m9-Xk-ox9"/>
+                                    <constraint firstAttribute="bottom" secondItem="tcd-12-cVN" secondAttribute="bottom" constant="30" id="JCl-hI-b4M"/>
+                                    <constraint firstItem="tcd-12-cVN" firstAttribute="leading" secondItem="d8a-82-q3W" secondAttribute="leading" id="jZi-BP-ajH"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="9Ew-av-QeJ" secondAttribute="bottom" constant="260" id="4gX-US-DWH"/>
+                            <constraint firstItem="9Ew-av-QeJ" firstAttribute="leading" secondItem="zMj-LU-Njr" secondAttribute="leading" id="7Jc-y6-QTV"/>
+                            <constraint firstAttribute="trailing" secondItem="9Ew-av-QeJ" secondAttribute="trailing" id="Hu1-iG-oYX"/>
+                            <constraint firstItem="9Ew-av-QeJ" firstAttribute="top" secondItem="zMj-LU-Njr" secondAttribute="top" id="Ryq-9x-N7X"/>
+                            <constraint firstItem="d8a-82-q3W" firstAttribute="bottom" secondItem="ItW-bO-FBH" secondAttribute="bottom" id="e4n-iz-LHy"/>
+                            <constraint firstItem="9Ew-av-QeJ" firstAttribute="centerX" secondItem="d8a-82-q3W" secondAttribute="centerX" id="gI6-Vu-n7c"/>
+                            <constraint firstItem="d8a-82-q3W" firstAttribute="top" secondItem="9Ew-av-QeJ" secondAttribute="bottom" constant="1" id="pMh-5C-LTR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ItW-bO-FBH"/>
+                    </view>
+                    <connections>
+                        <outlet property="accountImage" destination="Ore-CI-sGi" id="5kx-ch-Cys"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vnf-B8-EuH" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1754.4000000000001" y="400.74962518740631"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="facebook" width="512" height="512"/>
+        <image name="gmail" width="300" height="218"/>
+        <image name="twitter" width="512" height="512"/>
+    </resources>
+</document>
