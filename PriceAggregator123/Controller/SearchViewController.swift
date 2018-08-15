@@ -117,6 +117,8 @@ class SearchViewController: UIViewController {
 //    }
     
     func getSortArray(filter: String) {
+        refresh = RefreshImageView(center: self.view.center)
+        self.view.addSubview(refresh!)
         arrayItems.removeAll()
         if urlCreate["sortOption"] == filter {
             if urlCreate["order"] == "&order=desc" {
@@ -142,6 +144,15 @@ class SearchViewController: UIViewController {
     @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
         getSortArray(filter: "&sort=bestseller")
     }
+    
+    @IBAction func cancelFilters(_ sender: Any) {
+        arrayItems.removeAll()
+        urlCreate["sortOption"] = ""
+        urlCreate["order"] = ""
+        refresh = RefreshImageView(center: self.view.center)
+        self.view.addSubview(refresh!)
+        getItems(with: getURL())
+    }
 }
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -161,6 +172,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
         cell.labelDescription.text = arrayItems[indexPath.row].name!
         cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
+        cell.priceLabel.text = String(arrayItems[indexPath.row].price!)
         return cell
     }
     
