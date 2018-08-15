@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NormalCell" customModule="PriceAggregator123" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="gTV-IL-0wX" customClass="NormalCell" customModule="PriceAggregator123" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="77"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="347" height="77"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image" translatesAutoresizingMaskIntoConstraints="NO" id="dAV-ux-vD2">
+                        <rect key="frame" x="10" y="10" width="53.5" height="57"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="dAV-ux-vD2" secondAttribute="height" multiplier="33:35" id="jQx-M8-jj1"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Vl-nc-BNJ">
+                        <rect key="frame" x="74" y="10" width="199" height="57"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqf-g2-WRL">
+                        <rect key="frame" x="280" y="10" width="57" height="57"/>
+                        <color key="backgroundColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Nqf-g2-WRL" secondAttribute="height" multiplier="1:1" id="krL-G6-YlK"/>
+                        </constraints>
+                        <state key="normal" title="Buy">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="buyButtonTapped:" destination="-1" eventType="touchUpInside" id="Ucg-ZE-IYs"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.99586337804794312" green="0.99621027708053589" blue="0.99173694849014282" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Nqf-g2-WRL" secondAttribute="trailing" constant="10" id="DBz-hO-K1X"/>
+                <constraint firstAttribute="bottom" secondItem="Nqf-g2-WRL" secondAttribute="bottom" constant="10" id="Kwc-zy-QfR"/>
+                <constraint firstItem="dAV-ux-vD2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="P3c-Dl-H9Z"/>
+                <constraint firstItem="5Vl-nc-BNJ" firstAttribute="leading" secondItem="dAV-ux-vD2" secondAttribute="trailing" constant="10" id="Sd7-uO-Z2n"/>
+                <constraint firstItem="5Vl-nc-BNJ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="bJ3-DT-Gjs"/>
+                <constraint firstItem="Nqf-g2-WRL" firstAttribute="leading" secondItem="5Vl-nc-BNJ" secondAttribute="trailing" constant="7" id="opR-ov-Dwd"/>
+                <constraint firstAttribute="bottom" secondItem="5Vl-nc-BNJ" secondAttribute="bottom" constant="10" id="p1c-sl-0SF"/>
+                <constraint firstItem="dAV-ux-vD2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="pBb-dP-r7d"/>
+                <constraint firstItem="Nqf-g2-WRL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="u8s-QM-Dv1"/>
+                <constraint firstAttribute="bottom" secondItem="dAV-ux-vD2" secondAttribute="bottom" constant="10" id="yas-BE-Ydr"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="347" height="77"/>
+            <connections>
+                <outlet property="image" destination="dAV-ux-vD2" id="icf-yN-uKs"/>
+                <outlet property="labelDescription" destination="5Vl-nc-BNJ" id="vyk-bK-MNg"/>
+            </connections>
+            <point key="canvasLocation" x="-306" y="-77"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="image" width="796" height="447"/>
+    </resources>
+</document>

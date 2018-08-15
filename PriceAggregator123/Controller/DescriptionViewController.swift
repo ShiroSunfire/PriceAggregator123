@@ -34,7 +34,7 @@ class DescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.item.thumbnailImage = [String]()
+        //self.item.thumbnailImage = [String]()
         itemImageCollection.delegate = self
         itemImageCollection.dataSource = self
         itemImageCollection.isPagingEnabled = true
@@ -56,32 +56,32 @@ class DescriptionViewController: UIViewController {
         let urlString = "https://api.walmartlabs.com/v1/items/\(itemId)?apiKey=\(apiKey)&lsPublisherId=&format=json"
         let url = URL(string: urlString)
         let session = URLSession.shared
-        if let usingUrl = url{
-            session.dataTask(with: usingUrl) { (data, responce, error) in
-                do {
-                    let json = try JSON(data: data!)
-                    self.item.price = json["salePrice"].double!
-                    self.item.description = json["shortDescription"].string!
-                    self.item.name = json["name"].string!
-                    self.item.id = json["itemId"].int!
-                    self.item.name = json["name"].string!
-                    if json["imageEntities"].array != nil{
-                        if var appendingArr = self.item.thumbnailImage{
-                            for index in 0...json["imageEntities"].count - 1{
-                                let element = json["imageEntities"][index]["largeImage"].string!
-                                if !appendingArr.contains(element){
-                                    appendingArr.append(element)
-                                }
-                            }
-                            self.item.thumbnailImage = appendingArr
-                        }
-                    }else{
-                        self.item.thumbnailImage?.append(json["largeImage"].string!)
-                    }
-                    self.addImagesToCellImages()
-                } catch { }
-                }.resume()
-        }
+//        if let usingUrl = url{
+//            session.dataTask(with: usingUrl) { (data, responce, error) in
+//                do {
+//                    let json = try JSON(data: data!)
+//                    self.item.price = json["salePrice"].double!
+//                    self.item.description = json["shortDescription"].string!
+//                    self.item.name = json["name"].string!
+//                    self.item.id = json["itemId"].int!
+//                    self.item.name = json["name"].string!
+//                    if json["imageEntities"].array != nil{
+//                        if var appendingArr = self.item.thumbnailImage{
+//                            for index in 0...json["imageEntities"].count - 1{
+//                                let element = json["imageEntities"][index]["largeImage"].string!
+//                                if !appendingArr.contains(element){
+//                                    appendingArr.append(element)
+//                                }
+//                            }
+//                            self.item.thumbnailImage = appendingArr
+//                        }
+//                    }else{
+//                        self.item.thumbnailImage?.append(json["largeImage"].string!)
+//                    }
+//                    self.addImagesToCellImages()
+//                } catch { }
+//                }.resume()
+//        }
      
     }
 
@@ -92,23 +92,23 @@ class DescriptionViewController: UIViewController {
     }
     
     func addImagesToCellImages(){
-        if let images = item.thumbnailImage{
-            for imageUrl in images{
-                let currUrl = URL(string: imageUrl)
-                URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
-                    if error != nil{
-                        print(error!)
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.cellImages.append(UIImage(data: data!)!)
-                    }
-                    
-                    
-                    
-                }.resume()
-            }
-        }
+//        if let images = item.thumbnailImage{
+//            for imageUrl in images{
+//                let currUrl = URL(string: imageUrl)
+//                URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
+//                    if error != nil{
+//                        print(error!)
+//                        return
+//                    }
+//                    DispatchQueue.main.async {
+//                        self.cellImages.append(UIImage(data: data!)!)
+//                    }
+//
+//
+//
+//                }.resume()
+//            }
+//        }
     }
 }
 
@@ -123,8 +123,9 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print((item.thumbnailImage?.count)!)
-        return (item.thumbnailImage?.count)!
+//        print((item.thumbnailImage?.count)!)
+//        return (item.thumbnailImage?.count)!
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
