@@ -9,6 +9,10 @@
 import UIKit
 import SwiftyJSON
 
+protocol SearchViewControllerDelegate {
+    func cellWasTapped(id:Int)
+}
+
 class SearchViewController: UIViewController {
 
     @IBOutlet weak var labelShowForUser: UILabel!
@@ -19,6 +23,7 @@ class SearchViewController: UIViewController {
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
     var refresh:RefreshImageView?
+    var delegate: SearchViewControllerDelegate?
     var arrayItems = [Item]() {
         didSet {
             DispatchQueue.main.async {
@@ -137,6 +142,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 }
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Description", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        delegate?.cellWasTapped(id: arrayItems[indexPath.row].id!)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
