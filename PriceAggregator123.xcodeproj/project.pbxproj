@@ -12,6 +12,10 @@
 		3FF358E0212403F70091A943 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358DE212403F70091A943 /* Main.storyboard */; };
 		3FF358E2212403F90091A943 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E1212403F90091A943 /* Assets.xcassets */; };
 		3FF358E5212403F90091A943 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E3212403F90091A943 /* LaunchScreen.storyboard */; };
+		3FF358FA21240CFC0091A943 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF358F921240CFC0091A943 /* Item.swift */; };
+		3FF358FC21240D0A0091A943 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF358FB21240D0A0091A943 /* DescriptionViewController.swift */; };
+		3FF358FE21240D1B0091A943 /* DescriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF358FD21240D1B0091A943 /* DescriptionCollectionViewCell.swift */; };
+		3FF3590021240D220091A943 /* Description.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358FF21240D220091A943 /* Description.storyboard */; };
 		5405AE80A1DF058BE4CF64A2 /* Pods_PriceAggregator123.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +27,10 @@
 		3FF358E1212403F90091A943 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FF358E4212403F90091A943 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3FF358E6212403F90091A943 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FF358F921240CFC0091A943 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		3FF358FB21240D0A0091A943 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
+		3FF358FD21240D1B0091A943 /* DescriptionCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCollectionViewCell.swift; sourceTree = "<group>"; };
+		3FF358FF21240D220091A943 /* Description.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Description.storyboard; sourceTree = "<group>"; };
 		55582D82CE0B636CEF6B38CE /* Pods-PriceAggregator123.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.debug.xcconfig"; sourceTree = "<group>"; };
 		5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PriceAggregator123.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE146BDD4F9CA8BEF7E1258 /* Pods-PriceAggregator123.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.release.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.release.xcconfig"; sourceTree = "<group>"; };
@@ -61,14 +69,42 @@
 		3FF358D9212403F70091A943 /* PriceAggregator123 */ = {
 			isa = PBXGroup;
 			children = (
+				3FF358F821240CF00091A943 /* Controller */,
+				3FF358F721240CEA0091A943 /* View */,
+				3FF358F621240CD60091A943 /* Model */,
 				3FF358DA212403F70091A943 /* AppDelegate.swift */,
-				3FF358DC212403F70091A943 /* ViewController.swift */,
-				3FF358DE212403F70091A943 /* Main.storyboard */,
 				3FF358E1212403F90091A943 /* Assets.xcassets */,
 				3FF358E3212403F90091A943 /* LaunchScreen.storyboard */,
 				3FF358E6212403F90091A943 /* Info.plist */,
 			);
 			path = PriceAggregator123;
+			sourceTree = "<group>";
+		};
+		3FF358F621240CD60091A943 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FF358F921240CFC0091A943 /* Item.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FF358F721240CEA0091A943 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3FF358FF21240D220091A943 /* Description.storyboard */,
+				3FF358DE212403F70091A943 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FF358F821240CF00091A943 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3FF358FB21240D0A0091A943 /* DescriptionViewController.swift */,
+				3FF358FD21240D1B0091A943 /* DescriptionCollectionViewCell.swift */,
+				3FF358DC212403F70091A943 /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		827B088E3E3B47D86B121E07 /* Pods */ = {
@@ -152,6 +188,7 @@
 				3FF358E5212403F90091A943 /* LaunchScreen.storyboard in Resources */,
 				3FF358E2212403F90091A943 /* Assets.xcassets in Resources */,
 				3FF358E0212403F70091A943 /* Main.storyboard in Resources */,
+				3FF3590021240D220091A943 /* Description.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +283,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FF358DD212403F70091A943 /* ViewController.swift in Sources */,
+				3FF358FE21240D1B0091A943 /* DescriptionCollectionViewCell.swift in Sources */,
+				3FF358FC21240D0A0091A943 /* DescriptionViewController.swift in Sources */,
+				3FF358FA21240CFC0091A943 /* Item.swift in Sources */,
 				3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,12 +432,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6TA56G3PQG;
 				INFOPLIST_FILE = PriceAggregator123/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlada.PriceAggregator123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AlexPrilutskyi.PriceAggregator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -410,12 +451,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6TA56G3PQG;
 				INFOPLIST_FILE = PriceAggregator123/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlada.PriceAggregator123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AlexPrilutskyi.PriceAggregator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
