@@ -106,8 +106,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate{
         self.dismiss(animated: true, completion: nil)
     }
     
-    //   func clearUserData(){
-    //        UserDefaults.standard.removeObject(forKey: "ID")
-    //    }
-    
+//       func clearUserData(){
+//            UserDefaults.standard.removeObject(forKey: "ID")
+//        }
+//    
 }

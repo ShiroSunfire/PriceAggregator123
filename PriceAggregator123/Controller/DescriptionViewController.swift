@@ -20,6 +20,11 @@ class DescriptionViewController: UIViewController {
     let cellId = "DescribingCell"
     var itemId:Int!
     var item:Item = Item()
+    var scaledImageView:UIImageView!{
+        didSet{
+            addTapGestureForScaledImage()
+        }
+    }
     
     @IBOutlet weak var itemImageCollection: UICollectionView!
     @IBOutlet weak var imagePageControl: UIPageControl!
@@ -42,7 +47,7 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        
+        self.title = "Description"
     }
     
     @IBAction func addToBasketPressed(_ sender: UIButton) {
@@ -65,11 +70,21 @@ class DescriptionViewController: UIViewController {
             session.dataTask(with: usingUrl) { (data, responce, error) in
                 do {
                     let json = try JSON(data: data!)
-                    self.item.price = json["salePrice"].double!
-                    self.item.description = json["shortDescription"].string!
-                    self.item.name = json["name"].string!
+                    
+                    if let price = json["salePrice"].double{
+                        self.item.price = price
+                    }else{self.item.price = 0.0}
+                    
+                    if let description = json["shortDescription"].string{
+                        self.item.description = description
+                    }else{ self.item.description = "Description not available" }
+                    
+                    if let name = json["name"].string{
+                        self.item.name = name
+                    }else{ self.item.name = "<blank>"}
+                    
                     self.item.id = json["itemId"].int!
-                    self.item.name = json["name"].string!
+                    
                     if json["imageEntities"].array != nil{
                         if self.item.thumbnailImage != nil{
                             for index in 0...json["imageEntities"].count - 1{
@@ -142,6 +157,7 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
         cell.cellImage.contentMode = .scaleAspectFit
         imagePageControl.numberOfPages = (item.thumbnailImage?.count)!
         cell.cellImage.image = item.thumbnailImage?[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -171,3 +187,29 @@ extension DescriptionViewController: SearchViewControllerDelegate{
     }
 }
 
+
+extension DescriptionViewController: DescriptionCellDelegate{
+    func cellTaped(sender: UITapGestureRecognizer) {
+        if let collectionCell = sender.view as? DescriptionCollectionViewCell{
+            if collectionCell.isFullScreeen{
+                scaledImageView = UIImageView(image: collectionCell.cellImage.image)
+                scaledImageView.frame = self.view.frame
+                scaledImageView.center = self.view.center
+                scaledImageView.backgroundColor = UIColor.white
+                scaledImageView.contentMode = .scaleAspectFit
+                self.view.addSubview(scaledImageView)
+                self.view.bringSubview(toFront: scaledImageView)
+                scaledImageView.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    func addTapGestureForScaledImage(){
+            let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
+            scaledImageView?.addGestureRecognizer(tap)
+    }
+    @objc func scaledImageTapHandler(sender: UITapGestureRecognizer){
+        sender.view?.removeFromSuperview()
+        scaledImageView = nil
+    }
+}
