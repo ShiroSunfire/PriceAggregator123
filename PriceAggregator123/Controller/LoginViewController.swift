@@ -103,6 +103,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate{
     
     func saveID(id: String){
         UserDefaults.standard.set(id, forKey: "UserID")
+        self.dismiss(animated: true, completion: nil)
     }
     
     //   func clearUserData(){
