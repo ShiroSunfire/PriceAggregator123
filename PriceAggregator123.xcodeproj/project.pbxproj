@@ -12,6 +12,7 @@
 		3FF358E0212403F70091A943 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358DE212403F70091A943 /* Main.storyboard */; };
 		3FF358E2212403F90091A943 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E1212403F90091A943 /* Assets.xcassets */; };
 		3FF358E5212403F90091A943 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E3212403F90091A943 /* LaunchScreen.storyboard */; };
+		5405AE80A1DF058BE4CF64A2 /* Pods_PriceAggregator123.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,9 @@
 		3FF358E1212403F90091A943 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FF358E4212403F90091A943 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3FF358E6212403F90091A943 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55582D82CE0B636CEF6B38CE /* Pods-PriceAggregator123.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.debug.xcconfig"; sourceTree = "<group>"; };
+		5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PriceAggregator123.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FE146BDD4F9CA8BEF7E1258 /* Pods-PriceAggregator123.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.release.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5405AE80A1DF058BE4CF64A2 /* Pods_PriceAggregator123.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				3FF358D9212403F70091A943 /* PriceAggregator123 */,
 				3FF358D8212403F70091A943 /* Products */,
+				827B088E3E3B47D86B121E07 /* Pods */,
+				9D6F44FB899164DB7D371FAA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,23 @@
 			path = PriceAggregator123;
 			sourceTree = "<group>";
 		};
+		827B088E3E3B47D86B121E07 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				55582D82CE0B636CEF6B38CE /* Pods-PriceAggregator123.debug.xcconfig */,
+				5FE146BDD4F9CA8BEF7E1258 /* Pods-PriceAggregator123.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9D6F44FB899164DB7D371FAA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3FF358E9212403F90091A943 /* Build configuration list for PBXNativeTarget "PriceAggregator123" */;
 			buildPhases = (
+				1DC916A7972C757A11D59706 /* [CP] Check Pods Manifest.lock */,
 				3FF358D3212403F70091A943 /* Sources */,
 				3FF358D4212403F70091A943 /* Frameworks */,
 				3FF358D5212403F70091A943 /* Resources */,
+				D5E971193E7481CE45FA9CF1 /* [CP] Embed Pods Frameworks */,
+				23938979C1457CB3E08F5DEC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -129,6 +156,89 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1DC916A7972C757A11D59706 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PriceAggregator123-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		23938979C1457CB3E08F5DEC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D5E971193E7481CE45FA9CF1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3FF358D3212403F70091A943 /* Sources */ = {
@@ -278,6 +388,7 @@
 		};
 		3FF358EA212403F90091A943 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55582D82CE0B636CEF6B38CE /* Pods-PriceAggregator123.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -295,6 +406,7 @@
 		};
 		3FF358EB212403F90091A943 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FE146BDD4F9CA8BEF7E1258 /* Pods-PriceAggregator123.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
