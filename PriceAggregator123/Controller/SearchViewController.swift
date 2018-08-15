@@ -18,7 +18,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var labelShowForUser: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
-    var urlCreate : [String:String] = ["query":"", "numItems":"10", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
+    var urlCreate : [String:String] = ["query":"", "numItems":"10", "sortOption":"", "order":"", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
     var jsonItems :JSON?
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
@@ -34,6 +34,11 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if UserDefaults.standard.string(forKey: "UserID") == nil {
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
+            self.present(controller, animated: true, completion: nil)
+        }
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
     }
     
@@ -53,6 +58,12 @@ class SearchViewController: UIViewController {
         newURL += "&" + "numItems" + "=" + urlCreate["numItems"]!
         newURL += "&" + "format" + "=" + urlCreate["format"]!
         newURL += "&" + "apiKey" + "=" +  urlCreate["apiKey"]!
+        if urlCreate["sortOption"] != "" {
+            newURL += urlCreate["sortOption"]!
+        }
+        if urlCreate["order"] != "" {
+            newURL += urlCreate["order"]!
+        }
         return URL(string: newURL)
     }
     
@@ -85,6 +96,9 @@ class SearchViewController: UIViewController {
     func downloadImage(with url: URL, i: Int) {
         let data = try? Data(contentsOf: url)
         if let imageData = data {
+            if arrayItems.count <= i {
+                return
+            }
             self.arrayItems[i].thumbnailImage = [UIImage]()
             self.arrayItems[i].thumbnailImage?.append(UIImage(data: imageData)!)
         }
@@ -94,6 +108,39 @@ class SearchViewController: UIViewController {
         guard let categoriesVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as? CategoriesViewController else { return }
         categoriesVC.delegate = self
         self.navigationController?.pushViewController(categoriesVC, animated: true)
+    }
+    
+//    @IBAction func sortButtonTapped(_ sender: Any) {
+//        guard let sortVC = storyboard?.instantiateViewController(withIdentifier: "SortVC") as? SortViewController else { return }
+//        sortVC.delegate = self
+//        self.navigationController?.pushViewController(sortVC, animated: true)
+//    }
+    
+    func getSortArray(filter: String) {
+        arrayItems.removeAll()
+        if urlCreate["sortOption"] == filter {
+            if urlCreate["order"] == "&order=desc" {
+                urlCreate["order"] = "&order=asc"
+            } else {
+                urlCreate["order"] = "&order=desc"
+            }
+        } else {
+            urlCreate["sortOption"] = filter
+            urlCreate["order"] = "&order=asc"
+        }
+        getItems(with: getURL())
+    }
+
+    @IBAction func priceFilterButtonTapped(_ sender: Any) {
+        getSortArray(filter: "&sort=price")
+    }
+    
+    @IBAction func newFilterButtonTapped(_ sender: Any) {
+        getSortArray(filter: "&sort=new")
+    }
+
+    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
+        getSortArray(filter: "&sort=bestseller")
     }
 }
 
@@ -172,6 +219,7 @@ extension SearchViewController: CategoriesViewControllerDelegate {
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }
+
 
 
 
