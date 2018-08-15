@@ -34,11 +34,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.tintColor = .blue
-//        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-//        collectionView.addSubview(refreshControl)
-//        collectionView.alwaysBounceVertical = true
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
     }
     
@@ -90,7 +85,8 @@ class SearchViewController: UIViewController {
     func downloadImage(with url: URL, i: Int) {
         let data = try? Data(contentsOf: url)
         if let imageData = data {
-            self.arrayItems[i].thumbnailImage = UIImage(data: imageData)
+            self.arrayItems[i].thumbnailImage = [UIImage]()
+            self.arrayItems[i].thumbnailImage?.append(UIImage(data: imageData)!)
         }
     }
     
@@ -117,7 +113,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         labelShowForUser.isHidden = true
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
         cell.labelDescription.text = arrayItems[indexPath.row].name!
-        cell.image.image = arrayItems[indexPath.row].thumbnailImage
+        cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
         return cell
     }
     
@@ -147,6 +143,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        delegate = controller
         delegate?.cellWasTapped(id: arrayItems[indexPath.row].id!)
         self.navigationController?.pushViewController(controller, animated: true)
     }

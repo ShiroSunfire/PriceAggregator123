@@ -11,7 +11,7 @@ import UIKit
 class Item {
     var id:Int?
     var price:Double?
-    var thumbnailImage: UIImage?
+    var thumbnailImage: [UIImage]?
     var name: String?
     var description: String?
 }
