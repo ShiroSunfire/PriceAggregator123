@@ -12,6 +12,7 @@ class NormalCell: UICollectionViewCell {
 
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var labelDescription: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

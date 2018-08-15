@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
     var jsonItems :JSON?
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
+    var nibShow = "Normal"
     var refresh:RefreshImageView?
     var delegate: SearchViewControllerDelegate?
     var arrayItems = [Item]() {
@@ -39,6 +40,7 @@ class SearchViewController: UIViewController {
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
             self.present(controller, animated: true, completion: nil)
         }
+        //collectionView.register(UINib(nibName: "RectangleCell", bundle: nil), forCellWithReuseIdentifier: "RectangleCell")
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
     }
     
@@ -110,13 +112,11 @@ class SearchViewController: UIViewController {
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
     
-//    @IBAction func sortButtonTapped(_ sender: Any) {
-//        guard let sortVC = storyboard?.instantiateViewController(withIdentifier: "SortVC") as? SortViewController else { return }
-//        sortVC.delegate = self
-//        self.navigationController?.pushViewController(sortVC, animated: true)
-//    }
-    
     func getSortArray(filter: String) {
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
         arrayItems.removeAll()
         if urlCreate["sortOption"] == filter {
             if urlCreate["order"] == "&order=desc" {
@@ -142,6 +142,28 @@ class SearchViewController: UIViewController {
     @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
         getSortArray(filter: "&sort=bestseller")
     }
+    
+    @IBAction func cancelFilters(_ sender: Any) {
+        arrayItems.removeAll()
+        urlCreate["sortOption"] = ""
+        urlCreate["order"] = ""
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
+        getItems(with: getURL())
+    }
+    
+    @IBAction func choseCellButton(_ sender: Any) {
+        if nibShow == "Normal" {
+            collectionView.register(UINib(nibName: "RectangleCell", bundle: nil), forCellWithReuseIdentifier: "RectangleCell")
+            nibShow = "Rectangle"
+        } else if nibShow == "Rectangle" {
+            collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+            nibShow = "Normal"
+        }
+        collectionView.reloadData()
+    }
 }
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -154,18 +176,27 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let refresh = refresh {
-            refresh.removeFromSuperview()
+        if refresh != nil {
+            refresh!.removeFromSuperview()
+            refresh = nil
         }
         labelShowForUser.isHidden = true
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
+        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
+        if nibShow == "Rectangle" {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
+        }
         cell.labelDescription.text = arrayItems[indexPath.row].name!
         cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
+        cell.priceLabel.text = "$" + String(arrayItems[indexPath.row].price!)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.size.width, height: 80)
+        if nibShow == "Normal" {
+            return CGSize(width: view.frame.size.width, height: 80)
+        } else { //if nibShow == "Rectangle" {
+            return CGSize(width: view.frame.size.width/2, height: 300)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -202,8 +233,11 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
+        labelShowForUser.isHidden = true
         searchBar.endEditing(true)
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
@@ -213,8 +247,10 @@ extension SearchViewController: UISearchBarDelegate {
 
 extension SearchViewController: CategoriesViewControllerDelegate {
     func searchButtonTapped(with id: String) {
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
         arrayItems.removeAll()
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
