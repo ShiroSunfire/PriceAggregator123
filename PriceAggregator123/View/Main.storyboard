@@ -135,6 +135,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="RectangleCell" id="vyv-69-aKF" customClass="NormalCell" customModule="PriceAggregator123" customModuleProvider="target">
+                                        <rect key="frame" x="54" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="8XI-66-G0Z" id="DBP-ZF-s6Z"/>
@@ -145,11 +153,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVy-mt-nUC">
                                 <rect key="frame" x="0.0" y="120" width="375" height="44"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="3Ic-WQ-n6U">
-                                        <rect key="frame" x="0.0" y="7" width="375" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="3Ic-WQ-n6U">
+                                        <rect key="frame" x="7" y="7" width="361" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxI-Yv-pyj">
-                                                <rect key="frame" x="0.0" y="0.0" width="131" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Categories">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -159,31 +167,38 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocH-ia-T63">
-                                                <rect key="frame" x="145" y="0.0" width="35" height="30"/>
+                                                <rect key="frame" x="119" y="0.0" width="35" height="30"/>
                                                 <state key="normal" title="Price"/>
                                                 <connections>
                                                     <action selector="priceFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="z5s-ql-Y0x"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYs-Xj-axu">
-                                                <rect key="frame" x="194" y="0.0" width="31" height="30"/>
+                                                <rect key="frame" x="160" y="0.0" width="31" height="30"/>
                                                 <state key="normal" title="New"/>
                                                 <connections>
                                                     <action selector="newFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="SxY-uS-Q4i"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zc2-Wb-NEN">
-                                                <rect key="frame" x="239" y="0.0" width="74" height="30"/>
+                                                <rect key="frame" x="197" y="0.0" width="74" height="30"/>
                                                 <state key="normal" title="Best Seller"/>
                                                 <connections>
                                                     <action selector="bestSellerFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="8RL-1n-QrZ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xD3-Re-b8J">
-                                                <rect key="frame" x="327" y="0.0" width="48" height="30"/>
+                                                <rect key="frame" x="277" y="0.0" width="48" height="30"/>
                                                 <state key="normal" title="Cancel"/>
                                                 <connections>
                                                     <action selector="cancelFilters:" destination="8XI-66-G0Z" eventType="touchUpInside" id="dVy-mR-gaO"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgU-hc-nBK">
+                                                <rect key="frame" x="331" y="0.0" width="30" height="30"/>
+                                                <color key="backgroundColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="choseCellButton:" destination="8XI-66-G0Z" eventType="touchUpInside" id="uXw-Lu-16K"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -191,9 +206,9 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.92088592469999997" green="0.93440353769999995" blue="0.97495637690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="3Ic-WQ-n6U" firstAttribute="leading" secondItem="rVy-mt-nUC" secondAttribute="leading" id="34p-Pf-L2P"/>
+                                    <constraint firstItem="3Ic-WQ-n6U" firstAttribute="leading" secondItem="rVy-mt-nUC" secondAttribute="leading" constant="7" id="34p-Pf-L2P"/>
                                     <constraint firstAttribute="bottom" secondItem="3Ic-WQ-n6U" secondAttribute="bottom" constant="7" id="Cun-DN-wx5"/>
-                                    <constraint firstAttribute="trailing" secondItem="3Ic-WQ-n6U" secondAttribute="trailing" id="O9d-X9-bnn"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Ic-WQ-n6U" secondAttribute="trailing" constant="7" id="O9d-X9-bnn"/>
                                     <constraint firstItem="3Ic-WQ-n6U" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="top" constant="7" id="RIu-QP-7v4"/>
                                     <constraint firstAttribute="width" secondItem="rVy-mt-nUC" secondAttribute="height" multiplier="375:44" id="ngG-ja-aM3"/>
                                 </constraints>

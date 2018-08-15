@@ -13,6 +13,9 @@
 		3F223BD82124285F00274675 /* RefreshImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F223BD72124285F00274675 /* RefreshImageView.swift */; };
 		3F223BDA2124286D00274675 /* NormalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F223BD92124286D00274675 /* NormalCell.swift */; };
 		3F223BDC2124287000274675 /* NormalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F223BDB2124287000274675 /* NormalCell.xib */; };
+		3F223BE22124641200274675 /* RectangleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F223BE02124641200274675 /* RectangleCell.xib */; };
+		3F6492F521242B1C0077E531 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F6492F421242B1C0077E531 /* Login.storyboard */; };
+		3F6492F721242B330077E531 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6492F621242B330077E531 /* LoginViewController.swift */; };
 		3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF358DA212403F70091A943 /* AppDelegate.swift */; };
 		3FF358E2212403F90091A943 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E1212403F90091A943 /* Assets.xcassets */; };
 		3FF358E5212403F90091A943 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E3212403F90091A943 /* LaunchScreen.storyboard */; };
@@ -30,6 +33,9 @@
 		3F223BD72124285F00274675 /* RefreshImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshImageView.swift; sourceTree = "<group>"; };
 		3F223BD92124286D00274675 /* NormalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalCell.swift; sourceTree = "<group>"; };
 		3F223BDB2124287000274675 /* NormalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NormalCell.xib; sourceTree = "<group>"; };
+		3F223BE02124641200274675 /* RectangleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RectangleCell.xib; sourceTree = "<group>"; };
+		3F6492F421242B1C0077E531 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		3F6492F621242B330077E531 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3FF358D7212403F70091A943 /* PriceAggregator123.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PriceAggregator123.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF358DA212403F70091A943 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3FF358E1212403F90091A943 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,6 +110,8 @@
 				3F223BD72124285F00274675 /* RefreshImageView.swift */,
 				3FF358FF21240D220091A943 /* Description.storyboard */,
 				3F223BD5212427B000274675 /* Main.storyboard */,
+				3F6492F421242B1C0077E531 /* Login.storyboard */,
+				3F223BE02124641200274675 /* RectangleCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -115,6 +123,7 @@
 				3FF358FD21240D1B0091A943 /* DescriptionCollectionViewCell.swift */,
 				3F223BD12124251000274675 /* CategoriesViewController.swift */,
 				3F223BD32124251300274675 /* SearchViewController.swift */,
+				3F6492F621242B330077E531 /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -197,8 +206,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F223BE22124641200274675 /* RectangleCell.xib in Resources */,
 				3FF358E5212403F90091A943 /* LaunchScreen.storyboard in Resources */,
 				3F223BD6212427B000274675 /* Main.storyboard in Resources */,
+				3F6492F521242B1C0077E531 /* Login.storyboard in Resources */,
 				3FF358E2212403F90091A943 /* Assets.xcassets in Resources */,
 				3FF3590021240D220091A943 /* Description.storyboard in Resources */,
 				3F223BDC2124287000274675 /* NormalCell.xib in Resources */,
@@ -295,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F6492F721242B330077E531 /* LoginViewController.swift in Sources */,
 				3F223BD82124285F00274675 /* RefreshImageView.swift in Sources */,
 				3F223BD42124251300274675 /* SearchViewController.swift in Sources */,
 				3FF358FE21240D1B0091A943 /* DescriptionCollectionViewCell.swift in Sources */,
