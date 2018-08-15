@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -64,7 +65,7 @@
         <!--Categories-->
         <scene sceneID="dm0-m4-dtc">
             <objects>
-                <tableViewController storyboardIdentifier="categoriesVC" id="ALf-BH-f13" customClass="CategoriesViewController" customModule="PriceAggregator" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="categoriesVC" id="ALf-BH-f13" customClass="CategoriesViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="33d-XU-R88">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -99,10 +100,54 @@
             </objects>
             <point key="canvasLocation" x="1225" y="-640"/>
         </scene>
+        <!--Sort-->
+        <scene sceneID="J88-RM-wdS">
+            <objects>
+                <tableViewController storyboardIdentifier="SortVC" id="kfW-uN-dl9" customClass="SortViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="j6g-vY-867">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="zSG-0d-Br9">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zSG-0d-Br9" id="283-C5-Iun">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="kfW-uN-dl9" id="eHb-mQ-v5a"/>
+                            <outlet property="delegate" destination="kfW-uN-dl9" id="sAd-PF-qwY"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Sort" id="i1E-AQ-Qyd">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="save" id="Vkm-0Q-3z0">
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="kfW-uN-dl9" id="WlK-LQ-Wbt"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="cancel" id="7i5-ef-5HB">
+                                <connections>
+                                    <action selector="cancelButtonTapped:" destination="kfW-uN-dl9" id="hyb-Mp-hxS"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QwP-Z5-wzr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2031" y="-626"/>
+        </scene>
         <!--Search View Controller-->
         <scene sceneID="gKy-aL-Uca">
             <objects>
-                <viewController id="8XI-66-G0Z" customClass="SearchViewController" customModule="PriceAggregator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8XI-66-G0Z" customClass="SearchViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LMa-FC-KHq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,7 +163,7 @@
                                 </connections>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Zmf-zU-QIW">
-                                <rect key="frame" x="0.0" y="190" width="375" height="428"/>
+                                <rect key="frame" x="0.0" y="164" width="375" height="454"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="VSL-Q1-9cw">
                                     <size key="itemSize" width="50" height="50"/>
@@ -127,7 +172,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="Cell" id="m78-Lv-l69" customClass="NormalCell" customModule="PriceAggregator" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="Cell" id="m78-Lv-l69" customClass="NormalCell" customModule="PriceAggregator123" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -143,11 +188,10 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVy-mt-nUC">
-                                <rect key="frame" x="0.0" y="120" width="375" height="70"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxI-Yv-pyj">
-                                        <rect key="frame" x="0.0" y="0.0" width="97" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxI-Yv-pyj">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="44"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Categories">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -156,10 +200,42 @@
                                             <action selector="categoriesButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="kfH-Se-yas"/>
                                         </connections>
                                     </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3Ic-WQ-n6U">
+                                        <rect key="frame" x="85" y="0.0" width="160" height="44"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocH-ia-T63">
+                                                <rect key="frame" x="0.0" y="0.0" width="35" height="44"/>
+                                                <state key="normal" title="Price"/>
+                                                <connections>
+                                                    <action selector="priceFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="z5s-ql-Y0x"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYs-Xj-axu">
+                                                <rect key="frame" x="45" y="0.0" width="31" height="44"/>
+                                                <state key="normal" title="New"/>
+                                                <connections>
+                                                    <action selector="newFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="SxY-uS-Q4i"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zc2-Wb-NEN">
+                                                <rect key="frame" x="86" y="0.0" width="74" height="44"/>
+                                                <state key="normal" title="Best Seller"/>
+                                                <connections>
+                                                    <action selector="bestSellerFilterButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="8RL-1n-QrZ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92088592469999997" green="0.93440353769999995" blue="0.97495637690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="rVy-mt-nUC" secondAttribute="height" multiplier="75:14" id="Ejy-wJ-TdK"/>
+                                    <constraint firstItem="3Ic-WQ-n6U" firstAttribute="leading" secondItem="CxI-Yv-pyj" secondAttribute="trailing" constant="10" id="2Mc-RP-FHM"/>
+                                    <constraint firstItem="3Ic-WQ-n6U" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="top" id="NJO-ec-ScW"/>
+                                    <constraint firstAttribute="bottom" secondItem="3Ic-WQ-n6U" secondAttribute="bottom" id="PKR-7k-uDa"/>
+                                    <constraint firstItem="CxI-Yv-pyj" firstAttribute="leading" secondItem="rVy-mt-nUC" secondAttribute="leading" id="baU-Lg-ArF"/>
+                                    <constraint firstAttribute="bottom" secondItem="CxI-Yv-pyj" secondAttribute="bottom" id="j9U-8t-jP1"/>
+                                    <constraint firstAttribute="width" secondItem="rVy-mt-nUC" secondAttribute="height" multiplier="375:44" id="ngG-ja-aM3"/>
+                                    <constraint firstItem="CxI-Yv-pyj" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="top" id="pYM-nC-F1R"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search the product or chose the category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="icK-m4-CbL">
@@ -171,20 +247,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="bottom" secondItem="ayV-EB-1cf" secondAttribute="bottom" id="3hJ-V1-Fcr"/>
                             <constraint firstItem="icK-m4-CbL" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" constant="50" id="Ae3-jW-oXB"/>
                             <constraint firstItem="icK-m4-CbL" firstAttribute="centerY" secondItem="LMa-FC-KHq" secondAttribute="centerY" id="B0h-fu-DZz"/>
-                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="bottom" id="CAZ-2k-XdU"/>
-                            <constraint firstItem="rVy-mt-nUC" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" id="GB2-kh-mhW"/>
-                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="bottom" secondItem="ayV-EB-1cf" secondAttribute="bottom" id="Kaf-qh-CHl"/>
-                            <constraint firstItem="rVy-mt-nUC" firstAttribute="trailing" secondItem="ayV-EB-1cf" secondAttribute="trailing" id="LcJ-fW-vtL"/>
+                            <constraint firstItem="rVy-mt-nUC" firstAttribute="top" secondItem="spR-ro-Laf" secondAttribute="bottom" id="F5L-Y0-Kr6"/>
+                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" id="Jey-dT-Ukm"/>
                             <constraint firstItem="spR-ro-Laf" firstAttribute="trailing" secondItem="ayV-EB-1cf" secondAttribute="trailing" id="RF0-Ev-FbK"/>
                             <constraint firstItem="icK-m4-CbL" firstAttribute="centerX" secondItem="LMa-FC-KHq" secondAttribute="centerX" id="RtM-KB-god"/>
-                            <constraint firstItem="rVy-mt-nUC" firstAttribute="top" secondItem="spR-ro-Laf" secondAttribute="bottom" id="UPf-fM-c3H"/>
-                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" id="Xht-Yf-ca7"/>
+                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="trailing" secondItem="ayV-EB-1cf" secondAttribute="trailing" id="VQh-j0-6nm"/>
                             <constraint firstItem="spR-ro-Laf" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" id="ZlW-xM-uJm"/>
                             <constraint firstItem="spR-ro-Laf" firstAttribute="top" secondItem="ayV-EB-1cf" secondAttribute="top" id="eGL-YY-LiN"/>
-                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="trailing" secondItem="ayV-EB-1cf" secondAttribute="trailing" id="l5m-lW-g6X"/>
+                            <constraint firstItem="rVy-mt-nUC" firstAttribute="leading" secondItem="ayV-EB-1cf" secondAttribute="leading" id="gSF-9V-436"/>
                             <constraint firstAttribute="trailing" secondItem="icK-m4-CbL" secondAttribute="trailing" constant="50" id="smI-jN-Im1"/>
+                            <constraint firstItem="rVy-mt-nUC" firstAttribute="trailing" secondItem="ayV-EB-1cf" secondAttribute="trailing" id="uHq-L5-RiI"/>
+                            <constraint firstItem="Zmf-zU-QIW" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="bottom" id="xYC-Td-ca2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ayV-EB-1cf"/>
                     </view>

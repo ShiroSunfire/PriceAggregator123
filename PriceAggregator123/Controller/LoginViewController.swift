@@ -9,8 +9,6 @@
 // google api sign-in 501283990325-b879hgv8qdnci8j23duftjv89h234bps.apps.googleusercontent.com
 
 
-
-
 import UIKit
 import FBSDKCoreKit
 import FBSDKShareKit
