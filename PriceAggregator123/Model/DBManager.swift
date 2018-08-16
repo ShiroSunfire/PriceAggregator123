@@ -55,17 +55,20 @@ func saveData(DB: String, item: Item){
             return error as! [Item]
         }
         
+        
+        
     }
     
     
     func removeData(DB: String, item: Item){
-//        if let itemToDelete = item.description as? NSManagedObject{
-//            context.delete(itemToDelete)
-//
-//        }
-        
+  
+
+        let item = item
+        context.delete(item)
+
+
          //   favourites.fetchResultController.object(at: item)
-       // context.delete(itemToDelete)
+
         appDelegate?.saveContext()
     }
 }
