@@ -22,9 +22,11 @@ class NormalCell: UICollectionViewCell {
     @IBAction func buyButtonTapped(_ sender: Any) {
         let db = DBManager()
         db.saveData(DB: "Favourites", item: item!)
+        let itemm = db.loadData(DB: "Favourites")
+        print(itemm.count)
         db.removeData(DB: "Favourites", item: item!)
-        db.loadData(DB: "Favourites")
-        //let itemnew = db.loadData(DB: "Favourites")
-        //print(itemnew)
+        print("AFTER DELETE")
+        let itemmm = db.loadData(DB: "Favourites")
+        print(itemmm.count)
     }
 }
