@@ -2,6 +2,13 @@
 <Bucket
    type = "0"
    version = "2.0">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 253770206a724b3955b2cd3192e7d73cec42b880
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
@@ -100,4 +107,9 @@
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
+<<<<<<< HEAD
+=======
+>>>>>>> 03226b486b60186cf4050a2644c4bfff6c04b640
+>>>>>>> d2095581094b603513a745ba1651f3895c45884b
+>>>>>>> 253770206a724b3955b2cd3192e7d73cec42b880
 </Bucket>
