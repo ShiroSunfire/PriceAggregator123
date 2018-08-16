@@ -18,27 +18,50 @@ class DBManager {
     
     func saveData(DB: String, item: Item){
         let context = self.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
+        fetchRequest.returnsObjectsAsFaults = false
+        
         if DB == "Favourites"{
             let  newItem = Favourites(context: context)
 
-            newItem.id = item.id!
-            newItem.descript = item.description
-            newItem.name = item.name
-            newItem.price = item.price!
-            let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
-            if let retrievedImgArray = coreDataObject?.imageArray() {
-                newItem.image = retrievedImgArray.coreDataRepresentation()
-            }
+            do {
+                let result = try context.fetch(fetchRequest)
+                for data in result as! [Favourites] {
+                    if item.id == data.id{
+                       return
+                    }
+                }
+                newItem.id = item.id!
+                newItem.descript = item.description
+                newItem.name = item.name
+                newItem.price = item.price!
+                let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+                if let retrievedImgArray = coreDataObject?.imageArray() {
+                    newItem.image = retrievedImgArray.coreDataRepresentation()
+                }
+            } catch{
+                print("Error")
+        }
         }else {
             let  newItem = Basket(context: context)
 
-            newItem.id = item.id!
-            newItem.descript = item.description
-            newItem.name = item.name
-            newItem.price = item.price!
-            let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
-            if let retrievedImgArray = coreDataObject?.imageArray() {
-                newItem.image = retrievedImgArray.coreDataRepresentation()
+            do {
+                let result = try context.fetch(fetchRequest)
+                for data in result as! [Basket] {
+                    if item.id != data.id{
+                        newItem.id = item.id!
+                        newItem.descript = item.description
+                        newItem.name = item.name
+                        newItem.price = item.price!
+                        let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+                        if let retrievedImgArray = coreDataObject?.imageArray() {
+                            newItem.image = retrievedImgArray.coreDataRepresentation()
+                        }
+                    }
+                }
+            } catch{
+                print("Error")
             }
         }
         saveContext()

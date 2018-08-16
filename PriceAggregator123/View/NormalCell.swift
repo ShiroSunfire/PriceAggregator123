@@ -25,7 +25,7 @@ class NormalCell: UICollectionViewCell {
         let itemm = db.loadData(DB: "Favourites")
         print(itemm.count)
         print(itemm)
-        db.removeData(DB: "Favourites", item: item!)
+    //    db.removeData(DB: "Favourites", item: item!)
         print("AFTER DELETE")
         let itemmm = db.loadData(DB: "Favourites")
         print(itemmm.count)
