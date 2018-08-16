@@ -12,7 +12,7 @@ import UIKit
 import CoreData
 
 class Item: NSManagedObject {
-    var id:Int?
+    var id:Int32?
     var price:Double?
     var thumbnailImage: [UIImage]?
     var name: String?

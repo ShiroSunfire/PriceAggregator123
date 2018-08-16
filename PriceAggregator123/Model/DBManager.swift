@@ -11,75 +11,127 @@ import UIKit
 import CoreData
 
 class DBManager {
-    var favourites: [Favourites] = []
-    //var baskets: [Basket] = []
-    var imgArray = [UIImage]()
     var CDataArray = NSMutableArray()
-    
-    let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
-    
-    let favourite = Favourites(context: ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!)
-    //let basket = Basket(context: ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!)
+ //   let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
 
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    
     func saveData(DB: String, item: Item){
-        favourite.name = item.name
-        favourite.id = Int64(item.id!)
-        favourite.descript = item.description
-        favourite.price = item.price!
-//        let coreDataObject = imgArray.coreDataRepresentation()
-//        if let retrievedImgArray = coreDataObject?.imageArray() {
-//            favourite.setValue(retrievedImgArray, forKey: "thumbnailImage")
-//        }
-        print("Saving data to context ...")
-        appDelegate?.saveContext()
-    }
+        let context = self.persistentContainer.viewContext
+        if DB == "Favourites"{
+            let  newItem = Favourites(context: context)
 
-    func loadData(DB: String) {
+            newItem.id = item.id!
+            newItem.descript = item.description
+            newItem.name = item.name
+            newItem.price = item.price!
+            let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+            if let retrievedImgArray = coreDataObject?.imageArray() {
+                newItem.image = retrievedImgArray.coreDataRepresentation()
+            }
+        }else {
+            let  newItem = Basket(context: context)
+
+            newItem.id = item.id!
+            newItem.descript = item.description
+            newItem.name = item.name
+            newItem.price = item.price!
+            let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+            if let retrievedImgArray = coreDataObject?.imageArray() {
+                newItem.image = retrievedImgArray.coreDataRepresentation()
+            }
+        }
+        saveContext()
+    }
+    
+    func loadData(DB: String) -> [Item] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
         fetchRequest.returnsObjectsAsFaults = false
+        let context = self.persistentContainer.viewContext
+        var item = [Item]()
         do {
             let result = try context.fetch(fetchRequest)
-            for data in result as! [NSManagedObject] {
-                print(data)
+            if DB == "Favourites" {
+                for data in result as! [Favourites] {
+                    let newItem = Item()
+                    newItem.descriptionItem = data.descript
+                    newItem.name = data.name
+                    newItem.price = data.price
+                   newItem.id = data.id
+                    newItem.thumbnailImage = data.image?.imageArray()
+                    item.append(newItem)
+                }
+            } else {
+                for data in result as! [Basket] {
+                    let newItem = Item()
+                    newItem.descriptionItem = data.descript
+                    newItem.name = data.name
+                    newItem.price = data.price
+                    newItem.id = data.id
+                    newItem.thumbnailImage = data.image?.imageArray()
+                    item.append(newItem)
+                }
             }
         } catch {
             print("Failed")
         }
-
+        return item
     }
     
-    
     func removeData(DB: String, item: Item){
-        let restaurantToDelete = self.fetchResultController.object(at:
-            item)
-        context.delete(restaurantToDelete)
-      
-        
-//        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: DB)
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-//        do {
-//            try context.execute(deleteRequest)
-//            try context.save()
-//        } catch {
-//            print ("There is an error in deleting records")
-//        }
-        do {
-            context.delete(item)
-            appDelegate!.saveContext()
-        } catch {
-
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DB)
+        let context = self.persistentContainer.viewContext
+        let result = try? context.fetch(fetchRequest)
+        if DB == "Favourites" {
+            let resultData = result as! [Favourites]
+            for object in resultData {
+               if object.id == item.id {
+                    context.delete(object)
+                }
+            }
+        } else{
+            let resultData = result as! [Basket]
+            for object in resultData {
+                if object.id == item.id {
+                    context.delete(object)
+                }
+            }
+        }
+        saveContext()
+    }
+    
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "DataModel")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
         }
     }
 }
 
 
 typealias ImageArray = [UIImage]
-typealias ImageArrayRepresentation = Data
 
 extension Array where Element: UIImage {
-    func coreDataRepresentation() -> ImageArrayRepresentation? {
+    func coreDataRepresentation() -> Data? {
         let CDataArray = NSMutableArray()
         
         for img in self {
@@ -94,7 +146,7 @@ extension Array where Element: UIImage {
     }
 }
 
-extension ImageArrayRepresentation {
+extension Data {
     func imageArray() -> ImageArray? {
         if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: self) as? NSArray {
             let imgArray = mySavedData.flatMap({
@@ -108,4 +160,3 @@ extension ImageArrayRepresentation {
         }
     }
 }
-

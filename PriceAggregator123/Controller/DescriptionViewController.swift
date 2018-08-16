@@ -84,7 +84,7 @@ class DescriptionViewController: UIViewController {
                         self.item.name = name
                     }else{ self.item.name = "<blank>"}
                     
-                    self.item.id = json["itemId"].int!
+                    self.item.id = json["itemId"].int32!
                     
                     if json["imageEntities"].array != nil{
                         if self.item.thumbnailImage != nil{
