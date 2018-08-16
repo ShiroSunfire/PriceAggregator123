@@ -34,11 +34,11 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.tintColor = .blue
-//        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-//        collectionView.addSubview(refreshControl)
-//        collectionView.alwaysBounceVertical = true
+        if UserDefaults.standard.string(forKey: "UserID") == nil {
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
+            self.present(controller, animated: true, completion: nil)
+        }
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
     }
     
@@ -190,6 +190,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        delegate = controller
         delegate?.cellWasTapped(id: arrayItems[indexPath.row].id!)
         self.navigationController?.pushViewController(controller, animated: true)
     }

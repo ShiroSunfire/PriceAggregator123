@@ -7,23 +7,18 @@
 //
 
 import UIKit
-
 import SwiftyJSON
+
+protocol DescriptionViewControllerDelegate {
+    func addItemToBasket(item: Item)
+}
+
 
 class DescriptionViewController: UIViewController {
     
     let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
-    var cellImages = [UIImage](){
-        didSet{
-            DispatchQueue.main.async {
-                self.itemImageCollection.reloadData()
-                self.setDataToView()
-            }
-        }
-    }
-
     let cellId = "DescribingCell"
-    var itemId = "651779321"
+    var itemId:Int!
     var item:Item = Item()
     
     @IBOutlet weak var itemImageCollection: UICollectionView!
@@ -31,84 +26,100 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var descriptionText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var addToBasketButton: UIButton!
+    @IBOutlet weak var addToFavoritesButton: UIButton!
+    
+    var delegate:DescriptionViewControllerDelegate?
+    
+    var refresh: RefreshImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.item.thumbnailImage = [String]()
+        self.item.thumbnailImage = [UIImage]()
+        itemName.textAlignment = .center
         itemImageCollection.delegate = self
         itemImageCollection.dataSource = self
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
-        priceLabel.text = "Price: "
-        unparseDataAboutItem()
+        priceLabel.text = ""
+        
     }
     
-
+    @IBAction func addToBasketPressed(_ sender: UIButton) {
+    }
+    @IBAction func addToFavoritesPressed(_ sender: UIButton) {
+    }
     
     @objc func pageControlTapHandler(sender: UIPageControl){
-
+        
         let index = IndexPath(item: sender.currentPage, section: 0)
-       print(sender.currentPage)
+        print(sender.currentPage)
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
     
     func unparseDataAboutItem(){
-        let urlString = "https://api.walmartlabs.com/v1/items/\(itemId)?apiKey=\(apiKey)&lsPublisherId=&format=json"
+        let urlString = "https://api.walmartlabs.com/v1/items/\(itemId!)?apiKey=\(apiKey)&lsPublisherId=&format=json"
         let url = URL(string: urlString)
         let session = URLSession.shared
-//        if let usingUrl = url{
-//            session.dataTask(with: usingUrl) { (data, responce, error) in
-//                do {
-//                    let json = try JSON(data: data!)
-//                    self.item.price = json["salePrice"].double!
-//                    self.item.description = json["shortDescription"].string!
-//                    self.item.name = json["name"].string!
-//                    self.item.id = json["itemId"].int!
-//                    self.item.name = json["name"].string!
-//                    if json["imageEntities"].array != nil{
-//                        if var appendingArr = self.item.thumbnailImage{
-//                            for index in 0...json["imageEntities"].count - 1{
-//                                let element = json["imageEntities"][index]["largeImage"].string!
-//                                if !appendingArr.contains(element){
-//                                    appendingArr.append(element)
-//                                }
-//                            }
-//                            self.item.thumbnailImage = appendingArr
-//                        }
-//                    }else{
-//                        self.item.thumbnailImage?.append(json["largeImage"].string!)
-//                    }
-//                    self.addImagesToCellImages()
-//                } catch { }
-//                }.resume()
-//        }
-     
+        if let usingUrl = url{
+            session.dataTask(with: usingUrl) { (data, responce, error) in
+                do {
+                    let json = try JSON(data: data!)
+                    self.item.price = json["salePrice"].double!
+                    self.item.description = json["shortDescription"].string!
+                    self.item.name = json["name"].string!
+                    self.item.id = json["itemId"].int!
+                    self.item.name = json["name"].string!
+                    if json["imageEntities"].array != nil{
+                        if self.item.thumbnailImage != nil{
+                            for index in 0...json["imageEntities"].count - 1{
+                                let element = json["imageEntities"][index]["largeImage"].string!
+                                self.downloadImage(with: element, to: self.item)
+                            }
+                        }
+                    }else{
+                        
+                        self.downloadImage(with: json["largeImage"].string!, to: self.item)
+                    }
+                    self.addImagesToCellImages()
+                } catch {}
+                }.resume()
+        }
+        
     }
-
+    
+    func downloadImage(with url:String,to item:Item){
+        let currUrl = URL(string: url)
+        URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
+            if error != nil{
+                print(error!)
+                return
+            }
+            DispatchQueue.main.async {
+                if let image = UIImage(data: data!){
+                    item.thumbnailImage?.append(image)
+                    self.addImagesToCellImages()
+                    self.refresh?.removeFromSuperview()
+                }
+            }
+            }.resume()
+    }
+    
     func setDataToView(){
         priceLabel.text! = String("Price: \(item.price!)$")
         itemName.text = item.name!
         descriptionText.text = item.description!
+        addToFavoritesButton.setTitle("To Favorites", for: .normal)
+        addToBasketButton.setTitle("to Basket", for: .normal)
     }
     
     func addImagesToCellImages(){
-//        if let images = item.thumbnailImage{
-//            for imageUrl in images{
-//                let currUrl = URL(string: imageUrl)
-//                URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
-//                    if error != nil{
-//                        print(error!)
-//                        return
-//                    }
-//                    DispatchQueue.main.async {
-//                        self.cellImages.append(UIImage(data: data!)!)
-//                    }
-//
-//
-//
-//                }.resume()
-//            }
-//        }
+        if item.thumbnailImage != nil{
+            DispatchQueue.main.async {
+                self.itemImageCollection.reloadData()
+                self.setDataToView()
+            }
+        }
     }
 }
 
@@ -123,26 +134,40 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        print((item.thumbnailImage?.count)!)
-//        return (item.thumbnailImage?.count)!
-        return 1
+        return (item.thumbnailImage?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DescriptionCollectionViewCell
         cell.cellImage.contentMode = .scaleAspectFit
-        imagePageControl.numberOfPages = cellImages.count
-        cell.cellImage.image = cellImages[indexPath.row]
+        imagePageControl.numberOfPages = (item.thumbnailImage?.count)!
+        cell.cellImage.image = item.thumbnailImage?[indexPath.row]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         imagePageControl.currentPage = indexPath.row
     }
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = targetContentOffset.pointee.x
         print(x)
         imagePageControl.currentPage = Int((x / scrollView.frame.width).rounded())
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    
+    
+}
+
+extension DescriptionViewController: SearchViewControllerDelegate{
+    func cellWasTapped(id: Int) {
+        itemId = id
+        refresh = RefreshImageView(center: self.view.center)
+        self.view.addSubview(refresh)
+        unparseDataAboutItem()
     }
 }
 
