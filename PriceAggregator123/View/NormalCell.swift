@@ -10,6 +10,7 @@ import UIKit
 
 class NormalCell: UICollectionViewCell {
 
+    var item:Item?
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -19,6 +20,11 @@ class NormalCell: UICollectionViewCell {
     }
 
     @IBAction func buyButtonTapped(_ sender: Any) {
-        
+        let db = DBManager()
+        db.saveData(DB: "Favourites", item: item!)
+        db.removeData(DB: "Favourites", item: item!)
+        db.loadData(DB: "Favourites")
+        //let itemnew = db.loadData(DB: "Favourites")
+        //print(itemnew)
     }
 }

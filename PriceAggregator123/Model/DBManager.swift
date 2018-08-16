@@ -10,63 +10,61 @@ import Foundation
 import UIKit
 import CoreData
 
-class DBManager{
-
-    
+class DBManager {
     var favourites: [Favourites] = []
-    var baskets: [Basket] = []
+    //var baskets: [Basket] = []
     var imgArray = [UIImage]()
     var CDataArray = NSMutableArray()
     
     let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
     
     let favourite = Favourites(context: ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!)
-    let basket = Basket(context: ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!)
+    //let basket = Basket(context: ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!)
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-    
+    func saveData(DB: String, item: Item){
+        favourite.name = item.name
+        favourite.id = Int64(item.id!)
+        favourite.descript = item.description
+        favourite.price = item.price!
+//        let coreDataObject = imgArray.coreDataRepresentation()
+//        if let retrievedImgArray = coreDataObject?.imageArray() {
+//            favourite.setValue(retrievedImgArray, forKey: "thumbnailImage")
+//        }
+        print("Saving data to context ...")
+        appDelegate?.saveContext()
+    }
 
-func saveData(DB: String, item: Item){
-        
-            favourite.name = item.name
-            favourite.id = Int64(item.id!)
-            favourite.descript = item.description
-            favourite.price = item.price!
-            // save images
-            let coreDataObject = imgArray.coreDataRepresentation()
-            
-            if let retrievedImgArray = coreDataObject?.imageArray() {
-                favourite.setValue(retrievedImgArray, forKey: "thumbnailImage")
-            }
-        
-            print("Saving data to context ...")
-            appDelegate?.saveContext()
-        }
-
-
-    func loadData(DB: String)-> [Item] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DB)
+    func loadData(DB: String) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
+        fetchRequest.returnsObjectsAsFaults = false
         do {
-            let results = try context.fetch(fetchRequest)
-            return results as! [Item]
+            let result = try context.fetch(fetchRequest)
+            for data in result as! [NSManagedObject] {
+                print(data)
+            }
         } catch {
-            print(error)
-            return error as! [Item]
+            print("Failed")
         }
-        
     }
     
     
     func removeData(DB: String, item: Item){
-//        if let itemToDelete = item.description as? NSManagedObject{
-//            context.delete(itemToDelete)
-//
+//        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: DB)
+//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+//        do {
+//            try context.execute(deleteRequest)
+//            try context.save()
+//        } catch {
+//            print ("There is an error in deleting records")
 //        }
-        
-         //   favourites.fetchResultController.object(at: item)
-       // context.delete(itemToDelete)
-        appDelegate?.saveContext()
+        do {
+            context.delete(item)
+            appDelegate!.saveContext()
+        } catch {
+
+        }
     }
 }
 

@@ -77,8 +77,8 @@ class DescriptionViewController: UIViewController {
                     }else{self.item.price = 0.0}
                     
                     if let description = json["shortDescription"].string{
-                        self.item.description = description
-                    }else{ self.item.description = "Description not available" }
+                        self.item.descriptionItem = description
+                    }else{ self.item.descriptionItem = "Description not available" }
                     
                     if let name = json["name"].string{
                         self.item.name = name
@@ -124,7 +124,7 @@ class DescriptionViewController: UIViewController {
     func setDataToView(){
         priceLabel.text! = String("Price: \(item.price!)$")
         itemName.text = item.name!
-        descriptionText.text = item.description!
+        descriptionText.text = item.descriptionItem!
         addToFavoritesButton.setTitle("To Favorites", for: .normal)
         addToBasketButton.setTitle("to Basket", for: .normal)
     }
