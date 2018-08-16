@@ -9,10 +9,12 @@
 import Foundation
 import UIKit
 
-class Item {
+import CoreData
+
+class Item: NSManagedObject {
     var id:Int?
     var price:Double?
     var thumbnailImage: [UIImage]?
     var name: String?
-    var description: String?
+    var descriptionItem: String?
 }

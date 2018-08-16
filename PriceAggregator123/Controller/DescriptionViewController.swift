@@ -20,8 +20,9 @@ class DescriptionViewController: UIViewController {
     let cellId = "DescribingCell"
     var itemId:Int!
     var item:Item = Item()
-    var scaledImageView:UIImageView!{
+    var scaledImageView:AnimationView!{
         didSet{
+            addSwipeGestureForScaledImage()
             addTapGestureForScaledImage()
         }
     }
@@ -76,8 +77,8 @@ class DescriptionViewController: UIViewController {
                     }else{self.item.price = 0.0}
                     
                     if let description = json["shortDescription"].string{
-                        self.item.description = description
-                    }else{ self.item.description = "Description not available" }
+                        self.item.descriptionItem = description
+                    }else{ self.item.descriptionItem = "Description not available" }
                     
                     if let name = json["name"].string{
                         self.item.name = name
@@ -123,7 +124,7 @@ class DescriptionViewController: UIViewController {
     func setDataToView(){
         priceLabel.text! = String("Price: \(item.price!)$")
         itemName.text = item.name!
-        descriptionText.text = item.description!
+        descriptionText.text = item.descriptionItem!
         addToFavoritesButton.setTitle("To Favorites", for: .normal)
         addToBasketButton.setTitle("to Basket", for: .normal)
     }
@@ -192,24 +193,76 @@ extension DescriptionViewController: DescriptionCellDelegate{
     func cellTaped(sender: UITapGestureRecognizer) {
         if let collectionCell = sender.view as? DescriptionCollectionViewCell{
             if collectionCell.isFullScreeen{
-                scaledImageView = UIImageView(image: collectionCell.cellImage.image)
-                scaledImageView.frame = self.view.frame
-                scaledImageView.center = self.view.center
-                scaledImageView.backgroundColor = UIColor.white
-                scaledImageView.contentMode = .scaleAspectFit
-                self.view.addSubview(scaledImageView)
-                self.view.bringSubview(toFront: scaledImageView)
-                scaledImageView.isUserInteractionEnabled = true
+                scaledImageView = AnimationView(frame: view.frame, frontImage: collectionCell.cellImage.image!)
+                self.view.addSubview(self.scaledImageView)
+                scaledImageView.alpha = 0.0
+                UIView.animate(withDuration: 1.0) {
+                    self.view.bringSubview(toFront: self.scaledImageView)
+                    self.scaledImageView.alpha = 1.0
+                    self.scaledImageView.isUserInteractionEnabled = true
+                }
+//                self.view.bringSubview(toFront: self.scaledImageView)
+//                self.scaledImageView.alpha = 1.0
+//                scaledImageView.isUserInteractionEnabled = true
             }
         }
     }
     
     func addTapGestureForScaledImage(){
-            let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
-            scaledImageView?.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
+        scaledImageView?.addGestureRecognizer(tap)
     }
+    
+    func addSwipeGestureForScaledImage(){
+        let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(scaledImageSwipeHandler(sender: )))
+        swipeGestureLeft.direction = .left
+        scaledImageView?.addGestureRecognizer(swipeGestureLeft)
+        let swipeGestureRight = UISwipeGestureRecognizer(target: self, action: #selector(scaledImageSwipeHandler(sender: )))
+        swipeGestureRight.direction = .right
+        scaledImageView?.addGestureRecognizer(swipeGestureRight)
+    }
+    
+    
+    
     @objc func scaledImageTapHandler(sender: UITapGestureRecognizer){
-        sender.view?.removeFromSuperview()
-        scaledImageView = nil
+        
+        UIView.animate(withDuration: 1.0, animations: {
+            self.scaledImageView.alpha = 0.0
+        }) { (_) in
+            sender.view?.removeFromSuperview()
+            self.scaledImageView = nil
+        }
+    }
+    
+    @objc func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
+        var layerImage:CGImage!
+        if let castedView = sender.view as? AnimationView{
+                layerImage = castedView.isFliped ? castedView.bottomLayer.contents as! CGImage : castedView.topLayer.contents as! CGImage
+        }
+        var imageIndex = 0
+//        item.thumbnailImage.con
+        for index in 0...(item.thumbnailImage?.count)! - 1{
+            if item.thumbnailImage![index].cgImage == layerImage{
+                break
+            }
+            imageIndex += 1
+        }
+        
+        if sender.direction == .right{
+            if imageIndex > 0{
+                if (sender.view as? AnimationView) != nil{
+                    scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex - 1])
+//                    scaledImageView.changeLayers()
+                }
+            }
+            
+        } else if sender.direction == .left{
+            if imageIndex <   (item.thumbnailImage?.count)! - 1{
+                if (sender.view as? AnimationView) != nil{
+                    scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex + 1])
+//                    scaledImageView.changeLayers()
+                }
+            }
+        }
     }
 }
