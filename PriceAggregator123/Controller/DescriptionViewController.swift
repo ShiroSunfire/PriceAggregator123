@@ -52,8 +52,12 @@ class DescriptionViewController: UIViewController {
     }
     
     @IBAction func addToBasketPressed(_ sender: UIButton) {
+        var db = DBManager()
+        db.saveData(DB: "Basket", item: item)
     }
     @IBAction func addToFavoritesPressed(_ sender: UIButton) {
+        var db = DBManager()
+        db.saveData(DB: "Favourites", item: item)
     }
     
     @objc func pageControlTapHandler(sender: UIPageControl){
@@ -77,14 +81,14 @@ class DescriptionViewController: UIViewController {
                     }else{self.item.price = 0.0}
                     
                     if let description = json["shortDescription"].string{
-                        self.item.description = description
-                    }else{ self.item.description = "Description not available" }
+                        self.item.descriptionItem = description
+                    }else{ self.item.descriptionItem = "Description not available" }
                     
                     if let name = json["name"].string{
                         self.item.name = name
                     }else{ self.item.name = "<blank>"}
                     
-                    self.item.id = json["itemId"].int!
+                    self.item.id = json["itemId"].int32!
                     
                     if json["imageEntities"].array != nil{
                         if self.item.thumbnailImage != nil{
@@ -124,7 +128,7 @@ class DescriptionViewController: UIViewController {
     func setDataToView(){
         priceLabel.text! = String("Price: \(item.price!)$")
         itemName.text = item.name!
-        descriptionText.text = item.description!
+        descriptionText.text = item.descriptionItem!
         addToFavoritesButton.setTitle("To Favorites", for: .normal)
         addToBasketButton.setTitle("to Basket", for: .normal)
     }

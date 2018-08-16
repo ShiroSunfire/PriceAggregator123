@@ -80,7 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
-       
         let container = NSPersistentContainer(name: "DataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

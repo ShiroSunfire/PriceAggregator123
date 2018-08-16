@@ -42,7 +42,7 @@
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                         <connections>
-                            <action selector="buyButtonTapped:" destination="-1" eventType="touchUpInside" id="Ucg-ZE-IYs"/>
+                            <action selector="buyButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="qdI-Je-1ph"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$666.66" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfT-9A-1DA">

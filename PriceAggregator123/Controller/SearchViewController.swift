@@ -104,9 +104,9 @@ class SearchViewController: UIViewController {
     func appendInArrayItem(json: JSON, i:Int) {
         print(json[i]["availableOnline"])
         let item = Item()
-        item.id = json[i]["itemId"].int!
+        item.id = json[i]["itemId"].int32!
         item.name = json[i]["name"].string!
-        item.description = json[i]["shortDescription"].string
+        item.descriptionItem = json[i]["shortDescription"].string
         item.price = json[i]["salePrice"].double
         self.arrayItems.append(item)
         self.downloadImage(with: URL(string: json[i]["thumbnailImage"].string!)!, i: arrayItems.count - 1)
@@ -220,6 +220,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
         }
         cell.labelDescription.text = arrayItems[indexPath.row].name!
+        cell.item = arrayItems[indexPath.row]
         cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
         cell.priceLabel.text = "$" + String(arrayItems[indexPath.row].price!)
         return cell
@@ -256,7 +257,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
         delegate = controller
-        delegate?.cellWasTapped(id: arrayItems[indexPath.row].id!)
+        delegate?.cellWasTapped(id: Int(arrayItems[indexPath.row].id!))
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }

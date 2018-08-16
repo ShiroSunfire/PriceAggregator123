@@ -10,6 +10,10 @@ import UIKit
 
 class NormalCell: UICollectionViewCell {
 
+    var pan: UIPanGestureRecognizer!
+    var deleteLabel: UILabel!
+    
+    var item:Item?
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -19,6 +23,15 @@ class NormalCell: UICollectionViewCell {
     }
 
     @IBAction func buyButtonTapped(_ sender: Any) {
-        
+        let db = DBManager()
+        db.saveData(DB: "Favourites", item: item!)
+        let itemm = db.loadData(DB: "Favourites")
+        print(itemm.count)
+        db.removeData(DB: "Favourites", item: item!)
+        print("AFTER DELETE")
+        let itemmm = db.loadData(DB: "Favourites")
+        print(itemmm.count)
     }
+
 }
+
