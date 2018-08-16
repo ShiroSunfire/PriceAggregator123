@@ -12,36 +12,88 @@ import CoreData
 
 class DBManager {
     var CDataArray = NSMutableArray()
-    let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+ //   let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
 
+
+    
     func saveData(DB: String, item: Item){
-        let newItem = Favourites(context: self.context)
-        newItem.id = item.id!
-        newItem.descript = item.description
-        newItem.name = item.name
-        newItem.price = item.price!
-        let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
-        if let retrievedImgArray = coreDataObject?.imageArray() {
-            newItem.image = retrievedImgArray.coreDataRepresentation()
-        }
-        appDelegate?.saveContext()
-    }
+        let context = self.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        if DB == "Favourites"{
+            let  newItem = Favourites(context: context)
 
+            do {
+                let result = try context.fetch(fetchRequest)
+                for data in result as! [Favourites] {
+                    if item.id == data.id{
+                       return
+                    }
+                }
+                newItem.id = item.id!
+                newItem.descript = item.description
+                newItem.name = item.name
+                newItem.price = item.price!
+                let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+                if let retrievedImgArray = coreDataObject?.imageArray() {
+                    newItem.image = retrievedImgArray.coreDataRepresentation()
+                }
+            } catch{
+                print("Error")
+        }
+        }else {
+            let  newItem = Basket(context: context)
+
+            do {
+                let result = try context.fetch(fetchRequest)
+                for data in result as! [Basket] {
+                    if item.id != data.id{
+                        newItem.id = item.id!
+                        newItem.descript = item.description
+                        newItem.name = item.name
+                        newItem.price = item.price!
+                        let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+                        if let retrievedImgArray = coreDataObject?.imageArray() {
+                            newItem.image = retrievedImgArray.coreDataRepresentation()
+                        }
+                    }
+                }
+            } catch{
+                print("Error")
+            }
+        }
+        saveContext()
+    }
+    
     func loadData(DB: String) -> [Item] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
         fetchRequest.returnsObjectsAsFaults = false
+        let context = self.persistentContainer.viewContext
         var item = [Item]()
         do {
             let result = try context.fetch(fetchRequest)
-            for data in result as! [Favourites] {
-                let newItem = Item()
-                newItem.descriptionItem = data.descript
-                newItem.name = data.name
-                newItem.price = data.price
-                newItem.id = data.id
-                newItem.thumbnailImage = data.image?.imageArray()
-                item.append(newItem)
+            if DB == "Favourites" {
+                for data in result as! [Favourites] {
+                    let newItem = Item()
+                    newItem.descriptionItem = data.descript
+                    newItem.name = data.name
+                    newItem.price = data.price
+                   newItem.id = data.id
+                    newItem.thumbnailImage = data.image?.imageArray()
+                    item.append(newItem)
+                }
+            } else {
+                for data in result as! [Basket] {
+                    let newItem = Item()
+                    newItem.descriptionItem = data.descript
+                    newItem.name = data.name
+                    newItem.price = data.price
+                    newItem.id = data.id
+                    newItem.thumbnailImage = data.image?.imageArray()
+                    item.append(newItem)
+                }
             }
         } catch {
             print("Failed")
@@ -51,14 +103,50 @@ class DBManager {
     
     func removeData(DB: String, item: Item){
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: DB)
+        let context = self.persistentContainer.viewContext
         let result = try? context.fetch(fetchRequest)
-        let resultData = result as! [Favourites]
-        for object in resultData {
-            if object.id == item.id {
-                context.delete(object)
+        if DB == "Favourites" {
+            let resultData = result as! [Favourites]
+            for object in resultData {
+               if object.id == item.id {
+                    context.delete(object)
+                }
+            }
+        } else{
+            let resultData = result as! [Basket]
+            for object in resultData {
+                if object.id == item.id {
+                    context.delete(object)
+                }
             }
         }
-        appDelegate?.saveContext()
+        saveContext()
+    }
+    
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "DataModel")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
 
@@ -95,4 +183,3 @@ extension Data {
         }
     }
 }
-
