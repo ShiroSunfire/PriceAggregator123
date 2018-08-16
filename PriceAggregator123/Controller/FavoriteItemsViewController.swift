@@ -4,7 +4,7 @@ import UIKit
 
 class FavoriteItemsViewController: UIViewController {
     
-    var items:[Item!]!
+    var items:[Item?]!
     let cellXibId = "NormalCell"
     let cellId = "Cell"
     @IBOutlet weak var titleLabel: UILabel!
@@ -30,13 +30,31 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NormalCell
-        cell.labelDescription.text = items[indexPath.row].name
-        cell.image.image = (items[indexPath.row].thumbnailImage?.first)!
-        cell.priceLabel.text = String(items[indexPath.row].price!)
+        cell.labelDescription.text = items[indexPath.row]?.name
+        cell.item = items[indexPath.row]
+        cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
+        cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.delegate = self
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width, height: 80)
+    }
+}
+
+
+extension FavoriteItemsViewController: NormalCellDelegate{
+    func deleteCell(cell: NormalCell){
+        let DB = DBManager()
+        print("print")
+        DB.removeData(DB: "Favourites", item: cell.item!)
+        for num in 0...items.count - 1{
+            if items[num] == cell.item{
+                items.remove(at: num)
+                favoriteProductsCollection.reloadData()
+                break
+            }
+        }
     }
 }

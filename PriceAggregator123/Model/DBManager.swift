@@ -14,7 +14,7 @@ class DBManager {
     var CDataArray = NSMutableArray()
     let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
     func saveData(DB: String, item: Item){
         let newItem = Favourites(context: self.context)
         newItem.id = item.id!

@@ -52,11 +52,11 @@ class DescriptionViewController: UIViewController {
     }
     
     @IBAction func addToBasketPressed(_ sender: UIButton) {
-        var db = DBManager()
+        let db = DBManager()
         db.saveData(DB: "Basket", item: item)
     }
     @IBAction func addToFavoritesPressed(_ sender: UIButton) {
-        var db = DBManager()
+        let db = DBManager()
         db.saveData(DB: "Favourites", item: item)
     }
     
