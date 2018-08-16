@@ -201,9 +201,6 @@ extension DescriptionViewController: DescriptionCellDelegate{
                     self.scaledImageView.alpha = 1.0
                     self.scaledImageView.isUserInteractionEnabled = true
                 }
-//                self.view.bringSubview(toFront: self.scaledImageView)
-//                self.scaledImageView.alpha = 1.0
-//                scaledImageView.isUserInteractionEnabled = true
             }
         }
     }
@@ -240,7 +237,6 @@ extension DescriptionViewController: DescriptionCellDelegate{
                 layerImage = castedView.isFliped ? castedView.bottomLayer.contents as! CGImage : castedView.topLayer.contents as! CGImage
         }
         var imageIndex = 0
-//        item.thumbnailImage.con
         for index in 0...(item.thumbnailImage?.count)! - 1{
             if item.thumbnailImage![index].cgImage == layerImage{
                 break
@@ -252,7 +248,6 @@ extension DescriptionViewController: DescriptionCellDelegate{
             if imageIndex > 0{
                 if (sender.view as? AnimationView) != nil{
                     scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex - 1])
-//                    scaledImageView.changeLayers()
                 }
             }
             
@@ -260,7 +255,6 @@ extension DescriptionViewController: DescriptionCellDelegate{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
                     scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex + 1])
-//                    scaledImageView.changeLayers()
                 }
             }
         }
