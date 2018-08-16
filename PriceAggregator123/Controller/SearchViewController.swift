@@ -129,36 +129,36 @@ class SearchViewController: UIViewController {
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
     
-    func getSortArray(filter: String) {
-        if refresh == nil {
-            refresh = RefreshImageView(center: self.view.center)
-            self.view.addSubview(refresh!)
-        }
-        arrayItems.removeAll()
-        if urlCreate["sortOption"] == filter {
-            if urlCreate["order"] == "&order=desc" {
-                urlCreate["order"] = "&order=asc"
-            } else {
-                urlCreate["order"] = "&order=desc"
-            }
-        } else {
-            urlCreate["sortOption"] = filter
-            urlCreate["order"] = "&order=asc"
-        }
-        getItems(with: getURL())
-    }
+//    func getSortArray(filter: String) {
+//        if refresh == nil {
+//            refresh = RefreshImageView(center: self.view.center)
+//            self.view.addSubview(refresh!)
+//        }
+//        arrayItems.removeAll()
+//        if urlCreate["sortOption"] == filter {
+//            if urlCreate["order"] == "&order=desc" {
+//                urlCreate["order"] = "&order=asc"
+//            } else {
+//                urlCreate["order"] = "&order=desc"
+//            }
+//        } else {
+//            urlCreate["sortOption"] = filter
+//            urlCreate["order"] = "&order=asc"
+//        }
+//        getItems(with: getURL())
+//    }
 
-    @IBAction func priceFilterButtonTapped(_ sender: Any) {
-        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=price")
-    }
-    
-    @IBAction func newFilterButtonTapped(_ sender: Any) {
-        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=new")
-    }
-
-    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
-        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=bestseller")
-    }
+//    @IBAction func priceFilterButtonTapped(_ sender: Any) {
+//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=price")
+//    }
+//
+//    @IBAction func newFilterButtonTapped(_ sender: Any) {
+//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=new")
+//    }
+//
+//    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
+//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=bestseller")
+//    }
     
     @IBAction func cancelFilters(_ sender: Any) {
         arrayItems.removeAll()
@@ -219,6 +219,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if nibShow == "Rectangle" {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
         }
+        cell.delegate = self
         cell.labelDescription.text = arrayItems[indexPath.row].name!
         cell.item = arrayItems[indexPath.row]
         cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
@@ -291,8 +292,23 @@ extension SearchViewController: CategoriesViewControllerDelegate {
     }
 }
 
-
-
+extension SearchViewController: NormalCellDelegate {
+    func buyButtonTapped(db: String) {
+        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    func favoriteButtonTapped(db: String) {
+        let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
+}
 
 
 
