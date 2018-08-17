@@ -42,7 +42,9 @@ class SearchViewController: UIViewController {
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
             self.present(controller, animated: true, completion: nil)
         }
-        //collectionView.register(UINib(nibName: "RectangleCell", bundle: nil), forCellWithReuseIdentifier: "RectangleCell")
+        getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
+        fromPrice.delegate = self
+        toPrice.delegate = self
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
     }
     
@@ -182,21 +184,7 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func filterPrice(_ sender: Any) {
-        fromPrice.endEditing(true)
-        toPrice.endEditing(true)
-        arrayItems.removeAll()
-        var from = Int(fromPrice.text!)
-        if from == nil {
-            from = 0
-        }
-        var to = Int(toPrice.text!)
-        if to == nil {
-            to = 10000
-        }
-        urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
-        getItems(with: getURL())
+
     }
 }
 
@@ -229,7 +217,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
-            return CGSize(width: view.frame.size.width, height: 80)
+            return CGSize(width: view.frame.size.width, height: 120)
         } else { //if nibShow == "Rectangle" {
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
@@ -266,6 +254,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SearchViewController: UISearchBarDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         searchBar.endEditing(true)
+        fromPrice.endEditing(true)
+        toPrice.endEditing(true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -278,6 +268,27 @@ extension SearchViewController: UISearchBarDelegate {
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
         getItems(with: getURL())
+    }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        fromPrice.endEditing(true)
+        toPrice.endEditing(true)
+        arrayItems.removeAll()
+        var from = Int(fromPrice.text!)
+        if from == nil {
+            from = 0
+        }
+        var to = Int(toPrice.text!)
+        if to == nil {
+            to = 10000
+        }
+        urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
+        refresh = RefreshImageView(center: self.view.center)
+        self.view.addSubview(refresh!)
+        getItems(with: getURL())
+        return true
     }
 }
 
