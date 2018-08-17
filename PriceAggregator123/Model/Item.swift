@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+
 import CoreData
 
 class Item: NSManagedObject {
@@ -16,4 +17,5 @@ class Item: NSManagedObject {
     var thumbnailImage: [UIImage]?
     var name: String?
     var descriptionItem: String?
+    var quantity = 1
 }

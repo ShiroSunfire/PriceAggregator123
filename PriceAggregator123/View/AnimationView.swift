@@ -9,11 +9,11 @@
 import UIKit
 
 class AnimationView: UIView {
-
+    
     
     var isFliped = false
     private var doubleSidedLayer:CATransformLayer?
-    var topLayer:CALayer = CALayer()
+    var topLayer = CALayer()
     var bottomLayer = CALayer()
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -33,7 +33,6 @@ class AnimationView: UIView {
     
     func defInit(){
         self.layer.isDoubleSided = true
-        self.layer.backgroundColor = UIColor.white.cgColor
         
         doubleSidedLayer = CATransformLayer(layer: self.layer)
         doubleSidedLayer?.position = self.center
@@ -70,27 +69,28 @@ class AnimationView: UIView {
         }
         bottomLayer.contentsGravity = kCAGravityResizeAspect
         CATransaction.begin()
-        CATransaction.setAnimationDuration(1.0	)
+        CATransaction.setAnimationDuration(1.0)
         var perspective = CATransform3DIdentity
         perspective.m34 = 1.0 / -500
         doubleSidedLayer?.transform = perspective
+        
         if !isFliped{
             switch direction{
             case .left:
                 doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
             case .right:
-                doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
+                doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
             }
         }else{
             switch direction{
             case .left:
                 doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
             case .right:
-                doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
+                doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
             }
         }
         isFliped = !isFliped
         CATransaction.commit()
     }
-
+   
 }

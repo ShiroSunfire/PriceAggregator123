@@ -296,7 +296,7 @@ extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
@@ -304,7 +304,7 @@ extension SearchViewController: NormalCellDelegate {
     func favoriteButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
