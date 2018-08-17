@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class DBManager {
+class DBManager {    
     var CDataArray = NSMutableArray()
     let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
