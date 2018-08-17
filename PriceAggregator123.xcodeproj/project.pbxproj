@@ -120,13 +120,13 @@
 			isa = PBXGroup;
 			children = (
 				3F223BDB2124287000274675 /* NormalCell.xib */,
+				3F223BE02124641200274675 /* RectangleCell.xib */,
 				3F223BD92124286D00274675 /* NormalCell.swift */,
 				3FF358FD21240D1B0091A943 /* DescriptionCollectionViewCell.swift */,
 				3F223BD72124285F00274675 /* RefreshImageView.swift */,
 				3FF358FF21240D220091A943 /* Description.storyboard */,
 				3F223BD5212427B000274675 /* Main.storyboard */,
 				3F6492F421242B1C0077E531 /* Login.storyboard */,
-				3F223BE02124641200274675 /* RectangleCell.xib */,
 				3FB6C1D121256A1200D5DD36 /* AnimationView.swift */,
 				3F2194F82126BDFF00C02CA4 /* CustomPush.swift */,
 			);
