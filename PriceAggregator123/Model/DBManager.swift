@@ -17,8 +17,10 @@ class DBManager {
         let context = self.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
         fetchRequest.returnsObjectsAsFaults = false
-        if DB == "Favourites" {
+        
+        if DB == "Favourites"{
             let newItem = Favourites(context: context)
+
             do {
                 let result = try context.fetch(fetchRequest)
                 for data in result as! [Favourites] {
@@ -27,7 +29,7 @@ class DBManager {
                     }
                 }
                 newItem.id = item.id!
-                newItem.descript = item.description
+                newItem.descript = item.descriptionItem!
                 newItem.name = item.name
                 newItem.price = item.price!
                 let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
@@ -50,7 +52,7 @@ class DBManager {
                 }
                 let newItem = Basket(context: context)
                 newItem.id = item.id!
-                newItem.descript = item.description
+                newItem.descript = item.descriptionItem!
                 newItem.name = item.name
                 newItem.price = item.price!
                 newItem.quantity = 1

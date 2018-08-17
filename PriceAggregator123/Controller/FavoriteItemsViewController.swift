@@ -12,7 +12,7 @@ class FavoriteItemsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = "Favorites"
+        
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.delegate = self
         favoriteProductsCollection.dataSource = self
@@ -20,6 +20,7 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Favorites"
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")
@@ -39,11 +40,18 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
         cell.delegate = self
+        cell.addDeletePan()
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width, height: 80)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Description", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        controller.item = items[indexPath.row]!
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -51,15 +59,10 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
         let DB = DBManager()
-        print("print")
         DB.removeData(DB: "Favourites", item: cell.item!)
-        print(cell.item)
-        for num in 0...items.count - 1{
-            if items[num] == cell.item!{
-                items.remove(at: num)
-                favoriteProductsCollection.reloadData()
-                break
-            }
+        if let index = items.index(of: cell.item!){
+            items.remove(at: index) 
         }
+        favoriteProductsCollection.reloadData()
     }
 }
