@@ -13,5 +13,6 @@ target 'PriceAggregator123' do
     pod 'GoogleAPIClientForREST/Sheets'
     pod 'GoogleSignIn'
     pod 'TwitterKit'
+    pod 'Google/Analytics'
 
 end
