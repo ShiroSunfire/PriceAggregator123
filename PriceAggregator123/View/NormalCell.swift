@@ -49,16 +49,24 @@ class NormalCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        if (pan.state == UIGestureRecognizerState.changed) {
-            let p: CGPoint = pan.translation(in: self)
-            let width = self.contentView.frame.width
-            let height = self.contentView.frame.height
-            self.contentView.frame = CGRect(x: p.x,y: 0, width: width, height: height);
-            self.deleteLabel.frame = CGRect(x: p.x - deleteLabel.frame.size.width-10, y: 0, width: 100, height: height)
-            self.buyLabel.frame = CGRect(x: p.x + width + buyLabel.frame.size.width, y: 0, width: 100, height: height)
+        if pan != nil{
+            if (pan.state == UIGestureRecognizerState.changed) {
+                let p: CGPoint = pan.translation(in: self)
+                let width = self.contentView.frame.width
+                let height = self.contentView.frame.height
+                self.contentView.frame = CGRect(x: p.x,y: 0, width: width, height: height);
+                self.deleteLabel.frame = CGRect(x: p.x - deleteLabel.frame.size.width-10, y: 0, width: 100, height: height)
+                self.buyLabel.frame = CGRect(x: p.x + width + buyLabel.frame.size.width, y: 0, width: 100, height: height)
+            }
         }
+      
         
+    }
+    
+    func addDeletePan(){
+        pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
+        pan.delegate = self
+        self.addGestureRecognizer(pan)
     }
     
     private func commonInit(){
@@ -78,10 +86,6 @@ class NormalCell: UICollectionViewCell {
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
         
-        pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
-        pan.delegate = self
-        self.addGestureRecognizer(pan)
-        
     }
     @objc func onPan(_ pan: UIPanGestureRecognizer) {
         if pan.state == UIGestureRecognizerState.began {
@@ -90,15 +94,9 @@ class NormalCell: UICollectionViewCell {
             self.setNeedsLayout()
         } else {
             if abs(pan.velocity(in: self).x) > 500 {
-//                let collectionView: UICollectionView = self.superview as! UICollectionView
-//                let indexPath: IndexPath = collectionView.indexPathForItem(at: self.center)!
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
                 delegate?.deleteCell!(cell: self)
-                
-                
-                
-                //                collectionView.delegate?.collectionView!(collectionView, performAction: #selector(onPan(_:)), forItemAt: indexPath, withSender: nil)
             } else {
                 UIView.animate(withDuration: 0.4, animations: {
                     self.setNeedsLayout()

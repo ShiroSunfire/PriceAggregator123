@@ -21,7 +21,7 @@ class DBManager {
         
         if DB == "Favourites"{
             let  newItem = Favourites(context: context)
-
+            
             do {
                 let result = try context.fetch(fetchRequest)
                 for data in result as! [Favourites] {

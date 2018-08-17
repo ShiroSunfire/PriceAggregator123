@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F2194F92126BDFF00C02CA4 /* CustomPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2194F82126BDFF00C02CA4 /* CustomPush.swift */; };
 		3F223BD22124251000274675 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F223BD12124251000274675 /* CategoriesViewController.swift */; };
 		3F223BD42124251300274675 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F223BD32124251300274675 /* SearchViewController.swift */; };
 		3F223BD6212427B000274675 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F223BD5212427B000274675 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F2194F82126BDFF00C02CA4 /* CustomPush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPush.swift; sourceTree = "<group>"; };
 		3F223BD12124251000274675 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		3F223BD32124251300274675 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3F223BD5212427B000274675 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				3F6492F421242B1C0077E531 /* Login.storyboard */,
 				3F223BE02124641200274675 /* RectangleCell.xib */,
 				3FB6C1D121256A1200D5DD36 /* AnimationView.swift */,
+				3F2194F82126BDFF00C02CA4 /* CustomPush.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				3F223BD42124251300274675 /* SearchViewController.swift in Sources */,
 				3FF358FE21240D1B0091A943 /* DescriptionCollectionViewCell.swift in Sources */,
 				3FF358FC21240D0A0091A943 /* DescriptionViewController.swift in Sources */,
+				3F2194F92126BDFF00C02CA4 /* CustomPush.swift in Sources */,
 				3FEB02962125532000A1863A /* DBManager.swift in Sources */,
 				3F223BDA2124286D00274675 /* NormalCell.swift in Sources */,
 				3FB6C1D221256A1200D5DD36 /* AnimationView.swift in Sources */,

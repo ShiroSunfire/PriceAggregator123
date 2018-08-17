@@ -257,8 +257,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
-        delegate = controller
-        delegate?.cellWasTapped(id: Int(arrayItems[indexPath.row].id!))
+        controller.tabBarItem = self.tabBarItem
+        controller.item = arrayItems[indexPath.row]
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -296,7 +296,7 @@ extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
@@ -304,7 +304,7 @@ extension SearchViewController: NormalCellDelegate {
     func favoriteButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }

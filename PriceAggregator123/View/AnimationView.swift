@@ -33,6 +33,7 @@ class AnimationView: UIView {
     
     func defInit(){
         self.layer.isDoubleSided = true
+        self.layer.backgroundColor = UIColor.white.cgColor
         
         doubleSidedLayer = CATransformLayer(layer: self.layer)
         doubleSidedLayer?.position = self.center

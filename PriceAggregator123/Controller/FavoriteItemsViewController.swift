@@ -12,7 +12,6 @@ class FavoriteItemsViewController: UIViewController {
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = "Favorites"
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.delegate = self
         favoriteProductsCollection.dataSource = self
@@ -40,6 +39,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
         cell.delegate = self
+        cell.addDeletePan()
         return cell
     }
 
@@ -52,15 +52,10 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
         let DB = DBManager()
-        print("print")
         DB.removeData(DB: "Favourites", item: cell.item!)
-        print(cell.item)
-        for num in 0...items.count - 1{
-            if items[num] == cell.item!{
-                items.remove(at: num)
-                favoriteProductsCollection.reloadData()
-                break
-            }
+        if let index = items.index(of: cell.item!){
+            items.remove(at: index) 
         }
+        favoriteProductsCollection.reloadData()
     }
 }
