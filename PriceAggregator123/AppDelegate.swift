@@ -14,7 +14,7 @@ import TwitterCore
 import CoreData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
+class AppDelegate: UIResponder, UIApplicationDelegate  {
 
     var window: UIWindow?
 
@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
         TWTRTwitter.sharedInstance().start(withConsumerKey:"gu2dsasdsaTxasObYidfjsfux", consumerSecret:"ZasdasdfhgXcyPP0e5yrjNcsdffjshhabwh23xqlDbhjlfhUdd")
         
         GIDSignIn.sharedInstance().clientID = "501283990325-b879hgv8qdnci8j23duftjv89h234bps.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance().delegate = self
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -38,10 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         
+        TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         return GIDSignIn.sharedInstance().handle(url,
                                                  sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
                                                  annotation: options[UIApplicationOpenURLOptionsKey.annotation]);
-        TWTRTwitter.sharedInstance().application(app, open: url, options: options)
     }
     
     
@@ -54,28 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
                                                  annotation: annotation)
     }
     
-    
-    
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
-              withError error: Error!) {
-        if let error = error {
-            print("\(error.localizedDescription)")
-        } else {
-            // Perform any operations on signed in user here.
-            let userId = user.userID                  // For client-side use only!
-            let idToken = user.authentication.idToken // Safe to send to the server
-            let fullName = user.profile.name
-            let givenName = user.profile.givenName
-            let familyName = user.profile.familyName
-            let email = user.profile.email
-        }
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
-              withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        //  GIDSignIn.sharedInstance().signOut()
-    }
     
 }
 
