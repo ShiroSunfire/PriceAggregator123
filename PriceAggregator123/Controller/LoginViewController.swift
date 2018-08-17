@@ -108,7 +108,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     print(result!)
                     let id = self.dict["id"]
                     self.saveID(id: id as! String)
-                    //                    self.getUrl()
                 }
             })
         }
@@ -119,9 +118,4 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         UserDefaults.standard.set(id, forKey: "UserID")
         self.dismiss(animated: true, completion: nil)
     }
-    
-//       func clearUserData(){
-//            UserDefaults.standard.removeObject(forKey: "ID")
-//        }
-//    
 }

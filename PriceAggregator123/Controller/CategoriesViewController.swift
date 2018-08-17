@@ -85,6 +85,8 @@ class CategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
         if jsonCategory![indexPath.row]["children"] == nil {
             delegate?.searchButtonTapped(with: jsonCategory![indexPath.row]["id"].string!)
             self.navigationController?.popToRootViewController(animated: true)

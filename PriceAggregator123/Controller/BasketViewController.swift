@@ -1,15 +1,19 @@
 import UIKit
 
+protocol BasketControllerDelegate {
+    func describeItem(retItem:Item)
+}
+
 class BasketViewController: UIViewController {
     
     let cellXibId = "NormalCell"
     let cellId = "Cell"
     var items:[Item?]!
+    var delegate:BasketControllerDelegate?
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var basketProductsCollection: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = "Basket"
         basketProductsCollection.backgroundColor = UIColor.white
         basketProductsCollection.delegate = self
         basketProductsCollection.dataSource = self
@@ -17,6 +21,7 @@ class BasketViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Basket"
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Basket")
@@ -39,11 +44,19 @@ extension BasketViewController: UICollectionViewDataSource,UICollectionViewDeleg
         cell.buyButton.isHidden = true
         cell.favoriteButton.isHidden = true
         cell.delegate = self
+        cell.addDeletePan()
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Description", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        controller.item = items[indexPath.row]!
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -51,15 +64,11 @@ extension BasketViewController: UICollectionViewDataSource,UICollectionViewDeleg
 extension BasketViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
         let DB = DBManager()
-        print("print")
         DB.removeData(DB: "Basket", item: cell.item!)
-        for num in 0...items.count - 1{
-            if items[num] == cell.item{
-                items.remove(at: num)
-                basketProductsCollection.reloadData()
-                break
-            }
+        if let index = items.index(of: cell.item!){
+            items.remove(at: index)
         }
+        basketProductsCollection.reloadData()
     }
 }
 

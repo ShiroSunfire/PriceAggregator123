@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        
+
         TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         return GIDSignIn.sharedInstance().handle(url,
                                                  sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,

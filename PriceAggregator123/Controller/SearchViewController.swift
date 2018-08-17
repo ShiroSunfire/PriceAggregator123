@@ -37,6 +37,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.parent?.title = "lolkekcheburek"
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
@@ -49,6 +50,7 @@ class SearchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Search"
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
@@ -131,36 +133,6 @@ class SearchViewController: UIViewController {
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
     
-//    func getSortArray(filter: String) {
-//        if refresh == nil {
-//            refresh = RefreshImageView(center: self.view.center)
-//            self.view.addSubview(refresh!)
-//        }
-//        arrayItems.removeAll()
-//        if urlCreate["sortOption"] == filter {
-//            if urlCreate["order"] == "&order=desc" {
-//                urlCreate["order"] = "&order=asc"
-//            } else {
-//                urlCreate["order"] = "&order=desc"
-//            }
-//        } else {
-//            urlCreate["sortOption"] = filter
-//            urlCreate["order"] = "&order=asc"
-//        }
-//        getItems(with: getURL())
-//    }
-
-//    @IBAction func priceFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=price")
-//    }
-//
-//    @IBAction func newFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=new")
-//    }
-//
-//    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=bestseller")
-//    }
     
     @IBAction func cancelFilters(_ sender: Any) {
         arrayItems.removeAll()
@@ -217,7 +189,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
-            return CGSize(width: view.frame.size.width, height: 120)
+            return CGSize(width: view.frame.size.width, height: 100)
         } else { //if nibShow == "Rectangle" {
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
@@ -234,9 +206,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             dispatch.async {
                 let count = self.arrayItems.count
                 var i = count
-                while i < count+10 && self.jsonItems![i] != nil {
+                while i < count + 10 && self.jsonItems![i] != nil {
                     self.appendInArrayItem(json: self.jsonItems!, i: i)
-                    i+=1
+                    i += 1
                 }
             }
         }
@@ -245,8 +217,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
-        delegate = controller
-        delegate?.cellWasTapped(id: Int(arrayItems[indexPath.row].id!))
+        controller.tabBarItem = self.tabBarItem
+        controller.item = arrayItems[indexPath.row]
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -307,7 +279,7 @@ extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
@@ -315,7 +287,7 @@ extension SearchViewController: NormalCellDelegate {
     func favoriteButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
