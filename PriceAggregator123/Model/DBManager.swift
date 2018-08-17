@@ -12,9 +12,6 @@ import CoreData
 
 class DBManager {
     var CDataArray = NSMutableArray()
- //   let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
-
-
     
     func saveData(DB: String, item: Item){
         let context = self.persistentContainer.viewContext
@@ -98,6 +95,7 @@ class DBManager {
         } catch {
             print("Failed")
         }
+        print(item.count)
         return item
     }
     
