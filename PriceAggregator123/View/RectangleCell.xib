@@ -51,6 +51,9 @@
                                 <state key="normal" title="Favorite">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="favoriteButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="qUw-2o-HCf"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYF-Ds-d8J">
                                 <rect key="frame" x="38" y="0.0" width="30" height="30"/>
@@ -58,6 +61,9 @@
                                 <state key="normal" title="Buy">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="buyButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="xU4-5i-L8Q"/>
+                                </connections>
                             </button>
                         </subviews>
                     </stackView>
@@ -80,6 +86,8 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="164" height="257"/>
             <connections>
+                <outlet property="buyButton" destination="NYF-Ds-d8J" id="bR5-Ll-NIK"/>
+                <outlet property="favoriteButton" destination="6xG-l0-Jxb" id="E1D-lu-8xQ"/>
                 <outlet property="image" destination="NPu-yt-TmN" id="qtH-9a-jj0"/>
                 <outlet property="labelDescription" destination="5El-pO-UM9" id="5ho-9n-xpg"/>
                 <outlet property="priceLabel" destination="eMh-0a-JIC" id="Pki-pH-W9g"/>
