@@ -17,8 +17,13 @@ class FavoriteItemsViewController: UIViewController {
         favoriteProductsCollection.delegate = self
         favoriteProductsCollection.dataSource = self
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")
+        favoriteProductsCollection.reloadData()
     }
 }
 
@@ -49,8 +54,9 @@ extension FavoriteItemsViewController: NormalCellDelegate{
         let DB = DBManager()
         print("print")
         DB.removeData(DB: "Favourites", item: cell.item!)
+        print(cell.item)
         for num in 0...items.count - 1{
-            if items[num] == cell.item{
+            if items[num] == cell.item!{
                 items.remove(at: num)
                 favoriteProductsCollection.reloadData()
                 break

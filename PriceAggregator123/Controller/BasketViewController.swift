@@ -14,11 +14,14 @@ class BasketViewController: UIViewController {
         basketProductsCollection.delegate = self
         basketProductsCollection.dataSource = self
         basketProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
-        let db = DBManager()
-        items = db.loadData(DB: "Basket")
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let OurDB = DBManager()
+        items = OurDB.loadData(DB: "Basket")
+        basketProductsCollection.reloadData()
+    }
 }
 
 extension BasketViewController: UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
