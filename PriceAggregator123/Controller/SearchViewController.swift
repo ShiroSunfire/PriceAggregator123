@@ -37,6 +37,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.parent?.title = "lolkekcheburek"
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
@@ -47,6 +48,7 @@ class SearchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Search"
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
@@ -129,36 +131,6 @@ class SearchViewController: UIViewController {
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
     
-//    func getSortArray(filter: String) {
-//        if refresh == nil {
-//            refresh = RefreshImageView(center: self.view.center)
-//            self.view.addSubview(refresh!)
-//        }
-//        arrayItems.removeAll()
-//        if urlCreate["sortOption"] == filter {
-//            if urlCreate["order"] == "&order=desc" {
-//                urlCreate["order"] = "&order=asc"
-//            } else {
-//                urlCreate["order"] = "&order=desc"
-//            }
-//        } else {
-//            urlCreate["sortOption"] = filter
-//            urlCreate["order"] = "&order=asc"
-//        }
-//        getItems(with: getURL())
-//    }
-
-//    @IBAction func priceFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=price")
-//    }
-//
-//    @IBAction func newFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=new")
-//    }
-//
-//    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=bestseller")
-//    }
     
     @IBAction func cancelFilters(_ sender: Any) {
         arrayItems.removeAll()
@@ -246,9 +218,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             dispatch.async {
                 let count = self.arrayItems.count
                 var i = count
-                while i < count+10 && self.jsonItems![i] != nil {
+                while i < count + 10 && self.jsonItems![i] != nil {
                     self.appendInArrayItem(json: self.jsonItems!, i: i)
-                    i+=1
+                    i += 1
                 }
             }
         }

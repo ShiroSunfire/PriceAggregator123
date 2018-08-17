@@ -27,13 +27,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5El-pO-UM9">
-                        <rect key="frame" x="10" y="152" width="144" height="60"/>
+                        <rect key="frame" x="10" y="152" width="144" height="70"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$666.66" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMh-0a-JIC">
-                        <rect key="frame" x="10" y="217" width="102" height="30"/>
+                        <rect key="frame" x="10" y="227" width="68" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="eMh-0a-JIC" secondAttribute="height" multiplier="17:5" id="QNj-XD-RgF"/>
                         </constraints>
@@ -41,35 +41,53 @@
                         <color key="textColor" red="0.19261094927787781" green="0.536224365234375" blue="0.087970219552516937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYF-Ds-d8J">
-                        <rect key="frame" x="104" y="217" width="50" height="30"/>
-                        <color key="backgroundColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="50" id="N7T-yX-4FK"/>
-                        </constraints>
-                        <state key="normal" title="Buy">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
-                    </button>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="5dt-wX-VvW">
+                        <rect key="frame" x="86" y="217" width="68" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6xG-l0-Jxb">
+                                <rect key="frame" x="0.0" y="0.0" width="37" height="30"/>
+                                <color key="backgroundColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <state key="normal" title="Favorite">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="favoriteButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="qUw-2o-HCf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYF-Ds-d8J">
+                                <rect key="frame" x="38" y="0.0" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Buy">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="buyButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="xU4-5i-L8Q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </stackView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="5dt-wX-VvW" secondAttribute="trailing" constant="10" id="5Rj-VP-uJB"/>
                 <constraint firstItem="eMh-0a-JIC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="E6y-K4-W73"/>
+                <constraint firstItem="5dt-wX-VvW" firstAttribute="leading" secondItem="eMh-0a-JIC" secondAttribute="trailing" constant="8" id="Eue-Os-Vhm"/>
                 <constraint firstAttribute="trailing" secondItem="5El-pO-UM9" secondAttribute="trailing" constant="10" id="QP6-3U-Arg"/>
-                <constraint firstAttribute="trailing" secondItem="NYF-Ds-d8J" secondAttribute="trailing" constant="10" id="TsL-Oh-eaL"/>
-                <constraint firstItem="NYF-Ds-d8J" firstAttribute="top" secondItem="5El-pO-UM9" secondAttribute="bottom" constant="5" id="V6l-Ji-cHW"/>
+                <constraint firstAttribute="bottom" secondItem="5dt-wX-VvW" secondAttribute="bottom" constant="10" id="VuV-iB-ENd"/>
                 <constraint firstItem="eMh-0a-JIC" firstAttribute="top" secondItem="5El-pO-UM9" secondAttribute="bottom" constant="5" id="XF1-G1-AmW"/>
                 <constraint firstItem="5El-pO-UM9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="YUs-5A-VjN"/>
                 <constraint firstAttribute="bottom" secondItem="eMh-0a-JIC" secondAttribute="bottom" constant="10" id="Zja-D3-Ubo"/>
                 <constraint firstAttribute="trailing" secondItem="NPu-yt-TmN" secondAttribute="trailing" constant="10" id="af9-OV-Xin"/>
                 <constraint firstItem="NPu-yt-TmN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="egg-Ym-uNR"/>
-                <constraint firstAttribute="bottom" secondItem="NYF-Ds-d8J" secondAttribute="bottom" constant="10" id="f7F-hf-SVM"/>
                 <constraint firstItem="5El-pO-UM9" firstAttribute="top" secondItem="NPu-yt-TmN" secondAttribute="bottom" constant="5" id="oBs-yv-M8M"/>
                 <constraint firstItem="NPu-yt-TmN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="xYG-OH-haM"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="164" height="257"/>
             <connections>
+                <outlet property="buyButton" destination="NYF-Ds-d8J" id="bR5-Ll-NIK"/>
+                <outlet property="favoriteButton" destination="6xG-l0-Jxb" id="E1D-lu-8xQ"/>
                 <outlet property="image" destination="NPu-yt-TmN" id="qtH-9a-jj0"/>
                 <outlet property="labelDescription" destination="5El-pO-UM9" id="5ho-9n-xpg"/>
                 <outlet property="priceLabel" destination="eMh-0a-JIC" id="Pki-pH-W9g"/>

@@ -45,8 +45,14 @@
                                     <action selector="buyButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="qdI-Je-1ph"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhI-yk-gkE">
+                                <rect key="frame" x="0.0" y="31" width="32" height="1"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1v-Te-x5s">
-                                <rect key="frame" x="0.0" y="31" width="32" height="24"/>
+                                <rect key="frame" x="0.0" y="33" width="32" height="22"/>
                                 <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                 <state key="normal" title="Favorite">
@@ -58,7 +64,10 @@
                             </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="jhI-yk-gkE" firstAttribute="top" secondItem="Nqf-g2-WRL" secondAttribute="bottom" id="LhT-Ba-pxH"/>
                             <constraint firstAttribute="width" constant="32" id="bXS-x1-6gZ"/>
+                            <constraint firstAttribute="trailing" secondItem="jhI-yk-gkE" secondAttribute="trailing" id="bbX-Bp-Dax"/>
+                            <constraint firstItem="g1v-Te-x5s" firstAttribute="top" secondItem="jhI-yk-gkE" secondAttribute="bottom" id="mUk-VE-U36"/>
                         </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$666.66" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfT-9A-1DA">
@@ -91,9 +100,12 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="313" height="75"/>
             <connections>
+                <outlet property="buyButton" destination="Nqf-g2-WRL" id="nup-ly-0uz"/>
+                <outlet property="favoriteButton" destination="g1v-Te-x5s" id="6LY-2v-6fy"/>
                 <outlet property="image" destination="dAV-ux-vD2" id="icf-yN-uKs"/>
                 <outlet property="labelDescription" destination="5Vl-nc-BNJ" id="vyk-bK-MNg"/>
                 <outlet property="priceLabel" destination="yfT-9A-1DA" id="Rkz-VU-5pz"/>
+                <outlet property="quantityLabel" destination="jhI-yk-gkE" id="1BS-4R-FWm"/>
             </connections>
             <point key="canvasLocation" x="-323.5" y="-78.5"/>
         </collectionViewCell>

@@ -20,14 +20,14 @@ class NormalCell: UICollectionViewCell {
     var pan: UIPanGestureRecognizer!
     var deleteLabel: UILabel!
     var buyLabel: UILabel!
-    
-
     var item:Item?
     @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
     var delegate: NormalCellDelegate?
-
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,9 +46,9 @@ class NormalCell: UICollectionViewCell {
         db.saveData(DB: "Favourites", item: item!)
     }
     
-
     override func layoutSubviews() {
         super.layoutSubviews()
+
         if pan != nil{
             if (pan.state == UIGestureRecognizerState.changed) {
                 let p: CGPoint = pan.translation(in: self)
@@ -61,6 +61,7 @@ class NormalCell: UICollectionViewCell {
         }
       
         
+
     }
     
     func addDeletePan(){
@@ -85,8 +86,8 @@ class NormalCell: UICollectionViewCell {
         buyLabel.text = "buy"
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
-        
     }
+    
     @objc func onPan(_ pan: UIPanGestureRecognizer) {
         if pan.state == UIGestureRecognizerState.began {
             

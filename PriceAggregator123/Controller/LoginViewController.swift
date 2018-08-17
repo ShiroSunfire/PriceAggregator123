@@ -17,13 +17,17 @@ import FacebookLogin
 import GoogleSignIn
 import GoogleAPIClientForREST
 import TwitterKit
+import Google
 
-class LoginViewController: UIViewController, GIDSignInUIDelegate{
+class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
+    
+    let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-            // Perform any operations on signed in user here.
-            saveID(id: user.userID)
+         let userID = user.userID
+            print(userID)
+            saveID(id: userID!)
         } else {
             print("\(error.localizedDescription)")
         }
@@ -36,8 +40,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let gidSingIn = GIDSignIn()
+        
         GIDSignIn.sharedInstance().uiDelegate = self
-        //        GIDSignIn.sharedInstance().signInSilently()
+        gidSingIn.delegate = self
+        GIDSignIn.sharedInstance().delegate = self
+        
     }
     
     
@@ -72,6 +80,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate{
     
     @IBAction func gmLog(_ sender: Any) {
         GIDSignIn.sharedInstance().signIn()
+       
     }
     
     
@@ -79,10 +88,15 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate{
                 withError error: NSError!) {
         if (error == nil) {
             // Perform any operations on signed in user here.
+            print(user.userID)                // For client-side use only!
             saveID(id: user.userID)
         } else {
             print("\(error.localizedDescription)")
         }
+    }
+    
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
     }
     
     

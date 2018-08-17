@@ -8,10 +8,11 @@ class FavoriteItemsViewController: UIViewController {
     let cellXibId = "NormalCell"
     let cellId = "Cell"
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.delegate = self
         favoriteProductsCollection.dataSource = self
@@ -19,13 +20,13 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Favorites"
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")
         favoriteProductsCollection.reloadData()
     }
 }
-
 
 extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -45,6 +46,12 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width, height: 80)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Description", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
+        controller.item = items[indexPath.row]!
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 

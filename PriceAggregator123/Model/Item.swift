@@ -17,4 +17,5 @@ class Item: NSManagedObject {
     var thumbnailImage: [UIImage]?
     var name: String?
     var descriptionItem: String?
+    var quantity = 1
 }

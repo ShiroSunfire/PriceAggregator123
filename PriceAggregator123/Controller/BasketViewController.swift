@@ -21,6 +21,7 @@ class BasketViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Basket"
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Basket")
@@ -39,6 +40,9 @@ extension BasketViewController: UICollectionViewDataSource,UICollectionViewDeleg
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.quantityLabel.text = String(items[indexPath.row]!.quantity)
+        cell.buyButton.isHidden = true
+        cell.favoriteButton.isHidden = true
         cell.delegate = self
         cell.addDeletePan()
         return cell
