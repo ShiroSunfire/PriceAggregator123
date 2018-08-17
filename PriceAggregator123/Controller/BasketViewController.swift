@@ -35,6 +35,9 @@ extension BasketViewController: UICollectionViewDataSource,UICollectionViewDeleg
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.quantityLabel.text = String(items[indexPath.row]!.quantity)
+        cell.buyButton.isHidden = true
+        cell.favoriteButton.isHidden = true
         cell.delegate = self
         return cell
     }

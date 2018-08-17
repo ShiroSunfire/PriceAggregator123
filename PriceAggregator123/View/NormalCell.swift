@@ -20,14 +20,14 @@ class NormalCell: UICollectionViewCell {
     var pan: UIPanGestureRecognizer!
     var deleteLabel: UILabel!
     var buyLabel: UILabel!
-    
-
     var item:Item?
     @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
     var delegate: NormalCellDelegate?
-
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,10 +46,8 @@ class NormalCell: UICollectionViewCell {
         db.saveData(DB: "Favourites", item: item!)
     }
     
-
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         if (pan.state == UIGestureRecognizerState.changed) {
             let p: CGPoint = pan.translation(in: self)
             let width = self.contentView.frame.width
@@ -58,7 +56,6 @@ class NormalCell: UICollectionViewCell {
             self.deleteLabel.frame = CGRect(x: p.x - deleteLabel.frame.size.width-10, y: 0, width: 100, height: height)
             self.buyLabel.frame = CGRect(x: p.x + width + buyLabel.frame.size.width, y: 0, width: 100, height: height)
         }
-        
     }
     
     private func commonInit(){
@@ -81,8 +78,8 @@ class NormalCell: UICollectionViewCell {
         pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
         pan.delegate = self
         self.addGestureRecognizer(pan)
-        
     }
+    
     @objc func onPan(_ pan: UIPanGestureRecognizer) {
         if pan.state == UIGestureRecognizerState.began {
             
@@ -95,10 +92,7 @@ class NormalCell: UICollectionViewCell {
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
                 delegate?.deleteCell!(cell: self)
-                
-                
-                
-                //                collectionView.delegate?.collectionView!(collectionView, performAction: #selector(onPan(_:)), forItemAt: indexPath, withSender: nil)
+                //collectionView.delegate?.collectionView!(collectionView, performAction: #selector(onPan(_:)), forItemAt: indexPath, withSender: nil)
             } else {
                 UIView.animate(withDuration: 0.4, animations: {
                     self.setNeedsLayout()

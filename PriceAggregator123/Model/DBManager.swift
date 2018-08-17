@@ -10,18 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-class DBManager {
+class DBManager {    
     var CDataArray = NSMutableArray()
     
     func saveData(DB: String, item: Item){
         let context = self.persistentContainer.viewContext
-        
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DB)
         fetchRequest.returnsObjectsAsFaults = false
-        
-        if DB == "Favourites"{
-            let  newItem = Favourites(context: context)
-
+        if DB == "Favourites" {
+            let newItem = Favourites(context: context)
             do {
                 let result = try context.fetch(fetchRequest)
                 for data in result as! [Favourites] {
@@ -39,29 +36,33 @@ class DBManager {
                 }
             } catch{
                 print("Error")
-        }
-        }else {
-            let  newItem = Basket(context: context)
-
+            }
+            saveContext()
+        } else {
             do {
                 let result = try context.fetch(fetchRequest)
                 for data in result as! [Basket] {
-                    if item.id != data.id{
-                        newItem.id = item.id!
-                        newItem.descript = item.description
-                        newItem.name = item.name
-                        newItem.price = item.price!
-                        let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
-                        if let retrievedImgArray = coreDataObject?.imageArray() {
-                            newItem.image = retrievedImgArray.coreDataRepresentation()
-                        }
+                    if item.id == data.id{
+                        data.quantity += 1
+                        saveContext()
+                        return
                     }
                 }
+                let newItem = Basket(context: context)
+                newItem.id = item.id!
+                newItem.descript = item.description
+                newItem.name = item.name
+                newItem.price = item.price!
+                newItem.quantity = 1
+                let coreDataObject = item.thumbnailImage?.coreDataRepresentation()
+                if let retrievedImgArray = coreDataObject?.imageArray() {
+                    newItem.image = retrievedImgArray.coreDataRepresentation()
+                }
+                saveContext()
             } catch{
                 print("Error")
             }
         }
-        saveContext()
     }
     
     func loadData(DB: String) -> [Item] {
@@ -77,7 +78,7 @@ class DBManager {
                     newItem.descriptionItem = data.descript
                     newItem.name = data.name
                     newItem.price = data.price
-                   newItem.id = data.id
+                    newItem.id = data.id
                     newItem.thumbnailImage = data.image?.imageArray()
                     item.append(newItem)
                 }
@@ -88,6 +89,7 @@ class DBManager {
                     newItem.name = data.name
                     newItem.price = data.price
                     newItem.id = data.id
+                    newItem.quantity = Int(data.quantity)
                     newItem.thumbnailImage = data.image?.imageArray()
                     item.append(newItem)
                 }
@@ -95,7 +97,7 @@ class DBManager {
         } catch {
             print("Failed")
         }
-        print(item.count)
+        print(item)
         return item
     }
     
@@ -122,7 +124,6 @@ class DBManager {
     }
     
     // MARK: - Core Data stack
-    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -134,7 +135,6 @@ class DBManager {
     }()
     
     // MARK: - Core Data Saving support
-    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

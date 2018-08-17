@@ -8,8 +8,8 @@ class FavoriteItemsViewController: UIViewController {
     let cellXibId = "NormalCell"
     let cellId = "Cell"
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         titleLabel.text = "Favorites"
@@ -26,7 +26,6 @@ class FavoriteItemsViewController: UIViewController {
         favoriteProductsCollection.reloadData()
     }
 }
-
 
 extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
