@@ -11,6 +11,7 @@ import SwiftyJSON
 
 protocol CategoriesViewControllerDelegate {
     func searchButtonTapped(with id: String)
+    func needCloseLastSubviews()
 }
 
 class CategoriesViewController: UITableViewController {
@@ -39,7 +40,7 @@ class CategoriesViewController: UITableViewController {
             self.jsonCategory = jsonCategory?["children"]
             setArrayCategories(json: jsonCategory!)
         }
-        refresh = RefreshImageView(center: self.view.center)
+        refresh = RefreshImageView(center: CGPoint(x: self.view.center.x-70, y: self.view.center.y))
         self.view.addSubview(refresh!)
     }
     
@@ -85,19 +86,33 @@ class CategoriesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         if jsonCategory![indexPath.row]["children"] == nil {
             delegate?.searchButtonTapped(with: jsonCategory![indexPath.row]["id"].string!)
-            self.navigationController?.popToRootViewController(animated: true)
+            delegate?.needCloseLastSubviews()
+            while let child = self.parent?.childViewControllers.first {
+                child.removeFromParentViewController()
+            }
             return
         }
-        let anotherVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as! CategoriesViewController
-        anotherVC.id = jsonCategory![indexPath.row]["id"].string
-        anotherVC.downloadJSON = true
-        anotherVC.jsonCategory = jsonCategory![indexPath.row]
-        anotherVC.title = arrayCategories[indexPath.row]
-        anotherVC.delegate = delegate
-        self.navigationController?.pushViewController(anotherVC, animated: true)
+        let rectOfCell = tableView.rectForRow(at:(indexPath))
+        let rectOfCellInSuperview = tableView.convert(rectOfCell, to: tableView.superview)
+        guard let categoriesVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as? CategoriesViewController else { return }
+        categoriesVC.id = jsonCategory![indexPath.row]["id"].string
+        categoriesVC.downloadJSON = true
+        categoriesVC.jsonCategory = jsonCategory![indexPath.row]
+        categoriesVC.delegate = delegate
+        categoriesVC.view.frame.size = CGSize(width: tableView.frame.size.width, height: 40)
+        categoriesVC.view.frame.origin = CGPoint(x: 0, y: rectOfCellInSuperview.minY)
+        let newView = TouchView(frame: CGRect(origin: CGPoint(x: 0, y: self.view.frame.origin.y), size: CGSize(width: (self.view.superview?.frame.size.width)!, height: self.view.frame.size.height)))
+        newView.delegate = self.parent as! SearchViewController
+        newView.backgroundColor = UIColor.black
+        newView.alpha = 0.2
+        self.view.superview!.addSubview(newView)
+        self.parent!.addChildViewController(categoriesVC)
+        self.parent!.view.addSubview(categoriesVC.view)
+        UIView.animate(withDuration: 1.5) {
+            categoriesVC.view.frame.size = CGSize(width: 230, height: self.view.frame.size.height)
+            categoriesVC.view.frame.origin = CGPoint(x: 0, y: self.view.frame.origin.y)
+        }
     }
 }
