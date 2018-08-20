@@ -25,6 +25,7 @@ class SearchViewController: UIViewController {
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
     var nibShow = "Normal"
+    var isOpenCategory = false
     var refresh:RefreshImageView?
     var delegate: SearchViewControllerDelegate?
     var arrayItems = [Item]() {
@@ -37,7 +38,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.parent?.title = "lolkekcheburek"
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
@@ -50,9 +50,8 @@ class SearchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Search"
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,10 +92,6 @@ class SearchViewController: UIViewController {
                 self.jsonItems = json["items"]
                 var i = 0, j = 0
                 while json["items"][i] != nil && i<10 {
-//                    if !json["items"][i]["availableOnline"].bool! {
-//                        j-=1
-//                        return
-//                    }
                     self.appendInArrayItem(json: json["items"], i: j)
                     i+=1
                     j+=1
@@ -106,7 +101,6 @@ class SearchViewController: UIViewController {
     }
     
     func appendInArrayItem(json: JSON, i:Int) {
-        print(json[i]["availableOnline"])
         let item = Item()
         item.id = json[i]["itemId"].int32!
         item.name = json[i]["name"].string!
@@ -128,20 +122,26 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
+        if isOpenCategory {
+            needCloseLastSubviews()
+            return
+        }
         guard let categoriesVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as? CategoriesViewController else { return }
         categoriesVC.delegate = self
-        self.navigationController?.pushViewController(categoriesVC, animated: true)
-    }
-    
-    
-    @IBAction func cancelFilters(_ sender: Any) {
-        arrayItems.removeAll()
-        urlCreate["facetRange"] = ""
-        if refresh == nil {
-            refresh = RefreshImageView(center: self.view.center)
-            self.view.addSubview(refresh!)
+        categoriesVC.view.frame.origin = CGPoint(x: -categoriesVC.view.frame.size.width, y: searchBar.frame.size.height+UIApplication.shared.statusBarFrame.height)
+        categoriesVC.view.frame.size = CGSize(width: 230, height: self.view.frame.size.height-searchBar.frame.size.height-UIApplication.shared.statusBarFrame.height)
+        let newView = TouchView(frame: CGRect(origin: CGPoint(x: 0, y: searchBar.frame.size.height+UIApplication.shared.statusBarFrame.height), size: CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height-searchBar.frame.size.height-UIApplication.shared.statusBarFrame.height)))
+        newView.delegate = self
+        newView.backgroundColor = UIColor.black
+        newView.alpha = 0
+        self.view.addSubview(newView)
+        self.addChildViewController(categoriesVC)
+        self.view.addSubview(categoriesVC.view)
+        UIView.animate(withDuration: 1) {
+            categoriesVC.view.frame.origin.x = 0
+            newView.alpha = 0.2
         }
-        getItems(with: getURL())
+        isOpenCategory = true
     }
     
     @IBAction func choseCellButton(_ sender: Any) {
@@ -154,10 +154,6 @@ class SearchViewController: UIViewController {
         }
         collectionView.reloadData()
     }
-    
-    @IBAction func filterPrice(_ sender: Any) {
-
-    }
 }
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -166,6 +162,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(arrayItems.count)
         return arrayItems.count
     }
     
@@ -183,7 +180,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.labelDescription.text = arrayItems[indexPath.row].name!
         cell.item = arrayItems[indexPath.row]
         cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
-        cell.priceLabel.text = "$" + String(arrayItems[indexPath.row].price!)
+        cell.priceLabel.text = "$" + String(arrayItems[indexPath.row].price ?? 0)
         return cell
     }
     
@@ -196,7 +193,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print(indexPath.row)
         if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) && searchBar.text! != "" {
             print("Refresh data")
             getItems(with: getURL())
@@ -265,6 +261,27 @@ extension SearchViewController: UITextFieldDelegate {
 }
 
 extension SearchViewController: CategoriesViewControllerDelegate {
+    func needCloseLastSubviews() {
+        isOpenCategory = false
+        var i = 0
+        while i<self.view.subviews.count {
+            if self.view.subviews[i] is UITableView {
+                UIView.animate(withDuration: 1, animations: {
+                    self.view.subviews[i].frame.origin.x = -self.view.subviews[i].frame.size.width
+                }) { (_) in
+                    self.view.subviews.last!.removeFromSuperview()
+                }
+            } else if self.view.subviews[i] is TouchView {
+                UIView.animate(withDuration: 1, animations: {
+                    self.view.subviews[i].alpha = 0
+                }) { (_) in
+                    self.view.subviews.last!.removeFromSuperview()
+                }
+            }
+            i+=1
+        }
+    }
+    
     func searchButtonTapped(with id: String) {
         if refresh == nil {
             refresh = RefreshImageView(center: self.view.center)
@@ -293,6 +310,18 @@ extension SearchViewController: NormalCellDelegate {
     }
 }
 
+extension SearchViewController: TouchViewDelegate {
+    func touchView(view: TouchView) {
+        isOpenCategory = false
+        UIView.animate(withDuration: 1, animations: {
+            view.alpha = 0
+            self.view.subviews.last!.frame.origin.x = -self.view.subviews.last!.frame.size.width
+        }) { (_) in
+            view.removeFromSuperview()
+            self.view.subviews.last?.removeFromSuperview()
+        }
+    }
+}
 
 
 
