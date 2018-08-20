@@ -30,6 +30,7 @@
 		3FF3590021240D220091A943 /* Description.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358FF21240D220091A943 /* Description.storyboard */; };
 		3FF35902212461A70091A943 /* BasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF35901212461A70091A943 /* BasketViewController.swift */; };
 		3FF35904212461C90091A943 /* FavoriteItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF35903212461C90091A943 /* FavoriteItemsViewController.swift */; };
+		3FF655DE212ABE0F000185BB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF655DD212ABE0F000185BB /* MapViewController.swift */; };
 		5405AE80A1DF058BE4CF64A2 /* Pods_PriceAggregator123.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		3FF358FF21240D220091A943 /* Description.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Description.storyboard; sourceTree = "<group>"; };
 		3FF35901212461A70091A943 /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
 		3FF35903212461C90091A943 /* FavoriteItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItemsViewController.swift; sourceTree = "<group>"; };
+		3FF655DD212ABE0F000185BB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		55582D82CE0B636CEF6B38CE /* Pods-PriceAggregator123.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.debug.xcconfig"; sourceTree = "<group>"; };
 		5E298A8592FA2A043BE2843C /* Pods_PriceAggregator123.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PriceAggregator123.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE146BDD4F9CA8BEF7E1258 /* Pods-PriceAggregator123.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PriceAggregator123.release.xcconfig"; path = "Pods/Target Support Files/Pods-PriceAggregator123/Pods-PriceAggregator123.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				3F6492F621242B330077E531 /* LoginViewController.swift */,
 				3FF35901212461A70091A943 /* BasketViewController.swift */,
 				3FF35903212461C90091A943 /* FavoriteItemsViewController.swift */,
+				3FF655DD212ABE0F000185BB /* MapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */,
 				3FF35904212461C90091A943 /* FavoriteItemsViewController.swift in Sources */,
 				3F223BD22124251000274675 /* CategoriesViewController.swift in Sources */,
+				3FF655DE212ABE0F000185BB /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
