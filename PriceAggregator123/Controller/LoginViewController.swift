@@ -87,8 +87,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
                 withError error: NSError!) {
         if (error == nil) {
-            // Perform any operations on signed in user here.
-            print(user.userID)                // For client-side use only!
+            print(user.userID)
             saveID(id: user.userID)
         } else {
             print("\(error.localizedDescription)")

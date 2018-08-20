@@ -15,6 +15,7 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet weak var changeViewButton: UIButton!
     @IBOutlet weak var fromPrice: UITextField!
     @IBOutlet weak var toPrice: UITextField!
     @IBOutlet weak var labelShowForUser: UILabel!
@@ -25,6 +26,7 @@ class SearchViewController: UIViewController {
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
     var nibShow = "Normal"
+    var changeView = false
     var isOpenCategory = false
     var refresh:RefreshImageView?
     var delegate: SearchViewControllerDelegate?
@@ -47,6 +49,13 @@ class SearchViewController: UIViewController {
         fromPrice.delegate = self
         toPrice.delegate = self
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        
+        //searchBar color
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.layer.backgroundColor = UIColor.white.cgColor
+            textfield.layer.cornerRadius = 8
+        }
+       changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,6 +162,16 @@ class SearchViewController: UIViewController {
             nibShow = "Normal"
         }
         collectionView.reloadData()
+
+        if changeView{
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
+            changeView = false
+        } else {
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
+            changeView = true
+        }
     }
 }
 
