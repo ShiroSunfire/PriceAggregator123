@@ -45,6 +45,12 @@ class SearchViewController: UIViewController {
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
             self.present(controller, animated: true, completion: nil)
         }
+        
+        //Localization searchBar
+        let placeholderSearchBarText = NSLocalizedString("Input the name of the product", comment: "")
+        searchBar.placeholder = placeholderSearchBarText
+        
+        
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
         fromPrice.delegate = self
         toPrice.delegate = self
@@ -90,7 +96,7 @@ class SearchViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.refresh?.removeFromSuperview()
                         self.refresh = nil
-                        let alert = UIAlertController(title: "No items found, please try another products", message: "", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("No items found, please try another products", comment: ""), message: "", preferredStyle: .alert)
                         self.present(alert, animated: true, completion: nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                             self.dismiss(animated: true, completion: nil)
@@ -313,7 +319,7 @@ extension SearchViewController: CategoriesViewControllerDelegate {
 
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -321,7 +327,7 @@ extension SearchViewController: NormalCellDelegate {
     }
     
     func favoriteButtonTapped(db: String) {
-        let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)

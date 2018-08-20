@@ -43,14 +43,14 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        self.title = "Description"
+        self.title = NSLocalizedString("Description", comment: "")
         unparseDataAboutItem()
     }
     
     @IBAction func addToBasketPressed(_ sender: UIButton) {
         let db = DBManager()
         db.saveData(DB: "Basket", item: item)
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -59,7 +59,7 @@ class DescriptionViewController: UIViewController {
     @IBAction func addToFavoritesPressed(_ sender: UIButton) {
         let db = DBManager()
         db.saveData(DB: "Favourites", item: item)
-        let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -119,20 +119,21 @@ class DescriptionViewController: UIViewController {
     
     func setDataToView(){
         if let price = item.price{
-            priceLabel.text! = String("Price: \(price)$")
-        }else {priceLabel.text! = "Price not Available"}
+            let priceLabelText = NSLocalizedString("Price: ", comment: "")
+            priceLabel.text! = priceLabelText + String(price) + "$"
+        }else {priceLabel.text! =  NSLocalizedString("Price not Available", comment: "")}
         
         if let name = item.name{
             itemName.text = name
-        }else{ itemName.text = "NO NAME" }
+        }else{ itemName.text = NSLocalizedString("NO NAME", comment: "") }
         
         if let description = item.descriptionItem{
             descriptionText.text = description
-        }else { descriptionText.text = "no description"}
+        }else { descriptionText.text = NSLocalizedString("no description", comment: "")}
         
         
-        addToFavoritesButton.setTitle("To Favorites", for: .normal)
-        addToBasketButton.setTitle("to Basket", for: .normal)
+        addToFavoritesButton.setTitle(NSLocalizedString("To Favorites", comment: ""), for: .normal)
+        addToBasketButton.setTitle(NSLocalizedString("to Basket", comment: ""), for: .normal)
     }
     
     func addImagesToCellImages(){

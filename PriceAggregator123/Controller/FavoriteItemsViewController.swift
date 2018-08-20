@@ -21,7 +21,7 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Favorites"
+        self.parent?.title = NSLocalizedString("Favorite", comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")

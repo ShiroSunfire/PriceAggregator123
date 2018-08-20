@@ -38,11 +38,14 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basketBlue" translatesAutoresizingMaskIntoConstraints="NO" id="Os1-Dh-gh5">
                                                     <rect key="frame" x="110" y="105" width="147" height="140"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Basket!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4le-hl-vTu">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Basket!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4le-hl-vTu">
                                                     <rect key="frame" x="57" y="38" width="253" height="28"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.5568627451" green="0.76078431369999999" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="lzText" value="Add something in Basket!"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -52,6 +55,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="Os1-Dh-gh5" secondAttribute="trailing" constant="110" id="KRM-Kr-oGg"/>
                                                 <constraint firstItem="Os1-Dh-gh5" firstAttribute="leading" secondItem="ROU-nq-STs" secondAttribute="leading" constant="110" id="L5d-KZ-exL"/>
                                                 <constraint firstAttribute="bottom" secondItem="Os1-Dh-gh5" secondAttribute="bottom" id="kLe-eY-BQW"/>
+                                                <constraint firstItem="Os1-Dh-gh5" firstAttribute="top" secondItem="4le-hl-vTu" secondAttribute="bottom" constant="39" id="lon-of-r5l"/>
                                                 <constraint firstItem="4le-hl-vTu" firstAttribute="leading" secondItem="ROU-nq-STs" secondAttribute="leading" constant="57" id="yqI-oQ-KqV"/>
                                             </constraints>
                                         </view>
@@ -87,7 +91,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="T0T-75-rHi"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Basket" image="basket" id="0g4-aJ-Ljt"/>
+                    <tabBarItem key="tabBarItem" title="Basket" image="basket" id="0g4-aJ-Ljt">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="lzTitle" value="Basket"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <connections>
                         <outlet property="basketProductsCollection" destination="oAp-Ex-JeH" id="1bE-C3-FlE"/>
                         <outlet property="emptyImageField" destination="ROU-nq-STs" id="ULH-RO-fyw"/>
@@ -136,14 +144,17 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favoritesBlue" translatesAutoresizingMaskIntoConstraints="NO" id="oXe-lv-gFJ">
                                         <rect key="frame" x="110" y="108" width="147" height="137"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Favourites!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBL-me-r5V">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Favourites!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBL-me-r5V">
                                         <rect key="frame" x="37" y="39" width="294" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="tSY-0S-NIP"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.5568627451" green="0.76078431369999999" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzText" value="Add something in Favourites!"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -173,6 +184,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Favorite" image="favorite" id="zc5-Jj-249">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="lzTitle" value="Favorite"/>
+                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <connections>
                         <outlet property="emptyImageField" destination="I07-MX-JNX" id="gGK-6N-glS"/>
@@ -243,6 +257,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzPlaceholder" value="to"/>
+                                        </userDefinedRuntimeAttributes>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="from" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="tdz-VE-sKj">
                                         <rect key="frame" x="20" y="7" width="62" height="30"/>
@@ -252,6 +269,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzPlaceholder" value="from"/>
+                                        </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgU-hc-nBK">
                                         <rect key="frame" x="336" y="6" width="32" height="32"/>
@@ -322,18 +342,22 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="56"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxI-Yv-pyj">
-                                        <rect key="frame" x="0.0" y="0.0" width="88" height="56"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="56"/>
                                         <color key="backgroundColor" red="0.55567216873168945" green="0.76093345880508423" blue="0.91695708036422729" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Categories">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzText" value="Categories"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzTitle" value="Categories"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="categoriesButtonTapped:" destination="8XI-66-G0Z" eventType="touchUpInside" id="kfH-Se-yas"/>
                                         </connections>
                                     </button>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Input the name of the product" translatesAutoresizingMaskIntoConstraints="NO" id="spR-ro-Laf">
-                                        <rect key="frame" x="88" y="0.0" width="287" height="56"/>
+                                        <rect key="frame" x="130" y="0.0" width="245" height="56"/>
                                         <color key="backgroundColor" red="0.55567216873168945" green="0.76093345880508423" blue="0.91695708036422729" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="barTintColor" red="0.9944223257" green="1" blue="0.9888446514" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -343,6 +367,9 @@
                                             <string>Title</string>
                                             <string>Title</string>
                                         </scopeButtonTitles>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="lzPlaceholder" value="Input the name of the product"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="8XI-66-G0Z" id="rDk-kX-hOB"/>
                                         </connections>
@@ -365,7 +392,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ayV-EB-1cf"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="All" image="all" id="JND-w5-6ae"/>
+                    <tabBarItem key="tabBarItem" title="All" image="all" id="JND-w5-6ae">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="lzTitle" value="All"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <connections>
                         <outlet property="changeViewButton" destination="mgU-hc-nBK" id="Od5-4K-hy6"/>
                         <outlet property="collectionView" destination="Zmf-zU-QIW" id="vV2-Ub-5wG"/>

@@ -22,7 +22,7 @@ class BasketViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Basket"
+        self.parent?.title = NSLocalizedString("Basket", comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Basket")
