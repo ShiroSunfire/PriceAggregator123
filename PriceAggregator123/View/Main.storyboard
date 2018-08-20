@@ -27,6 +27,44 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <view key="backgroundView" contentMode="scaleToFill" id="rTz-Du-clY" userLabel="Basket empty">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROU-nq-STs" userLabel="Empty">
+                                            <rect key="frame" x="0.0" y="143" width="367" height="245"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basketBlue" translatesAutoresizingMaskIntoConstraints="NO" id="Os1-Dh-gh5">
+                                                    <rect key="frame" x="110" y="105" width="147" height="140"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Basket!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4le-hl-vTu">
+                                                    <rect key="frame" x="57" y="38" width="253" height="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.76078431369999999" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="4le-hl-vTu" firstAttribute="top" secondItem="ROU-nq-STs" secondAttribute="top" constant="39" id="7Id-O5-3gn"/>
+                                                <constraint firstAttribute="trailing" secondItem="4le-hl-vTu" secondAttribute="trailing" constant="57" id="Awc-Yv-RMw"/>
+                                                <constraint firstAttribute="trailing" secondItem="Os1-Dh-gh5" secondAttribute="trailing" constant="110" id="KRM-Kr-oGg"/>
+                                                <constraint firstItem="Os1-Dh-gh5" firstAttribute="leading" secondItem="ROU-nq-STs" secondAttribute="leading" constant="110" id="L5d-KZ-exL"/>
+                                                <constraint firstAttribute="bottom" secondItem="Os1-Dh-gh5" secondAttribute="bottom" id="kLe-eY-BQW"/>
+                                                <constraint firstItem="4le-hl-vTu" firstAttribute="leading" secondItem="ROU-nq-STs" secondAttribute="leading" constant="57" id="yqI-oQ-KqV"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="ROU-nq-STs" secondAttribute="trailing" id="1O1-46-8Uv"/>
+                                        <constraint firstItem="ROU-nq-STs" firstAttribute="top" secondItem="rTz-Du-clY" secondAttribute="top" constant="143" id="KhD-oA-H16"/>
+                                        <constraint firstItem="ROU-nq-STs" firstAttribute="centerY" secondItem="rTz-Du-clY" secondAttribute="centerY" id="MQ3-0w-kAu"/>
+                                        <constraint firstItem="ROU-nq-STs" firstAttribute="leading" secondItem="rTz-Du-clY" secondAttribute="leading" id="Z0O-Xv-TA4"/>
+                                        <constraint firstAttribute="bottom" secondItem="ROU-nq-STs" secondAttribute="bottom" constant="166" id="jlB-Xr-A99"/>
+                                        <constraint firstItem="ROU-nq-STs" firstAttribute="centerX" secondItem="rTz-Du-clY" secondAttribute="centerX" id="nCB-BQ-6Ic"/>
+                                    </constraints>
+                                </view>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Bm3-em-ODx">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -51,11 +89,12 @@
                     <tabBarItem key="tabBarItem" title="Basket" image="basket" id="0g4-aJ-Ljt"/>
                     <connections>
                         <outlet property="basketProductsCollection" destination="oAp-Ex-JeH" id="1bE-C3-FlE"/>
+                        <outlet property="emptyImageField" destination="ROU-nq-STs" id="ULH-RO-fyw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cbx-My-UXQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="431" y="1611"/>
+            <point key="canvasLocation" x="429.60000000000002" y="1610.6446776611695"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="vgF-D6-viD">
@@ -74,6 +113,11 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <view key="backgroundView" contentMode="scaleToFill" id="peJ-bo-bbn" userLabel="Favourite empty">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </view>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="FDg-Uq-dWj">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -85,13 +129,44 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I07-MX-JNX" userLabel="Empty">
+                                <rect key="frame" x="4" y="211" width="367" height="245"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favoritesBlue" translatesAutoresizingMaskIntoConstraints="NO" id="oXe-lv-gFJ">
+                                        <rect key="frame" x="110" y="108" width="147" height="137"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add something in Favourites!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBL-me-r5V">
+                                        <rect key="frame" x="37" y="39" width="294" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="tSY-0S-NIP"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" red="0.5568627451" green="0.76078431369999999" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="oXe-lv-gFJ" secondAttribute="bottom" id="0Pq-Mc-Gq5"/>
+                                    <constraint firstAttribute="trailing" secondItem="hBL-me-r5V" secondAttribute="trailing" constant="36" id="2qF-pM-LxB"/>
+                                    <constraint firstItem="hBL-me-r5V" firstAttribute="top" secondItem="I07-MX-JNX" secondAttribute="top" constant="39" id="7i2-5R-HfH"/>
+                                    <constraint firstItem="hBL-me-r5V" firstAttribute="leading" secondItem="I07-MX-JNX" secondAttribute="leading" constant="37" id="JP7-Aj-2KT"/>
+                                    <constraint firstItem="oXe-lv-gFJ" firstAttribute="top" secondItem="hBL-me-r5V" secondAttribute="bottom" constant="41" id="LMP-IG-Pht"/>
+                                    <constraint firstAttribute="trailing" secondItem="oXe-lv-gFJ" secondAttribute="trailing" constant="110" id="SJo-R2-QpO"/>
+                                    <constraint firstItem="oXe-lv-gFJ" firstAttribute="leading" secondItem="I07-MX-JNX" secondAttribute="leading" constant="110" id="Tn0-DO-v4n"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="I07-MX-JNX" firstAttribute="leading" secondItem="Tvi-5J-keD" secondAttribute="leading" constant="4" id="4pv-DA-Vgt"/>
                             <constraint firstItem="2lW-Dd-5T2" firstAttribute="top" secondItem="Tvi-5J-keD" secondAttribute="top" id="6ew-f7-7yT"/>
+                            <constraint firstItem="I07-MX-JNX" firstAttribute="centerX" secondItem="2lW-Dd-5T2" secondAttribute="centerX" id="bcv-X4-LDS"/>
+                            <constraint firstItem="I07-MX-JNX" firstAttribute="top" secondItem="Tvi-5J-keD" secondAttribute="top" constant="147" id="k0G-dU-E23"/>
                             <constraint firstItem="2lW-Dd-5T2" firstAttribute="leading" secondItem="Tvi-5J-keD" secondAttribute="leading" id="kQM-3H-YBr"/>
                             <constraint firstItem="2lW-Dd-5T2" firstAttribute="bottom" secondItem="Tvi-5J-keD" secondAttribute="bottom" id="mfL-h7-KQu"/>
                             <constraint firstItem="2lW-Dd-5T2" firstAttribute="trailing" secondItem="Tvi-5J-keD" secondAttribute="trailing" id="oNc-e7-aLt"/>
+                            <constraint firstItem="I07-MX-JNX" firstAttribute="centerY" secondItem="q4f-DJ-7qa" secondAttribute="centerY" id="qnR-96-xvp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Tvi-5J-keD"/>
                     </view>
@@ -99,6 +174,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="emptyImageField" destination="I07-MX-JNX" id="gGK-6N-glS"/>
                         <outlet property="favoriteProductsCollection" destination="2lW-Dd-5T2" id="nM6-lK-R5C"/>
                     </connections>
                 </viewController>
@@ -335,7 +411,9 @@
     <resources>
         <image name="all" width="32" height="32"/>
         <image name="basket" width="32" height="32"/>
+        <image name="basketBlue" width="128" height="128"/>
         <image name="favorite" width="32" height="32"/>
+        <image name="favoritesBlue" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8dk-kj-17c"/>

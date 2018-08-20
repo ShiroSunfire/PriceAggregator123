@@ -7,6 +7,7 @@ class FavoriteItemsViewController: UIViewController {
     var items:[Item?]!
     let cellXibId = "NormalCell"
     let cellId = "Cell"
+    @IBOutlet weak var emptyImageField: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
     
@@ -24,6 +25,7 @@ class FavoriteItemsViewController: UIViewController {
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")
+        emptyView()
         favoriteProductsCollection.reloadData()
     }
 }
@@ -53,6 +55,14 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         controller.item = items[indexPath.row]!
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    func emptyView(){
+        if items.isEmpty{
+            emptyImageField.isHidden = false
+        }
+        else{
+            emptyImageField.isHidden = true
+        }
+    }
 }
 
 
@@ -63,6 +73,7 @@ extension FavoriteItemsViewController: NormalCellDelegate{
         if let index = items.index(of: cell.item!){
             items.remove(at: index) 
         }
+        viewWillAppear(true)
         favoriteProductsCollection.reloadData()
     }
 }

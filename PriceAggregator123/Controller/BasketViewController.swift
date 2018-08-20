@@ -9,6 +9,7 @@ class BasketViewController: UIViewController {
     let cellXibId = "NormalCell"
     let cellId = "Cell"
     var items:[Item?]!
+    @IBOutlet weak var emptyImageField: UIView!
     var delegate:BasketControllerDelegate?
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var basketProductsCollection: UICollectionView!
@@ -25,6 +26,7 @@ class BasketViewController: UIViewController {
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Basket")
+        emptyView()
         basketProductsCollection.reloadData()
     }
 }
@@ -60,6 +62,15 @@ extension BasketViewController: UICollectionViewDataSource,UICollectionViewDeleg
         controller.item = items[indexPath.row]!
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
+    func emptyView(){
+        if items.isEmpty{
+            emptyImageField.isHidden = false
+        }
+        else{
+            emptyImageField.isHidden = true
+        }
+    }
 }
 
 
@@ -70,6 +81,7 @@ extension BasketViewController: NormalCellDelegate{
         if let index = items.index(of: cell.item!){
             items.remove(at: index)
         }
+        viewWillAppear(true)
         basketProductsCollection.reloadData()
     }
 }
