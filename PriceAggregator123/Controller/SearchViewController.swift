@@ -15,6 +15,7 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet weak var changeViewButton: UIButton!
     @IBOutlet weak var fromPrice: UITextField!
     @IBOutlet weak var toPrice: UITextField!
     @IBOutlet weak var labelShowForUser: UILabel!
@@ -25,6 +26,7 @@ class SearchViewController: UIViewController {
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
     var nibShow = "Normal"
+    var changeView = false
     var refresh:RefreshImageView?
     var delegate: SearchViewControllerDelegate?
     var arrayItems = [Item]() {
@@ -37,16 +39,28 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.parent?.title = "lolkekcheburek"
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
             self.present(controller, animated: true, completion: nil)
         }
-        //collectionView.register(UINib(nibName: "RectangleCell", bundle: nil), forCellWithReuseIdentifier: "RectangleCell")
+        getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
+        fromPrice.delegate = self
+        toPrice.delegate = self
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        
+        //searchBar color
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+    //        textfield.textColor = UIColor(red:0.56, green:0.76, blue:0.92, alpha:1.0)
+            textfield.layer.backgroundColor = UIColor.white.cgColor
+            textfield.layer.cornerRadius = 8
+        }
+       changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.parent?.title = "Search"
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
@@ -129,36 +143,6 @@ class SearchViewController: UIViewController {
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
     
-//    func getSortArray(filter: String) {
-//        if refresh == nil {
-//            refresh = RefreshImageView(center: self.view.center)
-//            self.view.addSubview(refresh!)
-//        }
-//        arrayItems.removeAll()
-//        if urlCreate["sortOption"] == filter {
-//            if urlCreate["order"] == "&order=desc" {
-//                urlCreate["order"] = "&order=asc"
-//            } else {
-//                urlCreate["order"] = "&order=desc"
-//            }
-//        } else {
-//            urlCreate["sortOption"] = filter
-//            urlCreate["order"] = "&order=asc"
-//        }
-//        getItems(with: getURL())
-//    }
-
-//    @IBAction func priceFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=price")
-//    }
-//
-//    @IBAction func newFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=new")
-//    }
-//
-//    @IBAction func bestSellerFilterButtonTapped(_ sender: Any) {
-//        getSortArray(filter: "&facet=on&facet.range=price:[0%20TO%2010000]&sort=bestseller")
-//    }
     
     @IBAction func cancelFilters(_ sender: Any) {
         arrayItems.removeAll()
@@ -179,24 +163,20 @@ class SearchViewController: UIViewController {
             nibShow = "Normal"
         }
         collectionView.reloadData()
+
+        if changeView{
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
+            changeView = false
+        } else {
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
+            changeView = true
+        }
     }
     
     @IBAction func filterPrice(_ sender: Any) {
-        fromPrice.endEditing(true)
-        toPrice.endEditing(true)
-        arrayItems.removeAll()
-        var from = Int(fromPrice.text!)
-        if from == nil {
-            from = 0
-        }
-        var to = Int(toPrice.text!)
-        if to == nil {
-            to = 10000
-        }
-        urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
-        getItems(with: getURL())
+
     }
 }
 
@@ -229,7 +209,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
-            return CGSize(width: view.frame.size.width, height: 80)
+            return CGSize(width: view.frame.size.width, height: 100)
         } else { //if nibShow == "Rectangle" {
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
@@ -246,9 +226,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             dispatch.async {
                 let count = self.arrayItems.count
                 var i = count
-                while i < count+10 && self.jsonItems![i] != nil {
+                while i < count + 10 && self.jsonItems![i] != nil {
                     self.appendInArrayItem(json: self.jsonItems!, i: i)
-                    i+=1
+                    i += 1
                 }
             }
         }
@@ -257,8 +237,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
-        delegate = controller
-        delegate?.cellWasTapped(id: Int(arrayItems[indexPath.row].id!))
+        controller.tabBarItem = self.tabBarItem
+        controller.item = arrayItems[indexPath.row]
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -266,6 +246,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SearchViewController: UISearchBarDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         searchBar.endEditing(true)
+        fromPrice.endEditing(true)
+        toPrice.endEditing(true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -278,6 +260,27 @@ extension SearchViewController: UISearchBarDelegate {
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
         getItems(with: getURL())
+    }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        fromPrice.endEditing(true)
+        toPrice.endEditing(true)
+        arrayItems.removeAll()
+        var from = Int(fromPrice.text!)
+        if from == nil {
+            from = 0
+        }
+        var to = Int(toPrice.text!)
+        if to == nil {
+            to = 10000
+        }
+        urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
+        refresh = RefreshImageView(center: self.view.center)
+        self.view.addSubview(refresh!)
+        getItems(with: getURL())
+        return true
     }
 }
 
@@ -296,7 +299,7 @@ extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
@@ -304,7 +307,7 @@ extension SearchViewController: NormalCellDelegate {
     func favoriteButtonTapped(db: String) {
         let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }

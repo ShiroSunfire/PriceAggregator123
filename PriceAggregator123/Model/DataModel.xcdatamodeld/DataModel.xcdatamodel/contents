@@ -16,7 +16,7 @@
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Basket" positionX="-63" positionY="18" width="128" height="135"/>
+        <element name="Basket" positionX="241" positionY="-0" width="128" height="133"/>
         <element name="Favourites" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>
