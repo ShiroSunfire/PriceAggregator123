@@ -12,13 +12,17 @@ import GoogleSignIn
 import TwitterKit
 import TwitterCore
 import CoreData
+import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate  {
-
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        GMSServices.provideAPIKey("AIzaSyC6G5xOE_cWeiei6k9XXRnZHqallkWPGyY")
+        GMSPlacesClient.provideAPIKey("AIzaSyCzj4LV26I-gTpTtwEluTLuc9-4L_WjIak")
         TWTRTwitter.sharedInstance().start(withConsumerKey:"gu2dsasdsaTxasObYidfjsfux", consumerSecret:"ZasdasdfhgXcyPP0e5yrjNcsdffjshhabwh23xqlDbhjlfhUdd")
         
         GIDSignIn.sharedInstance().clientID = "501283990325-b879hgv8qdnci8j23duftjv89h234bps.apps.googleusercontent.com"

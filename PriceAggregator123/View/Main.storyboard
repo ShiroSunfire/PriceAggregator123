@@ -11,6 +11,26 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Shops-->
+        <scene sceneID="ymO-Em-3tU">
+            <objects>
+                <viewController id="vy0-vf-R8a" customClass="MapViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hie-WM-N26">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="pFb-KV-hQl"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Shops" image="shop" id="WOQ-vv-tXI">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="lzTitle" value="Shops"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iSZ-5i-Cd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-580" y="1594"/>
+        </scene>
         <!--Basket-->
         <scene sceneID="nbk-BA-vdo">
             <objects>
@@ -448,6 +468,7 @@
                         <segue destination="8XI-66-G0Z" kind="relationship" relationship="viewControllers" id="8dk-kj-17c"/>
                         <segue destination="Pbt-zt-XQi" kind="relationship" relationship="viewControllers" id="5Z2-Q6-dSd"/>
                         <segue destination="Yse-HX-C0F" kind="relationship" relationship="viewControllers" id="UaS-vp-tov"/>
+                        <segue destination="vy0-vf-R8a" kind="relationship" relationship="viewControllers" id="NeT-kY-zjZ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ghO-lY-XKW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -461,5 +482,6 @@
         <image name="basketBlue" width="128" height="128"/>
         <image name="favorite" width="32" height="32"/>
         <image name="favoritesBlue" width="128" height="128"/>
+        <image name="shop" width="32" height="32"/>
     </resources>
 </document>

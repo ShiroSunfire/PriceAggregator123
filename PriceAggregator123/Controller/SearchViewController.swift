@@ -279,8 +279,10 @@ extension SearchViewController: UITextFieldDelegate {
             to = 10000
         }
         urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
         getItems(with: getURL())
         return true
     }
@@ -314,6 +316,9 @@ extension SearchViewController: CategoriesViewControllerDelegate {
             self.view.addSubview(refresh!)
         }
         arrayItems.removeAll()
+        urlCreate["facetRange"] = ""
+        toPrice.text = ""
+        fromPrice.text = ""
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }

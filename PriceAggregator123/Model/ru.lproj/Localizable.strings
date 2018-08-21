@@ -28,3 +28,8 @@
 "To Basket" = "В Корзину";
 "buy" = "Купить";
 "delete" = "Удалить";
+"Shops" = "Магазины";
+"No shops" = "Нет магазинов";
+"There are no shops in your area." = "В вашем районе нет магазинов.";
+"Error" = "Ошибка";
+"You need to allow identify location that we can show shops near you." = "Вам нужно указать местонахождение, только тогда мы сможем показать магазины рядом с вами.";
