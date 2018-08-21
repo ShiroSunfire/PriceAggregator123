@@ -81,7 +81,7 @@ extension BasketViewController: NormalCellDelegate{
         if let index = items.index(of: cell.item!){
             items.remove(at: index)
         }
-        viewWillAppear(true)
+        emptyView()
         basketProductsCollection.reloadData()
     }
 }

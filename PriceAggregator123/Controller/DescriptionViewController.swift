@@ -43,7 +43,7 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        self.title = NSLocalizedString("Description", comment: "")
+     //   self.title = NSLocalizedString("Description", comment: "")
         unparseDataAboutItem()
     }
     
@@ -133,7 +133,7 @@ class DescriptionViewController: UIViewController {
         
         
         addToFavoritesButton.setTitle(NSLocalizedString("To Favorites", comment: ""), for: .normal)
-        addToBasketButton.setTitle(NSLocalizedString("to Basket", comment: ""), for: .normal)
+        addToBasketButton.setTitle(NSLocalizedString("To Basket", comment: ""), for: .normal)
     }
     
     func addImagesToCellImages(){

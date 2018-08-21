@@ -81,6 +81,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="SGH-zD-0xa"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <connections>
                                     <action selector="addToFavoritesPressed:" destination="5yW-et-4uR" eventType="touchUpInside" id="BZY-PZ-iRZ"/>
                                 </connections>
@@ -91,6 +92,7 @@
                                     <constraint firstAttribute="height" constant="50" id="SQW-6f-Mjq"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="jDq-eV-s25"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <connections>
                                     <action selector="addToBasketPressed:" destination="5yW-et-4uR" eventType="touchUpInside" id="oLU-zi-l01"/>
                                 </connections>

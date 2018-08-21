@@ -66,6 +66,7 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.parent?.title = NSLocalizedString("All", comment: "")
         self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -212,7 +213,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
             return CGSize(width: view.frame.size.width, height: 100)
-        } else { //if nibShow == "Rectangle" {
+        } else { 
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
     }

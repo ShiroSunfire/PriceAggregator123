@@ -22,6 +22,7 @@ import Google
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
+    var dict : [String : AnyObject]!
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
@@ -33,11 +34,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         }
     }
     
-    
-    @IBOutlet weak var accountImage: UIImageView!
-    
-    var dict : [String : AnyObject]!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         let gidSingIn = GIDSignIn()
@@ -45,11 +41,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         GIDSignIn.sharedInstance().uiDelegate = self
         gidSingIn.delegate = self
         GIDSignIn.sharedInstance().delegate = self
-        
     }
     
     
     @IBAction func fbLog(_ sender: Any) {
+//        FacebookLogin().fbConnect()
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions: [ .publicProfile ], viewController: self) { loginResult in
             switch loginResult {
@@ -98,7 +94,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                 withError error: NSError!) {
     }
     
-    
     func getFBUserData(){
         if((FBSDKAccessToken.current()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
@@ -106,12 +101,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     self.dict = result as! [String : AnyObject]
                     print(result!)
                     let id = self.dict["id"]
-                    self.saveID(id: id as! String)
+                    LoginViewController().saveID(id: id as! String)
                 }
             })
         }
     }
-    
     
     func saveID(id: String){
         UserDefaults.standard.set(id, forKey: "UserID")
