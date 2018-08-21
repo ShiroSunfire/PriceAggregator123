@@ -21,7 +21,7 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Favorites"
+        self.parent?.title = NSLocalizedString("Favorite", comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Favourites")
@@ -41,6 +41,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.favoriteButton.isHidden = true
         cell.delegate = self
         cell.addDeletePan()
         return cell
@@ -73,7 +74,7 @@ extension FavoriteItemsViewController: NormalCellDelegate{
         if let index = items.index(of: cell.item!){
             items.remove(at: index) 
         }
-        viewWillAppear(true)
+        emptyView()
         favoriteProductsCollection.reloadData()
     }
 }

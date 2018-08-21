@@ -22,7 +22,7 @@ class BasketViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Basket"
+        self.parent?.title = NSLocalizedString("Basket", comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
         items = OurDB.loadData(DB: "Basket")
@@ -81,7 +81,7 @@ extension BasketViewController: NormalCellDelegate{
         if let index = items.index(of: cell.item!){
             items.remove(at: index)
         }
-        viewWillAppear(true)
+        emptyView()
         basketProductsCollection.reloadData()
     }
 }

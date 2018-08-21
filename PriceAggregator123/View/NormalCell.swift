@@ -78,12 +78,12 @@ class NormalCell: UICollectionViewCell {
         labelDescription.backgroundColor = UIColor.white
         
         deleteLabel = UILabel()
-        deleteLabel.text = "delete"
+        deleteLabel.text = NSLocalizedString("delete", comment: "")
         deleteLabel.textColor = UIColor.white
         self.insertSubview(deleteLabel, belowSubview: self.contentView)
         
         buyLabel = UILabel()
-        buyLabel.text = "buy"
+        buyLabel.text = NSLocalizedString("buy", comment: "")
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
     }

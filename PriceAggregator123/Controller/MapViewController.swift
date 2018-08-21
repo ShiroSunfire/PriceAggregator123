@@ -32,6 +32,7 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.parent?.title = NSLocalizedString("Shops", comment: "")
         manager.requestLocation()
     }
 }
@@ -55,7 +56,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        let alert = UIAlertController(title: "Error", message: "You need to allow identify location that we can show shops near you.", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("You need to allow identify location that we can show shops near you.", comment: ""), preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
             self.dismiss(animated: true, completion: nil)
         }
@@ -70,7 +71,7 @@ extension MapViewController: CLLocationManagerDelegate {
             do {
                 let json = try JSON(data: data!)
                 if json.isEmpty {
-                    let alert = UIAlertController(title: "No shops", message: "There are no shops in your area.", preferredStyle: .alert)
+                    let alert = UIAlertController(title: NSLocalizedString("No shops", comment: ""), message: NSLocalizedString("There are no shops in your area.", comment: ""), preferredStyle: .alert)
                     let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
                         self.dismiss(animated: true, completion: nil)
                     }
