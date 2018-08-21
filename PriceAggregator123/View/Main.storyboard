@@ -18,24 +18,10 @@
                     <view key="view" contentMode="scaleToFill" id="Hie-WM-N26">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QE4-Se-bsj">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                            </mapView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="QE4-Se-bsj" firstAttribute="leading" secondItem="pFb-KV-hQl" secondAttribute="leading" id="Bum-4H-rBj"/>
-                            <constraint firstItem="pFb-KV-hQl" firstAttribute="trailing" secondItem="QE4-Se-bsj" secondAttribute="trailing" id="edT-qo-qZn"/>
-                            <constraint firstItem="pFb-KV-hQl" firstAttribute="bottom" secondItem="QE4-Se-bsj" secondAttribute="bottom" id="jQa-S2-lxU"/>
-                            <constraint firstItem="QE4-Se-bsj" firstAttribute="top" secondItem="pFb-KV-hQl" secondAttribute="top" id="m94-iF-LIJ"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="pFb-KV-hQl"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Shops" image="shop" id="WOQ-vv-tXI"/>
-                    <connections>
-                        <outlet property="mapkit" destination="QE4-Se-bsj" id="P5H-Pf-o88"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iSZ-5i-Cd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

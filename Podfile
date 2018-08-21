@@ -5,6 +5,7 @@ target 'PriceAggregator123' do
   use_frameworks!
 
   # Pods for PriceAggregator123
+    pod 'GoogleMaps'
     pod 'SwiftyJSON'
     pod 'FBSDKCoreKit'
     pod 'FBSDKShareKit'
@@ -14,5 +15,6 @@ target 'PriceAggregator123' do
     pod 'GoogleSignIn'
     pod 'TwitterKit'
     pod 'Google/Analytics'
-
+    pod 'GooglePlaces'
+    pod 'GooglePlacePicker'
 end
