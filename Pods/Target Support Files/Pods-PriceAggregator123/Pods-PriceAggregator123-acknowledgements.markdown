@@ -781,6 +781,18 @@ Copyright 2016 Google Inc.
 
 Copyright 2016 Google
 
+## GoogleMaps
+
+Copyright 2018 Google
+
+## GooglePlacePicker
+
+Copyright 2018 Google
+
+## GooglePlaces
+
+Copyright 2018 Google
+
 ## GoogleSignIn
 
 Copyright 2018 Google

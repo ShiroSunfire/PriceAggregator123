@@ -110,7 +110,7 @@ class CategoriesViewController: UITableViewController {
         self.view.superview!.addSubview(newView)
         self.parent!.addChildViewController(categoriesVC)
         self.parent!.view.addSubview(categoriesVC.view)
-        UIView.animate(withDuration: 1.5) {
+        UIView.animate(withDuration: 1) {
             categoriesVC.view.frame.size = CGSize(width: 230, height: self.view.frame.size.height)
             categoriesVC.view.frame.origin = CGPoint(x: 0, y: self.view.frame.origin.y)
         }

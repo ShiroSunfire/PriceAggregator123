@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  PriceAggregator123
+
+  Created by student on 8/20/18.
+  Copyright © 2018 student. All rights reserved.
+*/
+
+
+"Categories" = "Категории";
+"Input the name of the product" = "Введите название продукции";
+"from" = "от";
+"to" = "до";
+"All" = "Все";
+"Favorite" = "Избранное";
+"Basket" = "Корзина";
+"Add something in Favourites" = "Добавьте что-нибудь в Избранное";
+"Add something in Basket" = "Добавьте что-нибудь в Корзину";
+"Item added to favorite" = "Предмет добавлен в избранное";
+"Item added to basket" = "Предмет добавлен в корзину";
+"No items found, please try another products" = "Ничего не найдено, попробуйте другую продукцию";
+"Description" = "Описание";
+"Price: " = "Цена: ";
+"Price not Available" = "Цена не доступна";
+"NO NAME" = "Нет Имени";
+"no description" = "нет описания";
+"To Favorites" = "В Избранное";
+"To Basket" = "В Корзину";
+"buy" = "Купить";
+"delete" = "Удалить";
+"Shops" = "Магазины";
+"No shops" = "Нет магазинов";
+"There are no shops in your area." = "В вашем районе нет магазинов.";
+"Error" = "Ошибка";
+"You need to allow identify location that we can show shops near you." = "Вам нужно указать местонахождение, только тогда мы сможем показать магазины рядом с вами.";

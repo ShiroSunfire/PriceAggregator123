@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InfoPlace" customModule="PriceAggregator123" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="InfoPlace" customModule="PriceAggregator123" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="270" height="74"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5D-vQ-OHf">
+                    <rect key="frame" x="5" y="5" width="260" height="16"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dX-ce-8oB">
+                    <rect key="frame" x="5" y="26" width="260" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number phone" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdN-Ih-fqR">
+                    <rect key="frame" x="5" y="47" width="260" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zdN-Ih-fqR" firstAttribute="top" secondItem="8dX-ce-8oB" secondAttribute="bottom" constant="5" id="7X1-8U-gaV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="zdN-Ih-fqR" secondAttribute="trailing" constant="5" id="Gsj-rW-rGM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="m5D-vQ-OHf" secondAttribute="trailing" constant="5" id="HgZ-Xw-nYy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8dX-ce-8oB" secondAttribute="trailing" constant="5" id="Hyv-AG-0Gh"/>
+                <constraint firstItem="m5D-vQ-OHf" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="V2V-sH-ju9"/>
+                <constraint firstItem="zdN-Ih-fqR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="Z1C-Bu-XtA"/>
+                <constraint firstItem="8dX-ce-8oB" firstAttribute="top" secondItem="m5D-vQ-OHf" secondAttribute="bottom" constant="5" id="mGO-TQ-GmG"/>
+                <constraint firstItem="8dX-ce-8oB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="rvu-cY-pGI"/>
+                <constraint firstItem="m5D-vQ-OHf" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="sw9-As-cFq"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="addressLabel" destination="8dX-ce-8oB" id="aN1-uJ-vUf"/>
+                <outlet property="nameLabel" destination="m5D-vQ-OHf" id="gBr-3L-vQM"/>
+                <outlet property="phoneNumberLabel" destination="zdN-Ih-fqR" id="xca-OO-cIk"/>
+            </connections>
+            <point key="canvasLocation" x="-27" y="-245"/>
+        </view>
+    </objects>
+</document>

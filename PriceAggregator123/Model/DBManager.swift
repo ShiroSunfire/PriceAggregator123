@@ -91,7 +91,7 @@ class DBManager {
                     newItem.name = data.name
                     newItem.price = data.price
                     newItem.id = data.id
-                    newItem.quantity = Int(data.quantity)
+                   newItem.quantity = Int(data.quantity)
                     newItem.thumbnailImage = data.image?.imageArray()
                     item.append(newItem)
                 }

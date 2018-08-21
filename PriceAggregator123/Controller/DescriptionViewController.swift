@@ -13,9 +13,9 @@ import SwiftyJSON
 
 class DescriptionViewController: UIViewController {
     
-    let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
+    private let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
     let cellId = "DescribingCell"
-    var itemId:Int!
+    private var itemId:Int!
     var item:Item = Item()
     var scaledImageView:AnimationView!{
         didSet{
@@ -24,13 +24,13 @@ class DescriptionViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var itemImageCollection: UICollectionView!
-    @IBOutlet weak var imagePageControl: UIPageControl!
-    @IBOutlet weak var itemName: UILabel!
-    @IBOutlet weak var descriptionText: UITextView!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var addToBasketButton: UIButton!
-    @IBOutlet weak var addToFavoritesButton: UIButton!
+    @IBOutlet private weak var itemImageCollection: UICollectionView!
+    @IBOutlet private weak var imagePageControl: UIPageControl!
+    @IBOutlet private weak var itemName: UILabel!
+    @IBOutlet private weak var descriptionText: UITextView!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var addToBasketButton: UIButton!
+    @IBOutlet private weak var addToFavoritesButton: UIButton!
 
     var refresh: RefreshImageView!
     
@@ -43,30 +43,29 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        self.title = "Description"
         unparseDataAboutItem()
     }
     
-    @IBAction func addToBasketPressed(_ sender: UIButton) {
+    @IBAction private func addToBasketPressed(_ sender: UIButton) {
         let db = DBManager()
         db.saveData(DB: "Basket", item: item)
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
-    @IBAction func addToFavoritesPressed(_ sender: UIButton) {
+    @IBAction private func addToFavoritesPressed(_ sender: UIButton) {
         let db = DBManager()
         db.saveData(DB: "Favourites", item: item)
-        let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
         })
     }
     
-    @objc func pageControlTapHandler(sender: UIPageControl){
+    @objc private func pageControlTapHandler(sender: UIPageControl){
         let index = IndexPath(item: sender.currentPage, section: 0)
         print(sender.currentPage)
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
@@ -119,20 +118,21 @@ class DescriptionViewController: UIViewController {
     
     func setDataToView(){
         if let price = item.price{
-            priceLabel.text! = String("Price: \(price)$")
-        }else {priceLabel.text! = "Price not Available"}
+            let priceLabelText = NSLocalizedString("Price: ", comment: "")
+            priceLabel.text! = priceLabelText + String(price) + "$"
+        }else {priceLabel.text! =  NSLocalizedString("Price not Available", comment: "")}
         
         if let name = item.name{
             itemName.text = name
-        }else{ itemName.text = "NO NAME" }
+        }else{ itemName.text = NSLocalizedString("NO NAME", comment: "") }
         
         if let description = item.descriptionItem{
             descriptionText.text = description
-        }else { descriptionText.text = "no description"}
+        }else { descriptionText.text = NSLocalizedString("no description", comment: "")}
         
         
-        addToFavoritesButton.setTitle("To Favorites", for: .normal)
-        addToBasketButton.setTitle("to Basket", for: .normal)
+        addToFavoritesButton.setTitle(NSLocalizedString("To Favorites", comment: ""), for: .normal)
+        addToBasketButton.setTitle(NSLocalizedString("To Basket", comment: ""), for: .normal)
     }
     
     func addImagesToCellImages(){

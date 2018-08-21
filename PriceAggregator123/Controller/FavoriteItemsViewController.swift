@@ -5,10 +5,14 @@ import UIKit
 class FavoriteItemsViewController: UIViewController {
     
     var items:[Item?]!
-    let cellXibId = "NormalCell"
+    private let cellXibId = "NormalCell"
     let cellId = "Cell"
+    private var choosenView:UIView!
+    @IBOutlet weak var emptyImageField: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
+    
+    var databaseName = "Favourites"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +24,13 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = "Favorites"
+        self.parent?.title = NSLocalizedString(databaseName, comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
-        items = OurDB.loadData(DB: "Favourites")
+        items = OurDB.loadData(DB: databaseName)
+        emptyView()
+        navigationController?.delegate = self
+        choosenView = nil
         favoriteProductsCollection.reloadData()
     }
 }
@@ -39,6 +46,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.favoriteButton.isHidden = true
         cell.delegate = self
         cell.addDeletePan()
         return cell
@@ -51,7 +59,17 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
         controller.item = items[indexPath.row]!
+        choosenView = collectionView.cellForItem(at: indexPath)
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    private func emptyView(){
+        if items.isEmpty{
+            emptyImageField.isHidden = false
+        }
+        else{
+            emptyImageField.isHidden = true
+        }
     }
 }
 
@@ -59,10 +77,34 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
         let DB = DBManager()
-        DB.removeData(DB: "Favourites", item: cell.item!)
+        DB.removeData(DB: databaseName, item: cell.item!)
         if let index = items.index(of: cell.item!){
             items.remove(at: index) 
         }
+        emptyView()
         favoriteProductsCollection.reloadData()
     }
 }
+
+
+extension FavoriteItemsViewController: UINavigationControllerDelegate{
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
+        UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        
+        if operation == .push{
+            let transition = CustomPush()
+            guard let originFrame = choosenView.superview?.convert(choosenView.frame, to: nil) else {
+                return transition
+            }
+            transition.originFrame = originFrame
+            transition.presenting = true
+            return transition
+        }else{
+            return CustomPop()
+        }
+        
+    }
+    
+}
+

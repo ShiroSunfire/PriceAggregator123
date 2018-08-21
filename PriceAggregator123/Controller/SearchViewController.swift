@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  PriceAggregator
-//
-//  Created by student on 8/13/18.
-//  Copyright © 2018 student. All rights reserved.
-//
-
 import UIKit
 import SwiftyJSON
 
@@ -15,16 +7,21 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet weak var changeViewButton: UIButton!
     @IBOutlet weak var fromPrice: UITextField!
     @IBOutlet weak var toPrice: UITextField!
     @IBOutlet weak var labelShowForUser: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    var choosenCell:UIView!
+    
     var urlCreate : [String:String] = ["query":"", "numItems":"10", "facetRange":"", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
     var jsonItems :JSON?
     var url = "http://api.walmartlabs.com/v1/search?"
     var categoryId = ""
     var nibShow = "Normal"
+    var changeView = false
     var isOpenCategory = false
     var refresh:RefreshImageView?
     var delegate: SearchViewControllerDelegate?
@@ -43,20 +40,38 @@ class SearchViewController: UIViewController {
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
             self.present(controller, animated: true, completion: nil)
         }
+        
+        //Localization searchBar
+        let placeholderSearchBarText = NSLocalizedString("Input the name of the product", comment: "")
+        searchBar.placeholder = placeholderSearchBarText
+        
+        
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
         fromPrice.delegate = self
         toPrice.delegate = self
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        
+        //searchBar color
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.layer.backgroundColor = UIColor.white.cgColor
+            textfield.layer.cornerRadius = 8
+        }
+       changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        choosenCell = nil
+        self.parent?.title = NSLocalizedString("All", comment: "")
+        navigationController?.delegate = self
         self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: true)
+        collectionView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        collectionView.reloadData()
     }
     
     func getURL() -> URL? {
@@ -81,7 +96,7 @@ class SearchViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.refresh?.removeFromSuperview()
                         self.refresh = nil
-                        let alert = UIAlertController(title: "No items found, please try another products", message: "", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("No items found, please try another products", comment: ""), message: "", preferredStyle: .alert)
                         self.present(alert, animated: true, completion: nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                             self.dismiss(animated: true, completion: nil)
@@ -153,6 +168,16 @@ class SearchViewController: UIViewController {
             nibShow = "Normal"
         }
         collectionView.reloadData()
+
+        if changeView{
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
+            changeView = false
+        } else {
+            changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
+            changeView = true
+        }
     }
 }
 
@@ -187,7 +212,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
             return CGSize(width: view.frame.size.width, height: 100)
-        } else { //if nibShow == "Rectangle" {
+        } else { 
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
     }
@@ -210,13 +235,18 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
         controller.tabBarItem = self.tabBarItem
         controller.item = arrayItems[indexPath.row]
+        choosenCell = collectionView.cellForItem(at: indexPath)
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -253,8 +283,10 @@ extension SearchViewController: UITextFieldDelegate {
             to = 10000
         }
         urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh!)
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
         getItems(with: getURL())
         return true
     }
@@ -288,13 +320,16 @@ extension SearchViewController: CategoriesViewControllerDelegate {
             self.view.addSubview(refresh!)
         }
         arrayItems.removeAll()
+        urlCreate["facetRange"] = ""
+        toPrice.text = ""
+        fromPrice.text = ""
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }
 
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String) {
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -302,7 +337,7 @@ extension SearchViewController: NormalCellDelegate {
     }
     
     func favoriteButtonTapped(db: String) {
-        let alert = UIAlertController(title: "Item added to favorite", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -323,6 +358,30 @@ extension SearchViewController: TouchViewDelegate {
     }
 }
 
+
+
+extension SearchViewController: UINavigationControllerDelegate{
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
+        UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        
+        if operation == .push{
+            let transition = CustomPush()
+            guard let originFrame = choosenCell.superview?.convert(choosenCell.frame, to: nil) else {
+                return transition
+            }
+            transition.originFrame = originFrame
+            transition.presenting = true
+//            choosenCell.isHidden = true
+            return transition
+        }else{
+            return CustomPop()
+        }
+        
+    }
+    
+    
+}
 
 
 
