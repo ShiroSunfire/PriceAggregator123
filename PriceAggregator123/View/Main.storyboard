@@ -103,6 +103,11 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Yse-HX-C0F" id="SsO-vl-4aD"/>
+                                    <outlet property="delegate" destination="Yse-HX-C0F" id="loY-97-BW6"/>
+                                    <outlet property="prefetchDataSource" destination="Yse-HX-C0F" id="85l-ag-X3T"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -160,6 +165,11 @@
                                         </view>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Pbt-zt-XQi" id="LKA-Kn-9bB"/>
+                                    <outlet property="delegate" destination="Pbt-zt-XQi" id="y5l-12-H46"/>
+                                    <outlet property="prefetchDataSource" destination="Pbt-zt-XQi" id="Y8J-V4-4lL"/>
+                                </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I07-MX-JNX" userLabel="Empty">
                                 <rect key="frame" x="0.0" y="331" width="375" height="150"/>
@@ -224,7 +234,7 @@
             </objects>
             <point key="canvasLocation" x="759.20000000000005" y="800.98522167487693"/>
         </scene>
-        <!--Categories-->
+        <!--Categories View Controller-->
         <scene sceneID="dm0-m4-dtc">
             <objects>
                 <tableViewController storyboardIdentifier="categoriesVC" modalPresentationStyle="overCurrentContext" id="ALf-BH-f13" customClass="CategoriesViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
@@ -247,19 +257,9 @@
                             <outlet property="delegate" destination="ALf-BH-f13" id="akF-Oc-EdV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Categories" id="nmU-y8-krg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="B8g-li-C9c">
-                            <connections>
-                                <action selector="searchButtonTapped:" destination="ALf-BH-f13" id="5Y3-At-w11"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="200" height="667"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="667"/>
-                    <connections>
-                        <outlet property="searchButton" destination="B8g-li-C9c" id="RVG-r1-s9O"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UiM-Ku-hhL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -287,6 +287,9 @@
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="lzPlaceholder" value="to"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="8XI-66-G0Z" id="U05-U6-nfg"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="from" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="tdz-VE-sKj">
                                         <rect key="frame" x="19.999999999999996" y="7" width="62.666666666666657" height="30"/>
@@ -299,6 +302,9 @@
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="lzPlaceholder" value="from"/>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="8XI-66-G0Z" id="nDH-H6-2cM"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgU-hc-nBK">
                                         <rect key="frame" x="336" y="6" width="32" height="32"/>
@@ -325,13 +331,6 @@
                                     <constraint firstItem="xsd-vH-Mb9" firstAttribute="top" secondItem="rVy-mt-nUC" secondAttribute="top" constant="7" id="wxA-cO-jz1"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search the product or chose the category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="icK-m4-CbL">
-                                <rect key="frame" x="50" y="313" width="275" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Zmf-zU-QIW">
                                 <rect key="frame" x="0.0" y="188" width="375" height="541"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -428,7 +427,6 @@
                         <outlet property="changeViewButton" destination="mgU-hc-nBK" id="Od5-4K-hy6"/>
                         <outlet property="collectionView" destination="Zmf-zU-QIW" id="vV2-Ub-5wG"/>
                         <outlet property="fromPrice" destination="tdz-VE-sKj" id="huU-Sz-o2O"/>
-                        <outlet property="labelShowForUser" destination="icK-m4-CbL" id="1e6-Ew-wjM"/>
                         <outlet property="searchBar" destination="spR-ro-Laf" id="KfK-Sw-AAL"/>
                         <outlet property="toPrice" destination="xsd-vH-Mb9" id="jKX-rX-3rn"/>
                     </connections>

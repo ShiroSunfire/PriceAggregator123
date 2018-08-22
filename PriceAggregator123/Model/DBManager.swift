@@ -53,8 +53,6 @@ class DBManager {
         case .favorites:
             let newItem = getDatabaseWithContext(context: context, Database: database) as! Favourites
             newItem.configure(item: item)
-        default:
-            return
         }
         
         
@@ -90,11 +88,8 @@ class DBManager {
                         }
                     }
                 }
-                
-                
-            default:
-                return
             }
+            
             addItemToDatabase(context: context, database: database, item: item)
         }catch{
             print("smth goes wrong")
@@ -111,8 +106,6 @@ class DBManager {
             return Basket(context: context)
         case .favorites:
             return Favourites(context: context)
-        default:
-            return nil
         }
     }
     

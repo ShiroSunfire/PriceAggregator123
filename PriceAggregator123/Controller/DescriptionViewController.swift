@@ -14,9 +14,10 @@ import SwiftyJSON
 class DescriptionViewController: UIViewController {
     
     private let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
-    let cellId = "DescribingCell"
+    private let cellId = "DescribingCell"
     private var itemId:Int!
     var item:Item = Item()
+    private var gjson = GetJSON()
     var scaledImageView:AnimationView!{
         didSet{
             addSwipeGestureForScaledImage()
@@ -71,49 +72,32 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
     
-    func unparseDataAboutItem(){
-        let urlString = "https://api.walmartlabs.com/v1/items/\(item.id!)?apiKey=\(apiKey)&lsPublisherId=&format=json"
-        let url = URL(string: urlString)
-        let session = URLSession.shared
-        if let usingUrl = url{
-            session.dataTask(with: usingUrl) { (data, responce, error) in
-                do {
-                    let json = try JSON(data: data!)
-                    
-                    if json["imageEntities"].array != nil{
-                        if self.item.thumbnailImage != nil{
-                            for index in 0...json["imageEntities"].count - 1{
-                                let element = json["imageEntities"][index]["largeImage"].string!
-                                self.downloadImage(with: element, to: self.item)
-                            }
-                        }
-                    }else{
-                        
-                        self.downloadImage(with: json["largeImage"].string!, to: self.item)
-                    }
-                    self.addImagesToCellImages()
-                } catch {}
-                }.resume()
-        }
-        
-    }
-
-    
-    func downloadImage(with url:String,to item:Item){
-        let currUrl = URL(string: url)
-        URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
-            if error != nil{
-                print(error!)
-                return
-            }
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data!){
-                    item.thumbnailImage?.append(image)
-                    self.addImagesToCellImages()
-                    self.refresh?.removeFromSuperview()
+    func getItemFromURL(_ json: JSON) {
+        if json["imageEntities"].array != nil{
+            if self.item.thumbnailImage != nil{
+                for index in 0...json["imageEntities"].count - 1{
+                    let element = json["imageEntities"][index]["largeImage"].string!
+                    self.downloadImage(with: element, to: self.item)
                 }
             }
-            }.resume()
+        } else {
+            self.downloadImage(with: json["largeImage"].string!, to: self.item)
+        }
+        self.addImagesToCellImages()
+    }
+    
+    func unparseDataAboutItem(){
+        let urlString = "https://api.walmartlabs.com/v1/items/\(item.id!)?apiKey=\(apiKey)&lsPublisherId=&format=json"
+        gjson.getItems(with: URL(string: urlString), completion: getItemFromURL(_:))
+    }
+
+    func downloadImage(with url:String,to item:Item) {
+        guard let url = URL(string: url) else { return }
+        gjson.downloadImage(with: url, i: 0) { (image, index) in
+            item.thumbnailImage?.append(image)
+            self.addImagesToCellImages()
+            self.refresh?.removeFromSuperview()
+        }
     }
     
     func setDataToView(){
