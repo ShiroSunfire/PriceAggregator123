@@ -16,64 +16,44 @@ protocol CategoriesViewControllerDelegate {
 
 class CategoriesViewController: UITableViewController {
 
-    @IBOutlet weak var searchButton: UIBarButtonItem!
     var delegate : CategoriesViewControllerDelegate?
-    let categoriesUrl = "http://api.walmartlabs.com/v1/taxonomy?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"
-    var jsonCategory : JSON?
-    var id : String?
-    var downloadJSON : Bool = false
-    var refresh:RefreshImageView?
-    var arrayCategories = [String]() {
-        didSet {
+    private let categoriesUrl = "http://api.walmartlabs.com/v1/taxonomy?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"
+    var categoryArray = [Category]()
+    var isDownload = false
+    private var refresh:RefreshImageView?
+    private lazy var gjson = GetJSON()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getCategories()
+    }
+    
+    private func getCategories() {
+        if !isDownload {
+            refresh = RefreshImageView(center: CGPoint(x: self.view.center.x-70, y: self.view.center.y))
+            self.view.addSubview(refresh!)
+            getItems(currentUrl: URL(string: categoriesUrl)!)
+            isDownload = true
+        } else {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchButton.isEnabled = false
-        if !downloadJSON {
-            getItems(currentUrl: URL(string: categoriesUrl)!)
-        } else {
-            self.jsonCategory = jsonCategory?["children"]
-            setArrayCategories(json: jsonCategory!)
-        }
-        refresh = RefreshImageView(center: CGPoint(x: self.view.center.x-70, y: self.view.center.y))
-        self.view.addSubview(refresh!)
-    }
-    
-    func setArrayCategories(json: JSON) {
-        arrayCategories.removeAll()
-        var i = 0
-        while json[i]["name"] != nil {
-            self.arrayCategories.append(json[i]["name"].string!)
-            i+=1
+    func getCategoriesFromURL(_ json: JSON) {
+        categoryArray = gjson.setCategories(json: json["categories"])
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     
     func getItems(currentUrl: URL?) {
-        guard let url = currentUrl else { return }
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, responce, error) in
-            do {
-                var json = try JSON(data: data!)
-                json = json["categories"]
-                self.jsonCategory = json
-                self.setArrayCategories(json: json)
-                self.downloadJSON = true
-            } catch { }
-        }.resume()
-    }
-    
-    @IBAction func searchButtonTapped(_ sender: Any) {
-        delegate?.searchButtonTapped(with: id!)
-        self.navigationController?.popToRootViewController(animated: true)
+        gjson.getItems(with: currentUrl, completion: getCategoriesFromURL(_:))
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrayCategories.count
+        return categoryArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -81,25 +61,28 @@ class CategoriesViewController: UITableViewController {
             refresh.removeFromSuperview()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = arrayCategories[indexPath.row]
+        cell.textLabel?.text = categoryArray[indexPath.row].name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if jsonCategory![indexPath.row]["children"] == nil {
-            delegate?.searchButtonTapped(with: jsonCategory![indexPath.row]["id"].string!)
+        if categoryArray[indexPath.row].childen.count == 0 {
+            delegate?.searchButtonTapped(with: categoryArray[indexPath.row].id!)
             delegate?.needCloseLastSubviews()
             while let child = self.parent?.childViewControllers.first {
                 child.removeFromParentViewController()
             }
             return
         }
+        openNewCategoryVC(indexPath: indexPath)
+    }
+    
+    private func openNewCategoryVC(indexPath: IndexPath) {
         let rectOfCell = tableView.rectForRow(at:(indexPath))
         let rectOfCellInSuperview = tableView.convert(rectOfCell, to: tableView.superview)
         guard let categoriesVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as? CategoriesViewController else { return }
-        categoriesVC.id = jsonCategory![indexPath.row]["id"].string
-        categoriesVC.downloadJSON = true
-        categoriesVC.jsonCategory = jsonCategory![indexPath.row]
+        categoriesVC.isDownload = isDownload
+        categoriesVC.categoryArray = categoryArray[indexPath.row].childen
         categoriesVC.delegate = delegate
         categoriesVC.view.frame.size = CGSize(width: tableView.frame.size.width, height: 40)
         categoriesVC.view.frame.origin = CGPoint(x: 0, y: rectOfCellInSuperview.minY)

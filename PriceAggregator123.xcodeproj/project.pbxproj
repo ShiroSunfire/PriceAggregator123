@@ -28,6 +28,8 @@
 		3FBAF2EA2127175400076362 /* TouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF2E92127175400076362 /* TouchView.swift */; };
 		3FCA350C212C0DDC0016B9C4 /* InfoPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */; };
 		3FCA350E212C0DE90016B9C4 /* InfoPlace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */; };
+		3FCA3510212C1AAD0016B9C4 /* GetJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA350F212C1AAD0016B9C4 /* GetJSON.swift */; };
+		3FCA3512212D40BC0016B9C4 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA3511212D40BC0016B9C4 /* Categories.swift */; };
 		3FEB02962125532000A1863A /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEB02952125532000A1863A /* DBManager.swift */; };
 		3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF358DA212403F70091A943 /* AppDelegate.swift */; };
 		3FF358E2212403F90091A943 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FF358E1212403F90091A943 /* Assets.xcassets */; };
@@ -66,6 +68,8 @@
 		3FBAF2E92127175400076362 /* TouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchView.swift; sourceTree = "<group>"; };
 		3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlace.swift; sourceTree = "<group>"; };
 		3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoPlace.xib; sourceTree = "<group>"; };
+		3FCA350F212C1AAD0016B9C4 /* GetJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSON.swift; sourceTree = "<group>"; };
+		3FCA3511212D40BC0016B9C4 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		3FEB02952125532000A1863A /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3FF358D7212403F70091A943 /* PriceAggregator123.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PriceAggregator123.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF358DA212403F70091A943 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 				3F6492F8212463450077E531 /* DataModel.xcdatamodeld */,
 				3FF358F921240CFC0091A943 /* Item.swift */,
 				3FEB02952125532000A1863A /* DBManager.swift */,
+				3FCA350F212C1AAD0016B9C4 /* GetJSON.swift */,
+				3FCA3511212D40BC0016B9C4 /* Categories.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +401,8 @@
 				3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */,
 				3FF35904212461C90091A943 /* FavoriteItemsViewController.swift in Sources */,
 				3F223BD22124251000274675 /* CategoriesViewController.swift in Sources */,
+				3FCA3512212D40BC0016B9C4 /* Categories.swift in Sources */,
+				3FCA3510212C1AAD0016B9C4 /* GetJSON.swift in Sources */,
 				3FF655DE212ABE0F000185BB /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,13 +561,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YS2L699AM2;
+				DEVELOPMENT_TEAM = 597627XHL3;
 				INFOPLIST_FILE = PriceAggregator123/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.anastasiazhdanova.PriceAggregator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whoi.PriceAggregator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -572,13 +580,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YS2L699AM2;
+				DEVELOPMENT_TEAM = 597627XHL3;
 				INFOPLIST_FILE = PriceAggregator123/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.anastasiazhdanova.PriceAggregator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whoi.PriceAggregator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

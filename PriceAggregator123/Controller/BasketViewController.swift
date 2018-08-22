@@ -1,88 +1,33 @@
 import UIKit
 
-protocol BasketControllerDelegate {
-    func describeItem(retItem:Item)
-}
 
-class BasketViewController: UIViewController {
-    
-    let cellXibId = "NormalCell"
-    let cellId = "Cell"
-    var items:[Item?]!
-    @IBOutlet weak var emptyImageField: UIView!
-    var delegate:BasketControllerDelegate?
-    @IBOutlet weak var titleLabel: UILabel!
+class BasketViewController: FavoriteItemsViewController{
     @IBOutlet weak var basketProductsCollection: UICollectionView!
+    
     override func viewDidLoad() {
+        favoriteProductsCollection = basketProductsCollection
         super.viewDidLoad()
-        basketProductsCollection.backgroundColor = UIColor.white
-        basketProductsCollection.delegate = self
-        basketProductsCollection.dataSource = self
-        basketProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        sourceDatabase = .basket
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = NSLocalizedString("Basket", comment: "")
-        super.viewWillAppear(animated)
-        let OurDB = DBManager()
-        items = OurDB.loadData(DB: "Basket")
-        emptyView()
-        basketProductsCollection.reloadData()
-    }
-}
-
-extension BasketViewController: UICollectionViewDataSource,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NormalCell
+        cell.delegate = self
         cell.labelDescription.text = items[indexPath.row]?.name
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
+        cell.quantityLabel.layer.backgroundColor = UIColor(red: 142.0/255, green: 194.0/255, blue: 234.0/255, alpha: 1).cgColor
+        cell.quantityLabel.layer.cornerRadius = cell.quantityLabel.frame.height / 3
+        cell.quantityLabel.isHidden = false
         cell.quantityLabel.text = String(items[indexPath.row]!.quantity)
         cell.buyButton.isHidden = true
         cell.favoriteButton.isHidden = true
-        cell.delegate = self
         cell.addDeletePan()
-
-        
         return cell
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.size.width, height: 80)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Description", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
-        controller.item = items[indexPath.row]!
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    func emptyView(){
-        if items.isEmpty{
-            emptyImageField.isHidden = false
-        }
-        else{
-            emptyImageField.isHidden = true
-        }
-    }
 }
-
-
-extension BasketViewController: NormalCellDelegate{
-    func deleteCell(cell: NormalCell){
-        let DB = DBManager()
-        DB.removeData(DB: "Basket", item: cell.item!)
-        if let index = items.index(of: cell.item!){
-            items.remove(at: index)
-        }
-        emptyView()
-        basketProductsCollection.reloadData()
-    }
-}
-
