@@ -17,6 +17,7 @@ class MapViewController: UIViewController {
     let manager = CLLocationManager()
     var placesClient: GMSPlacesClient!
     var mapView: GMSMapView!
+    let gjson = GetJSON()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.parent?.title = "Map"
+        self.parent?.title = NSLocalizedString("Shops", comment: "")
         manager.requestLocation()
     }
     
@@ -63,7 +64,7 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        let alert = UIAlertController(title: "Error", message: "You need to allow identify location that we can show shops near you.", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("You need to allow identify location that we can show shops near you.", comment: ""), preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
             self.dismiss(animated: true, completion: nil)
         }
@@ -71,26 +72,23 @@ extension MapViewController: CLLocationManagerDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func returnJSON(_ json: JSON) {
+        if json.isEmpty {
+            let alert = UIAlertController(title: NSLocalizedString("No shops", comment: ""), message: NSLocalizedString("There are no shops in your area.", comment: ""), preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
+                self.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        DispatchQueue.main.async {
+            self.setCoordinatesFromJSON(json: json)
+        }
+    }
+    
     func getShops(latitude: String, longitude: String) {
-        guard let url = URL(string: "http://api.walmartlabs.com/v1/stores?format=json&lat=\(latitude)&lon=\(longitude)&apiKey=jx9ztwc42y6mfvvhfa4y87hk") else { return }
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, responce, error) in
-            do {
-                let json = try JSON(data: data!)
-                if json.isEmpty {
-                    let alert = UIAlertController(title: "No shops", message: "There are no shops in your area.", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                    alert.addAction(action)
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.setCoordinatesFromJSON(json: json)
-                }
-            } catch { }
-        }.resume()
+        gjson.getItems(with: URL(string: "http://api.walmartlabs.com/v1/stores?format=json&lat=\(latitude)&lon=\(longitude)&apiKey=jx9ztwc42y6mfvvhfa4y87hk"), completion: returnJSON(_:))
     }
     
     func setCoordinatesFromJSON(json: JSON) {

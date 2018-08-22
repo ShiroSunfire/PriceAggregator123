@@ -22,15 +22,6 @@ class GetJSON {
         }.resume()
     }
     
-//    func setArray(json: JSON) {
-//        var i = 0, j = 0
-//        while json["items"][i] != JSON.null && i<10 {
-//            self.appendInArrayItem(json: json["items"], i: j)
-//            i+=1
-//            j+=1
-//        }
-//    }
-    
     func appendInArrayItem(json: JSON, i:Int) -> Item {
         let item = Item()
         item.id = json[i]["itemId"].int32!
@@ -38,7 +29,6 @@ class GetJSON {
         item.descriptionItem = json[i]["shortDescription"].string
         item.price = json[i]["salePrice"].double
         return item
-        //self.downloadImage(with: URL(string: json[i]["thumbnailImage"].string!)!, i: array.count - 1)
     }
     
     func downloadImage(with url: URL, i: Int, completion: @escaping (UIImage, Int)->()) {

@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
                      openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         var options: [String: AnyObject] = [UIApplicationOpenURLOptionsKey.sourceApplication.rawValue: sourceApplication as AnyObject,
                                             UIApplicationOpenURLOptionsKey.annotation.rawValue: annotation!]
-        return GIDSignIn.sharedInstance().handle(url as URL!,
+        return GIDSignIn.sharedInstance().handle(url as URL?,
                                                  sourceApplication: sourceApplication,
                                                  annotation: annotation)
     }

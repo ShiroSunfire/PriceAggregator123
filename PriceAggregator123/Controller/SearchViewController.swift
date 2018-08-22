@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  PriceAggregator
-//
-//  Created by student on 8/13/18.
-//  Copyright © 2018 student. All rights reserved.
-//
-
 import UIKit
 import SwiftyJSON
 
@@ -18,7 +10,6 @@ class SearchViewController: UIViewController {
     @IBOutlet private weak var changeViewButton: UIButton!
     @IBOutlet private weak var fromPrice: UITextField!
     @IBOutlet private weak var toPrice: UITextField!
-    @IBOutlet private weak var labelShowForUser: UILabel!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var collectionView: UICollectionView!
     private var urlCreate : [String:String] = ["query":"", "numItems":"10", "facetRange":"", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
@@ -32,12 +23,15 @@ class SearchViewController: UIViewController {
     private var delegate: SearchViewControllerDelegate?
     private let gjson = GetJSON()
     private var arrayItems = [Item]()
+    var choosenCell:UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }
+        let placeholderSearchBarText = NSLocalizedString("Input the name of the product", comment: "")
+        searchBar.placeholder = placeholderSearchBarText
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
@@ -56,11 +50,16 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        choosenCell = nil
+        self.parent?.title = NSLocalizedString("All", comment: "")
+        navigationController?.delegate = self
+        collectionView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        collectionView.reloadData()
     }
     
     func getURL() -> URL? {
@@ -100,9 +99,15 @@ class SearchViewController: UIViewController {
             i+=1
             j+=1
         }
+        DispatchQueue.main.asyncAfter(wallDeadline: .now()+2) {
+            self.collectionView.reloadData()
+        }
     }
     
     func saveDownloadImage(_ image: UIImage, _ index: Int) {
+        if index > arrayItems.count {
+            return
+        }
         arrayItems[index].thumbnailImage = [UIImage]()
         arrayItems[index].thumbnailImage?.append(image)
         if (index+1)%10 == 0 {
@@ -187,7 +192,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             refresh?.removeFromSuperview()
             refresh = nil
         }
-        labelShowForUser.isHidden = true
         var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
         if nibShow == "Rectangle" {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
@@ -209,7 +213,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) && searchBar.text! != "" {
+        if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) && urlCreate["query"] != "" {
             print("Refresh data")
             getItems(with: getURL())
         } else if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) {
@@ -230,8 +234,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             }
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        choosenCell = collectionView.cellForItem(at: indexPath)
         openDescriptionVC(index: indexPath.row)
     }
     
@@ -242,6 +247,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         controller.item = arrayItems[index]
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -257,7 +263,6 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         setRefresh()
-        labelShowForUser.isHidden = true
         searchBar.endEditing(true)
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
@@ -307,6 +312,7 @@ extension SearchViewController: CategoriesViewControllerDelegate {
     func searchButtonTapped(with id: String) {
         arrayItems.removeAll()
         urlCreate["facetRange"] = ""
+        urlCreate["query"] = ""
         toPrice.text = ""
         fromPrice.text = ""
         searchBar.text = ""
@@ -341,6 +347,24 @@ extension SearchViewController: TouchViewDelegate {
     }
 }
 
+
+
+extension SearchViewController: UINavigationControllerDelegate{
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
+        UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if operation == .push{
+            let transition = CustomPush()
+            guard let originFrame = choosenCell.superview?.convert(choosenCell.frame, to: nil) else {
+                return transition
+            }
+            transition.originFrame = originFrame
+            transition.presenting = true
+            return transition
+        } else {
+            return CustomPop()
+        }
+    }
+}
 
 
 
