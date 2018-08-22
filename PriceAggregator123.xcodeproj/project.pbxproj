@@ -21,7 +21,10 @@
 		3F6492F521242B1C0077E531 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F6492F421242B1C0077E531 /* Login.storyboard */; };
 		3F6492F721242B330077E531 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6492F621242B330077E531 /* LoginViewController.swift */; };
 		3F6492FA212463450077E531 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F6492F8212463450077E531 /* DataModel.xcdatamodeld */; };
+		3F689676212C546A00E5A988 /* FacebookLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F689673212C546A00E5A988 /* FacebookLogin.swift */; };
+		3F689678212C546A00E5A988 /* TwitterLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F689675212C546A00E5A988 /* TwitterLogin.swift */; };
 		3FB6C1D221256A1200D5DD36 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB6C1D121256A1200D5DD36 /* AnimationView.swift */; };
+		3FBAF163212D426300B3276E /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF162212D426300B3276E /* GoogleLogin.swift */; };
 		3FBAF2EA2127175400076362 /* TouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF2E92127175400076362 /* TouchView.swift */; };
 		3FCA350C212C0DDC0016B9C4 /* InfoPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */; };
 		3FCA350E212C0DE90016B9C4 /* InfoPlace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */; };
@@ -56,7 +59,10 @@
 		3F6492F421242B1C0077E531 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		3F6492F621242B330077E531 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3F6492F9212463450077E531 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		3F689673212C546A00E5A988 /* FacebookLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookLogin.swift; sourceTree = "<group>"; };
+		3F689675212C546A00E5A988 /* TwitterLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterLogin.swift; sourceTree = "<group>"; };
 		3FB6C1D121256A1200D5DD36 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
+		3FBAF162212D426300B3276E /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
 		3FBAF2E92127175400076362 /* TouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchView.swift; sourceTree = "<group>"; };
 		3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlace.swift; sourceTree = "<group>"; };
 		3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoPlace.xib; sourceTree = "<group>"; };
@@ -90,6 +96,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FBAF161212D3F1900B3276E /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				3FBAF162212D426300B3276E /* GoogleLogin.swift */,
+				3F689675212C546A00E5A988 /* TwitterLogin.swift */,
+				3F689673212C546A00E5A988 /* FacebookLogin.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		3FF358CE212403F70091A943 = {
 			isa = PBXGroup;
 			children = (
@@ -161,10 +177,11 @@
 				3FF358FB21240D0A0091A943 /* DescriptionViewController.swift */,
 				3F223BD12124251000274675 /* CategoriesViewController.swift */,
 				3F223BD32124251300274675 /* SearchViewController.swift */,
-				3F6492F621242B330077E531 /* LoginViewController.swift */,
 				3FF35901212461A70091A943 /* BasketViewController.swift */,
 				3FF35903212461C90091A943 /* FavoriteItemsViewController.swift */,
 				3FF655DD212ABE0F000185BB /* MapViewController.swift */,
+				3F6492F621242B330077E531 /* LoginViewController.swift */,
+				3FBAF161212D3F1900B3276E /* Login */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -366,11 +383,14 @@
 				3FF358FE21240D1B0091A943 /* DescriptionCollectionViewCell.swift in Sources */,
 				3FF358FC21240D0A0091A943 /* DescriptionViewController.swift in Sources */,
 				3FCA350C212C0DDC0016B9C4 /* InfoPlace.swift in Sources */,
+				3F689676212C546A00E5A988 /* FacebookLogin.swift in Sources */,
 				3F2194F92126BDFF00C02CA4 /* CustomPush.swift in Sources */,
 				3FBAF2EA2127175400076362 /* TouchView.swift in Sources */,
 				3FEB02962125532000A1863A /* DBManager.swift in Sources */,
 				3F223BDA2124286D00274675 /* NormalCell.swift in Sources */,
 				3FB6C1D221256A1200D5DD36 /* AnimationView.swift in Sources */,
+				3F689678212C546A00E5A988 /* TwitterLogin.swift in Sources */,
+				3FBAF163212D426300B3276E /* GoogleLogin.swift in Sources */,
 				3FF358FA21240CFC0091A943 /* Item.swift in Sources */,
 				3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */,
 				3FF35904212461C90091A943 /* FavoriteItemsViewController.swift in Sources */,

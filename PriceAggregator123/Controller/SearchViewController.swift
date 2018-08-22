@@ -40,6 +40,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
