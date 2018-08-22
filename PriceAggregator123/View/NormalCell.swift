@@ -32,18 +32,19 @@ class NormalCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
+        quantityLabel.isHidden = true
     }
     
     @IBAction func buyButtonTapped(_ sender: Any) {
         delegate?.buyButtonTapped!(db: "Basket")
         let db = DBManager()
-        db.saveData(DB: "Basket", item: item!)
+        db.saveData(database: .basket, item: item!)
     }
     
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         delegate?.favoriteButtonTapped!(db: "Favourites")
         let db = DBManager()
-        db.saveData(DB: "Favourites", item: item!)
+        db.saveData(database: .favorites, item: item!)
     }
     
     override func layoutSubviews() {
@@ -78,12 +79,12 @@ class NormalCell: UICollectionViewCell {
         labelDescription.backgroundColor = UIColor.white
         
         deleteLabel = UILabel()
-        deleteLabel.text = "delete"
+        deleteLabel.text = NSLocalizedString("delete", comment: "")
         deleteLabel.textColor = UIColor.white
         self.insertSubview(deleteLabel, belowSubview: self.contentView)
         
         buyLabel = UILabel()
-        buyLabel.text = "buy"
+        buyLabel.text = NSLocalizedString("buy", comment: "")
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
     }

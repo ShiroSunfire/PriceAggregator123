@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  PriceAggregator123
+
+  Created by student on 8/20/18.
+  Copyright © 2018 student. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "ПрайсАгрегатор";
+"NSHumanReadableCopyright" = "2018 Студенческая группа iOS разработчиков. Все права защищены.";
