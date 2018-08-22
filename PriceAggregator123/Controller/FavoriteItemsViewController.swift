@@ -47,14 +47,16 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.size.width, height: 80)
+        return CGSize(width: view.frame.size.width, height: 100)
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
         controller.item = items[indexPath.row]!
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
     func emptyView(){
         if items.isEmpty{
             emptyImageField.isHidden = false

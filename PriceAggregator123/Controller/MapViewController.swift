@@ -20,19 +20,27 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView = GMSMapView(frame: self.view.frame)
-        mapView.delegate = self
-        self.view.addSubview(mapView)
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        manager.requestAlwaysAuthorization()
-        self.navigationController?.title = "Map"
-        placesClient = GMSPlacesClient.shared()
+        createMap()
+        setValueForGPS()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.parent?.title = "Map"
         manager.requestLocation()
+    }
+    
+    private func createMap() {
+        mapView = GMSMapView(frame: self.view.frame)
+        mapView.delegate = self
+        self.view.addSubview(mapView)
+    }
+    
+    private func setValueForGPS() {
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.requestAlwaysAuthorization()
+        placesClient = GMSPlacesClient.shared()
     }
 }
 

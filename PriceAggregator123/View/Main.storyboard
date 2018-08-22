@@ -199,7 +199,7 @@
             </objects>
             <point key="canvasLocation" x="760.79999999999995" y="801.94902548725645"/>
         </scene>
-        <!--Categories-->
+        <!--Categories View Controller-->
         <scene sceneID="dm0-m4-dtc">
             <objects>
                 <tableViewController storyboardIdentifier="categoriesVC" modalPresentationStyle="overCurrentContext" id="ALf-BH-f13" customClass="CategoriesViewController" customModule="PriceAggregator123" customModuleProvider="target" sceneMemberID="viewController">
@@ -222,19 +222,9 @@
                             <outlet property="delegate" destination="ALf-BH-f13" id="akF-Oc-EdV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Categories" id="nmU-y8-krg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="B8g-li-C9c">
-                            <connections>
-                                <action selector="searchButtonTapped:" destination="ALf-BH-f13" id="5Y3-At-w11"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="200" height="667"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="667"/>
-                    <connections>
-                        <outlet property="searchButton" destination="B8g-li-C9c" id="RVG-r1-s9O"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UiM-Ku-hhL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -259,6 +249,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="8XI-66-G0Z" id="U05-U6-nfg"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="from" textAlignment="natural" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="tdz-VE-sKj">
                                         <rect key="frame" x="20" y="7" width="62" height="30"/>
@@ -268,6 +261,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="8XI-66-G0Z" id="nDH-H6-2cM"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgU-hc-nBK">
                                         <rect key="frame" x="336" y="6" width="32" height="32"/>
