@@ -7,12 +7,19 @@ class FavoriteItemsViewController: UIViewController {
     var items:[Item?]!
     private let cellXibId = "NormalCell"
     let cellId = "Cell"
+    
     private var choosenView:UIView!
+    
     @IBOutlet weak var emptyImageField: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
     
-    var databaseName = "Favourites"
+    var sourceDatabase:DBManager.Databases?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        sourceDatabase = DBManager.Databases.favorites
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +31,9 @@ class FavoriteItemsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = NSLocalizedString(databaseName, comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
-        items = OurDB.loadData(DB: databaseName)
+        items = OurDB.loadData(from: sourceDatabase!)
         emptyView()
         navigationController?.delegate = self
         choosenView = nil
@@ -53,7 +59,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.size.width, height: 80)
+        return CGSize(width: view.frame.size.width, height: 100)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
@@ -77,7 +83,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
         let DB = DBManager()
-        DB.removeData(DB: databaseName, item: cell.item!)
+        DB.removeData(from: sourceDatabase!, item: cell.item!)
         if let index = items.index(of: cell.item!){
             items.remove(at: index) 
         }

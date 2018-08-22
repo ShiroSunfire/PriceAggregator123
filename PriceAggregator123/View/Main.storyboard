@@ -196,6 +196,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="I07-MX-JNX" firstAttribute="centerY" secondItem="q4f-DJ-7qa" secondAttribute="centerY" id="2Bp-I5-Wmt"/>
                             <constraint firstItem="2lW-Dd-5T2" firstAttribute="trailing" secondItem="Tvi-5J-keD" secondAttribute="trailing" id="Dvm-rZ-cjf"/>
