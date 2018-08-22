@@ -27,6 +27,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }

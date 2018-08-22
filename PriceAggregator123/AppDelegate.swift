@@ -19,7 +19,7 @@ import GooglePlaces
 class AppDelegate: UIResponder, UIApplicationDelegate  {
     
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GMSServices.provideAPIKey("AIzaSyC6G5xOE_cWeiei6k9XXRnZHqallkWPGyY")
         GMSPlacesClient.provideAPIKey("AIzaSyCzj4LV26I-gTpTtwEluTLuc9-4L_WjIak")
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-
+        
         TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         return GIDSignIn.sharedInstance().handle(url,
                                                  sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
@@ -50,13 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
     
     func application(application: UIApplication,
                      openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        var options: [String: AnyObject] = [UIApplicationOpenURLOptionsKey.sourceApplication.rawValue: sourceApplication as AnyObject,
+        var _: [String: AnyObject] = [UIApplicationOpenURLOptionsKey.sourceApplication.rawValue: sourceApplication as AnyObject,
                                             UIApplicationOpenURLOptionsKey.annotation.rawValue: annotation!]
         return GIDSignIn.sharedInstance().handle(url as URL?,
                                                  sourceApplication: sourceApplication,
                                                  annotation: annotation)
     }
     
-    
 }
+
 
