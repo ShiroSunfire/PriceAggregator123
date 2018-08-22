@@ -13,11 +13,13 @@ import SwiftyJSON
 
 class DescriptionViewController: UIViewController {
     
-    private let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
-    let cellId = "DescribingCell"
+    private let cellId = "DescribingCell"
     private var itemId:Int!
     var item:Item = Item()
-    var scaledImageView:AnimationView!{
+    
+    private var gjson = GetJSON()
+    
+    private var scaledImageView:AnimationView!{
         didSet{
             addSwipeGestureForScaledImage()
             addTapGestureForScaledImage()
@@ -32,7 +34,8 @@ class DescriptionViewController: UIViewController {
     @IBOutlet private weak var addToBasketButton: UIButton!
     @IBOutlet private weak var addToFavoritesButton: UIButton!
 
-    var refresh: RefreshImageView!
+    
+    private var refresh: RefreshImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,52 +74,24 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
     
+//
     func unparseDataAboutItem(){
-        let urlString = "https://api.walmartlabs.com/v1/items/\(item.id!)?apiKey=\(apiKey)&lsPublisherId=&format=json"
-        let url = URL(string: urlString)
-        let session = URLSession.shared
-        if let usingUrl = url{
-            session.dataTask(with: usingUrl) { (data, responce, error) in
-                do {
-                    let json = try JSON(data: data!)
-                    
-                    if json["imageEntities"].array != nil{
-                        if self.item.thumbnailImage != nil{
-                            for index in 0...json["imageEntities"].count - 1{
-                                let element = json["imageEntities"][index]["largeImage"].string!
-                                self.downloadImage(with: element, to: self.item)
-                            }
-                        }
-                    }else{
-                        
-                        self.downloadImage(with: json["largeImage"].string!, to: self.item)
-                    }
-                    self.addImagesToCellImages()
-                } catch {}
-                }.resume()
+       
+        let isNil = item.thumbnailImage == nil
+        let opCompleted = {
+            self.addImagesToCellImages()
         }
-        
+        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+    }
+
+    func imageLoaded(_ image :UIImage){
+        item.thumbnailImage?.append(image)
+        addImagesToCellImages()
+        refresh?.removeFromSuperview()
     }
 
     
-    func downloadImage(with url:String,to item:Item){
-        let currUrl = URL(string: url)
-        URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
-            if error != nil{
-                print(error!)
-                return
-            }
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data!){
-                    item.thumbnailImage?.append(image)
-                    self.addImagesToCellImages()
-                    self.refresh?.removeFromSuperview()
-                }
-            }
-            }.resume()
-    }
-    
-    func setDataToView(){
+    private func setDataToView(){
         if let price = item.price{
             let priceLabelText = NSLocalizedString("Price: ", comment: "")
             priceLabel.text! = priceLabelText + String(price) + "$"
@@ -135,7 +110,7 @@ class DescriptionViewController: UIViewController {
         addToBasketButton.setTitle(NSLocalizedString("To Basket", comment: ""), for: .normal)
     }
     
-    func addImagesToCellImages(){
+    private func addImagesToCellImages(){
         if item.thumbnailImage != nil{
             DispatchQueue.main.async {
                 self.itemImageCollection.reloadData()
@@ -196,6 +171,8 @@ extension DescriptionViewController: SearchViewControllerDelegate{
 
 
 extension DescriptionViewController: DescriptionCellDelegate{
+    
+    
     func cellTaped(sender: UITapGestureRecognizer) {
         if let collectionCell = sender.view as? DescriptionCollectionViewCell{
             if collectionCell.isFullScreeen{
@@ -211,12 +188,12 @@ extension DescriptionViewController: DescriptionCellDelegate{
         }
     }
     
-    func addTapGestureForScaledImage(){
+    private func addTapGestureForScaledImage(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
         scaledImageView?.addGestureRecognizer(tap)
     }
     
-    func addSwipeGestureForScaledImage(){
+    private func addSwipeGestureForScaledImage(){
         let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(scaledImageSwipeHandler(sender: )))
         swipeGestureLeft.direction = .left
         scaledImageView?.addGestureRecognizer(swipeGestureLeft)
@@ -227,7 +204,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
     
     
     
-    @objc func scaledImageTapHandler(sender: UITapGestureRecognizer){
+    @objc private func scaledImageTapHandler(sender: UITapGestureRecognizer){
         
         UIView.animate(withDuration: 1.0, animations: {
             self.scaledImageView.alpha = 0.0
@@ -237,7 +214,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
         }
     }
     
-    @objc func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
+    @objc private func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
         var layerImage:CGImage!
         if let castedView = sender.view as? AnimationView{
                 layerImage = castedView.isFliped ? castedView.bottomLayer.contents as! CGImage : castedView.topLayer.contents as! CGImage

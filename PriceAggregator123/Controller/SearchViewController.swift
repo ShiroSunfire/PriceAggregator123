@@ -7,64 +7,53 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: UIViewController {
 
-    @IBOutlet weak var changeViewButton: UIButton!
-    @IBOutlet weak var fromPrice: UITextField!
-    @IBOutlet weak var toPrice: UITextField!
-    @IBOutlet weak var labelShowForUser: UILabel!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet private weak var changeViewButton: UIButton!
+    @IBOutlet private weak var fromPrice: UITextField!
+    @IBOutlet private weak var toPrice: UITextField!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    private var urlCreate : [String:String] = ["query":"", "numItems":"10", "facetRange":"", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
+    private var jsonItems :JSON?
+    private var url = "http://api.walmartlabs.com/v1/search?"
+    private var categoryId = ""
+    private var nibShow = "Normal"
+    private var changeView = false
+    private var isOpenCategory = false
+    private var refresh:RefreshImageView?
+    private var delegate: SearchViewControllerDelegate?
+    private let gjson = GetJSON()
+    private var arrayItems = [Item]()
     var choosenCell:UIView!
-    
-    var urlCreate : [String:String] = ["query":"", "numItems":"10", "facetRange":"", "format":"json", "apiKey":"jx9ztwc42y6mfvvhfa4y87hk"]
-    var jsonItems :JSON?
-    var url = "http://api.walmartlabs.com/v1/search?"
-    var categoryId = ""
-    var nibShow = "Normal"
-    var changeView = false
-    var isOpenCategory = false
-    var refresh:RefreshImageView?
-    var delegate: SearchViewControllerDelegate?
-    var arrayItems = [Item]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
-            self.present(controller, animated: true, completion: nil)
+            showLoginVC()
         }
-        
-        //Localization searchBar
         let placeholderSearchBarText = NSLocalizedString("Input the name of the product", comment: "")
         searchBar.placeholder = placeholderSearchBarText
-        
-        
-        getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
-        fromPrice.delegate = self
-        toPrice.delegate = self
         collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
-        
-        //searchBar color
+        getItems(with: URL(string: "http://api.walmartlabs.com/v1/trends?format=json&apiKey=jx9ztwc42y6mfvvhfa4y87hk"))
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             textfield.layer.backgroundColor = UIColor.white.cgColor
             textfield.layer.cornerRadius = 8
         }
-       changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
+        changeViewButton.setBackgroundImage(UIImage(named: "menurectangle"), for: UIControlState.normal)
+    }
+    
+    private func showLoginVC() {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "Load") as! LoginViewController
+        self.present(controller, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         choosenCell = nil
         self.parent?.title = NSLocalizedString("All", comment: "")
         navigationController?.delegate = self
-        self.tabBarController?.navigationController?.setNavigationBarHidden(true, animated: true)
         collectionView.reloadData()
     }
     
@@ -86,54 +75,52 @@ class SearchViewController: UIViewController {
         return URL(string: newURL)
     }
     
-    func getItems(with url: URL?) {
-        guard let url = url else { return }
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, responce, error) in
-            do {
-                let json = try JSON(data: data!)
-                if json["totalResults"].int == 0 {
-                    DispatchQueue.main.async {
-                        self.refresh?.removeFromSuperview()
-                        self.refresh = nil
-                        let alert = UIAlertController(title: NSLocalizedString("No items found, please try another products", comment: ""), message: "", preferredStyle: .alert)
-                        self.present(alert, animated: true, completion: nil)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                            self.dismiss(animated: true, completion: nil)
-                        })
-                    }
-                    return
-                }
-                self.jsonItems = json["items"]
-                var i = 0, j = 0
-                while json["items"][i] != nil && i<10 {
-                    self.appendInArrayItem(json: json["items"], i: j)
-                    i+=1
-                    j+=1
-                }
-            } catch { }
-        }.resume()
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+            self.dismiss(animated: true, completion: nil)
+        })
     }
     
-    func appendInArrayItem(json: JSON, i:Int) {
-        let item = Item()
-        item.id = json[i]["itemId"].int32!
-        item.name = json[i]["name"].string!
-        item.descriptionItem = json[i]["shortDescription"].string
-        item.price = json[i]["salePrice"].double
-        self.arrayItems.append(item)
-        self.downloadImage(with: URL(string: json[i]["thumbnailImage"].string!)!, i: arrayItems.count - 1)
-    }
-    
-    func downloadImage(with url: URL, i: Int) {
-        let data = try? Data(contentsOf: url)
-        if let imageData = data {
-            if arrayItems.count <= i {
-                return
+    func returnJson(_ json: JSON) {
+        if json["totalResults"].int == 0 {
+            DispatchQueue.main.async {
+                self.refresh?.removeFromSuperview()
+                self.refresh = nil
+                self.showAlert(title: "No items found, please try another products", message: "")
             }
-            self.arrayItems[i].thumbnailImage = [UIImage]()
-            self.arrayItems[i].thumbnailImage?.append(UIImage(data: imageData)!)
+            return
         }
+        jsonItems = json["items"]
+        var i = 0, j = arrayItems.count
+        while json["items"][i] != JSON.null && i<10 {
+            arrayItems.append(gjson.appendInArrayItem(json: json["items"], i: i))
+            gjson.downloadImage(with: URL(string: json["items"][i]["thumbnailImage"].string!)!, i: j, completion: saveDownloadImage(_:_:))
+            i+=1
+            j+=1
+        }
+        DispatchQueue.main.asyncAfter(wallDeadline: .now()+2) {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func saveDownloadImage(_ image: UIImage, _ index: Int) {
+        if index > arrayItems.count {
+            return
+        }
+        arrayItems[index].thumbnailImage = [UIImage]()
+        arrayItems[index].thumbnailImage?.append(image)
+        if (index+1)%10 == 0 {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    func getItems(with url: URL?) {
+        setRefresh()
+        self.gjson.getItems(with: url, completion: returnJson(_:))
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
@@ -141,6 +128,18 @@ class SearchViewController: UIViewController {
             needCloseLastSubviews()
             return
         }
+        openCategoryVC()
+        isOpenCategory = true
+    }
+    
+    private func setRefresh() {
+        if refresh == nil {
+            refresh = RefreshImageView(center: self.view.center)
+            self.view.addSubview(refresh!)
+        }
+    }
+    
+    private func openCategoryVC() {
         guard let categoriesVC = storyboard?.instantiateViewController(withIdentifier: "categoriesVC") as? CategoriesViewController else { return }
         categoriesVC.delegate = self
         categoriesVC.view.frame.origin = CGPoint(x: -categoriesVC.view.frame.size.width, y: searchBar.frame.size.height+UIApplication.shared.statusBarFrame.height)
@@ -156,7 +155,6 @@ class SearchViewController: UIViewController {
             categoriesVC.view.frame.origin.x = 0
             newView.alpha = 0.2
         }
-        isOpenCategory = true
     }
     
     @IBAction func choseCellButton(_ sender: Any) {
@@ -167,8 +165,6 @@ class SearchViewController: UIViewController {
             collectionView.register(UINib(nibName: "NormalCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
             nibShow = "Normal"
         }
-        collectionView.reloadData()
-
         if changeView{
             changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
             changeViewButton.setBackgroundImage(UIImage(named: "menurectangle.png"), for: UIControlState.normal)
@@ -178,6 +174,7 @@ class SearchViewController: UIViewController {
             changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
             changeView = true
         }
+        collectionView.reloadData()
     }
 }
 
@@ -193,10 +190,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if refresh != nil {
-            refresh!.removeFromSuperview()
+            refresh?.removeFromSuperview()
             refresh = nil
         }
-        labelShowForUser.isHidden = true
         var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! NormalCell
         if nibShow == "Rectangle" {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
@@ -212,38 +208,44 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if nibShow == "Normal" {
             return CGSize(width: view.frame.size.width, height: 100)
-        } else { 
+        } else {
             return CGSize(width: view.frame.size.width/2, height: 300)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) && searchBar.text! != "" {
+        if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) && urlCreate["query"] != "" {
             print("Refresh data")
             getItems(with: getURL())
         } else if arrayItems.count % 10 == 0 && indexPath.row == (arrayItems.count - 1) {
             print("Resresh data category")
-            let dispatch = DispatchQueue(label: "com.concurrent.quene", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.never, target: nil)
-            dispatch.async {
-                let count = self.arrayItems.count
-                var i = count
-                while i < count + 10 && self.jsonItems![i] != nil {
-                    self.appendInArrayItem(json: self.jsonItems!, i: i)
-                    i += 1
-                }
-            }
+            getItemsInArray()
         }
     }
     
-    
-    
-    
+    private func getItemsInArray() {
+        let dispatch = DispatchQueue(label: "com.concurrent.quene", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.never, target: nil)
+        dispatch.async {
+            let count = self.arrayItems.count
+            var i = count
+            while i < count + 10 && self.jsonItems![i] != JSON.null {
+                self.arrayItems.append(self.gjson.appendInArrayItem(json: self.jsonItems!, i: i))
+                self.gjson.downloadImage(with: URL(string: self.jsonItems![i]["thumbnailImage"].string!)!, i: i, completion: self.saveDownloadImage(_:_:))
+                i += 1
+            }
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        choosenCell = collectionView.cellForItem(at: indexPath)
+        openDescriptionVC(index: indexPath.row)
+    }
+    
+    private func openDescriptionVC(index: Int) {
         let storyboard = UIStoryboard(name: "Description", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "DescriptionVC") as! DescriptionViewController
         controller.tabBarItem = self.tabBarItem
-        controller.item = arrayItems[indexPath.row]
-        choosenCell = collectionView.cellForItem(at: indexPath)
+        controller.item = arrayItems[index]
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -251,17 +253,17 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension SearchViewController: UISearchBarDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing()
+    }
+    
+    private func endEditing() {
         searchBar.endEditing(true)
         fromPrice.endEditing(true)
         toPrice.endEditing(true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if refresh == nil {
-            refresh = RefreshImageView(center: self.view.center)
-            self.view.addSubview(refresh!)
-        }
-        labelShowForUser.isHidden = true
+        setRefresh()
         searchBar.endEditing(true)
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
@@ -271,8 +273,7 @@ extension SearchViewController: UISearchBarDelegate {
 
 extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        fromPrice.endEditing(true)
-        toPrice.endEditing(true)
+        endEditing()
         arrayItems.removeAll()
         var from = Int(fromPrice.text!)
         if from == nil {
@@ -283,10 +284,7 @@ extension SearchViewController: UITextFieldDelegate {
             to = 10000
         }
         urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
-        if refresh == nil {
-            refresh = RefreshImageView(center: self.view.center)
-            self.view.addSubview(refresh!)
-        }
+        setRefresh()
         getItems(with: getURL())
         return true
     }
@@ -295,53 +293,45 @@ extension SearchViewController: UITextFieldDelegate {
 extension SearchViewController: CategoriesViewControllerDelegate {
     func needCloseLastSubviews() {
         isOpenCategory = false
-        var i = 0
-        while i<self.view.subviews.count {
-            if self.view.subviews[i] is UITableView {
+        for sub in self.view.subviews {
+            if sub is UITableView {
                 UIView.animate(withDuration: 1, animations: {
-                    self.view.subviews[i].frame.origin.x = -self.view.subviews[i].frame.size.width
-                }) { (_) in
-                    self.view.subviews.last!.removeFromSuperview()
+                    sub.frame.origin.x = -sub.frame.size.width
+                }) { _ in
+                    sub.removeFromSuperview()
                 }
-            } else if self.view.subviews[i] is TouchView {
+            } else if sub is TouchView {
                 UIView.animate(withDuration: 1, animations: {
-                    self.view.subviews[i].alpha = 0
-                }) { (_) in
-                    self.view.subviews.last!.removeFromSuperview()
+                    sub.alpha = 0
+                }) { _ in
+                    sub.removeFromSuperview()
                 }
             }
-            i+=1
         }
     }
     
     func searchButtonTapped(with id: String) {
-        if refresh == nil {
-            refresh = RefreshImageView(center: self.view.center)
-            self.view.addSubview(refresh!)
-        }
         arrayItems.removeAll()
         urlCreate["facetRange"] = ""
+        urlCreate["query"] = ""
         toPrice.text = ""
         fromPrice.text = ""
+        searchBar.text = ""
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }
 
 extension SearchViewController: NormalCellDelegate {
-    func buyButtonTapped(db: String) {
-        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-            self.dismiss(animated: true, completion: nil)
-        })
+    func buyButtonTapped(db: String, item: Item) {
+        showAlert(title: "Item added to basket", message: "")
+        let db = DBManager()
+        db.saveData(database: .basket, item: item)
     }
     
-    func favoriteButtonTapped(db: String) {
-        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-            self.dismiss(animated: true, completion: nil)
-        })
+    func favoriteButtonTapped(db: String, item: Item) {
+        showAlert(title: "Item added to favorite", message: "")
+        let db = DBManager()
+        db.saveData(database: .favorites, item: item)
     }
 }
 
@@ -363,8 +353,6 @@ extension SearchViewController: TouchViewDelegate {
 extension SearchViewController: UINavigationControllerDelegate{
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
         UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        
         if operation == .push{
             let transition = CustomPush()
             guard let originFrame = choosenCell.superview?.convert(choosenCell.frame, to: nil) else {
@@ -372,17 +360,12 @@ extension SearchViewController: UINavigationControllerDelegate{
             }
             transition.originFrame = originFrame
             transition.presenting = true
-//            choosenCell.isHidden = true
             return transition
-        }else{
+        } else {
             return CustomPop()
         }
-        
     }
-    
-    
 }
-
 
 
 

@@ -8,6 +8,7 @@ class BasketViewController: FavoriteItemsViewController{
         favoriteProductsCollection = basketProductsCollection
         super.viewDidLoad()
     }
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         sourceDatabase = .basket
@@ -20,19 +21,13 @@ class BasketViewController: FavoriteItemsViewController{
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
-        let newColor = cell.quantityLabel.backgroundColor?.cgColor
-        
-        cell.quantityLabel.backgroundColor = UIColor.clear
-        cell.quantityLabel.layer.backgroundColor = newColor
-        cell.quantityLabel.layer.cornerRadius = cell.quantityLabel.frame.height / 4
+        cell.quantityLabel.layer.backgroundColor = UIColor(red: 142.0/255, green: 194.0/255, blue: 234.0/255, alpha: 1).cgColor
+        cell.quantityLabel.layer.cornerRadius = cell.quantityLabel.frame.height / 3
         cell.quantityLabel.isHidden = false
         cell.quantityLabel.text = String(items[indexPath.row]!.quantity)
         cell.buyButton.isHidden = true
         cell.favoriteButton.isHidden = true
-       
         cell.addDeletePan()
-        
-
         return cell
     }
 }

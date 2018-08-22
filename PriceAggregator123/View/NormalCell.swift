@@ -9,8 +9,8 @@
 import UIKit
 
 @objc protocol NormalCellDelegate {
-    @objc optional func buyButtonTapped(db: String)
-    @objc optional func favoriteButtonTapped(db: String)
+    @objc optional func buyButtonTapped(db: String, item: Item)
+    @objc optional func favoriteButtonTapped(db: String, item: Item)
     @objc optional func deleteCell(cell: NormalCell)
 }
 
@@ -32,24 +32,19 @@ class NormalCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
-        quantityLabel.isHidden = true
+        quantityLabel?.isHidden = true
     }
     
     @IBAction func buyButtonTapped(_ sender: Any) {
-        delegate?.buyButtonTapped!(db: "Basket")
-        let db = DBManager()
-        db.saveData(database: .basket, item: item!)
+        delegate?.buyButtonTapped!(db: "Basket", item: item!)
     }
     
     @IBAction func favoriteButtonTapped(_ sender: Any) {
-        delegate?.favoriteButtonTapped!(db: "Favourites")
-        let db = DBManager()
-        db.saveData(database: .favorites, item: item!)
+        delegate?.favoriteButtonTapped!(db: "Favourites", item: item!)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
         if pan != nil{
             if (pan.state == UIGestureRecognizerState.changed) {
                 let p: CGPoint = pan.translation(in: self)
@@ -60,9 +55,6 @@ class NormalCell: UICollectionViewCell {
                 self.buyLabel.frame = CGRect(x: p.x + width + buyLabel.frame.size.width, y: 0, width: 100, height: height)
             }
         }
-      
-        
-
     }
     
     func addDeletePan(){
@@ -84,7 +76,7 @@ class NormalCell: UICollectionViewCell {
         self.insertSubview(deleteLabel, belowSubview: self.contentView)
         
         buyLabel = UILabel()
-        buyLabel.text = NSLocalizedString("buy", comment: "")
+        buyLabel.text = NSLocalizedString("delete", comment: "")
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
     }
