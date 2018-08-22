@@ -32,6 +32,7 @@ class NormalCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
+        quantityLabel.isHidden = true
     }
     
     @IBAction func buyButtonTapped(_ sender: Any) {
@@ -75,7 +76,7 @@ class NormalCell: UICollectionViewCell {
         self.insertSubview(deleteLabel, belowSubview: self.contentView)
         
         buyLabel = UILabel()
-        buyLabel.text = NSLocalizedString("buy", comment: "")
+        buyLabel.text = NSLocalizedString("delete", comment: "")
         buyLabel.textColor = UIColor.white
         self.insertSubview(buyLabel, belowSubview: self.contentView)
     }

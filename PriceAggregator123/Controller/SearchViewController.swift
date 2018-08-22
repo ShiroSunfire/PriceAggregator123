@@ -324,13 +324,13 @@ extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to basket", message: "")
         let db = DBManager()
-        db.saveData(DB: "Basket", item: item)
+        db.saveData(database: .basket, item: item)
     }
     
     func favoriteButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to favorite", message: "")
         let db = DBManager()
-        db.saveData(DB: "Favourites", item: item)
+        db.saveData(database: .favorites, item: item)
     }
 }
 

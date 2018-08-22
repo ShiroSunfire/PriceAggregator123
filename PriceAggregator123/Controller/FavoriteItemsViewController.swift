@@ -7,25 +7,31 @@ class FavoriteItemsViewController: UIViewController {
     var items:[Item?]!
     private let cellXibId = "NormalCell"
     let cellId = "Cell"
+    
     private var choosenView:UIView!
+    
     @IBOutlet weak var emptyImageField: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
+    let db = DBManager()
     
-    var databaseName = "Favourites"
+    var sourceDatabase:DBManager.Databases?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        sourceDatabase = .favorites
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.parent?.title = NSLocalizedString(databaseName, comment: "")
         super.viewWillAppear(animated)
         let OurDB = DBManager()
-        items = OurDB.loadData(DB: databaseName)
+        items = OurDB.loadData(from: sourceDatabase!)
         emptyView()
         navigationController?.delegate = self
         choosenView = nil
@@ -44,8 +50,10 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
         cell.item = items[indexPath.row]
         cell.image.image = (items[indexPath.row]?.thumbnailImage?.first)!
         cell.priceLabel.text = "$\((items[indexPath.row]?.price!)!)"
-        cell.favoriteButton.isHidden = true
         cell.delegate = self
+        cell.favoriteButton?.removeFromSuperview()
+        cell.buyButton.topAnchor.constraint(greaterThanOrEqualTo: cell.topAnchor, constant: 30.0).isActive = true
+        cell.priceLabel.topAnchor.constraint(greaterThanOrEqualTo: cell.buyButton.bottomAnchor, constant: 10).isActive = true
         cell.addDeletePan()
         return cell
     }
@@ -75,10 +83,9 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
-        let DB = DBManager()
-        DB.removeData(DB: databaseName, item: cell.item!)
+        db.removeData(from: sourceDatabase!, item: cell.item!)
         if let index = items.index(of: cell.item!){
-            items.remove(at: index) 
+                self.items.remove(at: index)
         }
         emptyView()
         favoriteProductsCollection.reloadData()
@@ -90,8 +97,7 @@ extension FavoriteItemsViewController: NormalCellDelegate{
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
             self.dismiss(animated: true, completion: nil)
         })
-        let db = DBManager()
-        db.saveData(DB: "Basket", item: item)
+        self.db.saveData(database: sourceDatabase!, item: item)
     }
 }
 

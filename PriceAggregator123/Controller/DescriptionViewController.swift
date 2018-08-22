@@ -49,7 +49,7 @@ class DescriptionViewController: UIViewController {
     
     @IBAction private func addToBasketPressed(_ sender: UIButton) {
         let db = DBManager()
-        db.saveData(DB: "Basket", item: item)
+        db.saveData(database: .basket, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -58,7 +58,7 @@ class DescriptionViewController: UIViewController {
     }
     @IBAction private func addToFavoritesPressed(_ sender: UIButton) {
         let db = DBManager()
-        db.saveData(DB: "Favourites", item: item)
+        db.saveData(database: .favorites, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
