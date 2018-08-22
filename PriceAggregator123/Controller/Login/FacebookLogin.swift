@@ -13,13 +13,13 @@ import FBSDKLoginKit
 import FacebookLogin
 
 protocol FacebookLoginDelegate{
-    var userID: String {get set}
+    func save(userID: String)
 }
 
 class FacebookLogin {
 
    private var dict : [String : AnyObject]!
-
+    
    var delegate: FacebookLoginDelegate?
 
 func fbConnect(){
@@ -41,8 +41,8 @@ func fbConnect(){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
                     self.dict = result as! [String : AnyObject]
-                    print(result!)
-                    //self.delegate?.userID = self.dict["id"] as! String
+                    self.delegate?.save(userID: self.dict["id"] as! String)
+                    print(self.dict["id"] as! String)
                 }
             })
         }

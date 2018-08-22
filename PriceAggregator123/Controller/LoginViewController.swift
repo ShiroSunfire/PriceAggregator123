@@ -21,33 +21,32 @@ import Google
 
 class LoginViewController: UIViewController, FacebookLoginDelegate, GoogleLoginDelegate, TwitterLoginDelegate{
     
-    var userID: String = ""
-    
-    let fbLogin = FacebookLogin()
-    let twLogin = TwitterLogin()
-    let gLogin = GoogleLogin()
+  private let fbLogin = FacebookLogin()
+  private let twLogin = TwitterLogin()
+  private let gLogin = GoogleLogin()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fbLogin.delegate = self
+        gLogin.delegate = self
+        twLogin.delegate = self
     }
     
     @IBAction func fbLog(_ sender: Any) {
         fbLogin.fbConnect()
-        save()
     }
     
     @IBAction func twLog(_ sender: Any) {
         twLogin.twitterConnect()
-        save()
     }
     
     @IBAction func gmLog(_ sender: Any) {
         gLogin.gConnect()
-        save()
     }
     
-    func save(){
+    //Mark: - Delegate
+    func save(userID: String){
         UserDefaults.standard.set(userID, forKey: "UserID")
         self.dismiss(animated: true, completion: nil)
     }

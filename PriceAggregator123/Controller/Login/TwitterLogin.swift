@@ -10,7 +10,7 @@ import Foundation
 import TwitterKit
 
 protocol TwitterLoginDelegate{
-    var userID: String {get set}
+    func save(userID: String)
 }
 class TwitterLogin{
 
@@ -24,7 +24,7 @@ class TwitterLogin{
         TWTRTwitter.sharedInstance().logIn(completion: { (session, error) in
             if (session != nil) {
                 print("userID \(String(describing: session?.userID))");
-                self.delegate?.userID = String(describing: session?.userID)
+                self.delegate?.save(userID: String(describing: session?.userID))
             } else {
                 print("error: \(String(describing: error?.localizedDescription))");
             }
