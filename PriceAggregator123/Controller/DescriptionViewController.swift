@@ -12,13 +12,11 @@ import SwiftyJSON
 
 
 class DescriptionViewController: UIViewController {
-    
+
     private let cellId = "DescribingCell"
     private var itemId:Int!
     var item:Item = Item()
-    
     private var gjson = GetJSON()
-    
     private var scaledImageView:AnimationView!{
         didSet{
             addSwipeGestureForScaledImage()
@@ -34,7 +32,6 @@ class DescriptionViewController: UIViewController {
     @IBOutlet private weak var addToBasketButton: UIButton!
     @IBOutlet private weak var addToFavoritesButton: UIButton!
 
-    
     private var refresh: RefreshImageView!
     
     override func viewDidLoad() {
@@ -46,12 +43,11 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        unparseDataAboutItem()
+        loadDataAboutItem()
     }
     
     @IBAction private func addToBasketPressed(_ sender: UIButton) {
-        let db = DBManager()
-        db.saveData(database: .basket, item: item)
+        DBManager().saveData(database: .basket, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -59,8 +55,8 @@ class DescriptionViewController: UIViewController {
         })
     }
     @IBAction private func addToFavoritesPressed(_ sender: UIButton) {
-        let db = DBManager()
-        db.saveData(database: .favorites, item: item)
+        
+        DBManager().saveData(database: .favorites, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -73,18 +69,17 @@ class DescriptionViewController: UIViewController {
         print(sender.currentPage)
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
-    
-//
-    func unparseDataAboutItem(){
-       
+
+   private func loadDataAboutItem(){
         let isNil = item.thumbnailImage == nil
         let opCompleted = {
             self.addImagesToCellImages()
         }
-        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+    gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+        
     }
 
-    func imageLoaded(_ image :UIImage){
+    private func imageLoaded(_ image :UIImage){
         item.thumbnailImage?.append(image)
         addImagesToCellImages()
         refresh?.removeFromSuperview()
@@ -160,19 +155,8 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     
 }
 
-extension DescriptionViewController: SearchViewControllerDelegate{
-    func cellWasTapped(id: Int) {
-        itemId = id
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh)
-        unparseDataAboutItem()
-    }
-}
-
 
 extension DescriptionViewController: DescriptionCellDelegate{
-    
-    
     func cellTaped(sender: UITapGestureRecognizer) {
         if let collectionCell = sender.view as? DescriptionCollectionViewCell{
             if collectionCell.isFullScreeen{

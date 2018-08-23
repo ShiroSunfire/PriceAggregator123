@@ -27,7 +27,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.removeObject(forKey: "UserID")
+   //     UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }
@@ -84,6 +84,10 @@ class SearchViewController: UIViewController {
     }
     
     func returnJson(_ json: JSON) {
+        if JSON.null == json {
+            showAlert(title: "", message: "Offline")
+            return
+        }
         if json["totalResults"].int == 0 {
             DispatchQueue.main.async {
                 self.refresh?.removeFromSuperview()
@@ -100,9 +104,6 @@ class SearchViewController: UIViewController {
             i+=1
             j+=1
         }
-        DispatchQueue.main.asyncAfter(wallDeadline: .now()+2) {
-            self.collectionView.reloadData()
-        }
     }
     
     func saveDownloadImage(_ image: UIImage, _ index: Int) {
@@ -111,10 +112,8 @@ class SearchViewController: UIViewController {
         }
         arrayItems[index].thumbnailImage = [UIImage]()
         arrayItems[index].thumbnailImage?.append(image)
-        if (index+1)%10 == 0 {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
     
@@ -324,14 +323,14 @@ extension SearchViewController: CategoriesViewControllerDelegate {
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to basket", message: "")
-        let db = DBManager()
-        db.saveData(database: .basket, item: item)
+        
+        DBManager().saveData(database: .basket, item: item)
     }
     
     func favoriteButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to favorite", message: "")
-        let db = DBManager()
-        db.saveData(database: .favorites, item: item)
+//        let db = DBManager()
+        DBManager().saveData(database: .favorites, item: item)
     }
 }
 
