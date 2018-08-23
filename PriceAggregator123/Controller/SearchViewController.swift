@@ -28,7 +28,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   //     UserDefaults.standard.removeObject(forKey: "UserID")
+        UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }
@@ -178,7 +178,7 @@ class SearchViewController: UIViewController {
             changeView = false
         } else {
             changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
-            changeViewButton.setBackgroundImage(UIImage(named: "viewlist.png"), for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
             changeView = true
         }
         collectionView.reloadData()
