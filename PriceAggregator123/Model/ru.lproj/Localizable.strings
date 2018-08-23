@@ -33,3 +33,6 @@
 "There are no shops in your area." = "В вашем районе нет магазинов.";
 "Error" = "Ошибка";
 "You need to allow identify location that we can show shops near you." = "Вам нужно указать местонахождение, только тогда мы сможем показать магазины рядом с вами.";
+"Offline" = "Нет сети";
+"You can see products that have been added to favorites or to basket" = "Вы можете увидеть только те продукты, которые были добавлены в избранное или в корзину";
+

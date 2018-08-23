@@ -36,7 +36,6 @@ class DescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.item.thumbnailImage = [UIImage]()
         itemName.textAlignment = .center
         itemImageCollection.delegate = self
         itemImageCollection.dataSource = self
@@ -49,17 +48,17 @@ class DescriptionViewController: UIViewController {
     }
     
     @IBAction private func addToBasketPressed(_ sender: UIButton) {
-        DBManager().saveData(database: .basket, item: item)
-        let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-            self.dismiss(animated: true, completion: nil)
-        })
+        buttonPresedHandler(sender, database: .basket)
     }
     @IBAction private func addToFavoritesPressed(_ sender: UIButton) {
         
-        DBManager().saveData(database: .favorites, item: item)
-        let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
+        buttonPresedHandler(sender, database: .favorites)
+    }
+    
+    private func buttonPresedHandler(_ sender: UIButton, database:DBManager.Databases){
+        
+        DBManager().saveData(database: database, item: item)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to \(database.rawValue)", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
             self.dismiss(animated: true, completion: nil)
@@ -73,18 +72,18 @@ class DescriptionViewController: UIViewController {
     }
 
    private func loadDataAboutItem(){
-        let isNil = item.thumbnailImage == nil
         let opCompleted = {
             self.addImagesToCellImages()
         }
-    gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+    if (item.thumbnailImage?.count)! <= 1{
+        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted)
+    }
+    
         
     }
 
     private func imageLoaded(_ image :UIImage){
-        if !(self.item.thumbnailImage?.contains(image))!{
-            item.thumbnailImage?.append(image)
-        }
+        item.thumbnailImage?.append(image)
         addImagesToCellImages()
         refresh?.removeFromSuperview()
     }
@@ -108,6 +107,7 @@ class DescriptionViewController: UIViewController {
         addToFavoritesButton.setTitle(NSLocalizedString("To Favorites", comment: ""), for: .normal)
         addToBasketButton.setTitle(NSLocalizedString("To Basket", comment: ""), for: .normal)
     }
+    
     
     private func addImagesToCellImages(){
         if item.thumbnailImage != nil{
@@ -160,6 +160,8 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
 
 
 extension DescriptionViewController: DescriptionCellDelegate{
+    
+    
     func cellTaped(sender: UITapGestureRecognizer) {
         if let collectionCell = sender.view as? DescriptionCollectionViewCell{
             if collectionCell.isFullScreeen{
@@ -174,6 +176,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
             }
         }
     }
+    // NOTE: - GESTURE ADDING
     
     private func addTapGestureForScaledImage(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
@@ -190,7 +193,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
     }
     
     
-    
+    // NOTE: - GESTURES HANDLERS
     @objc private func scaledImageTapHandler(sender: UITapGestureRecognizer){
         
         UIView.animate(withDuration: 1.0, animations: {
@@ -201,30 +204,33 @@ extension DescriptionViewController: DescriptionCellDelegate{
         }
     }
     
+    
     @objc private func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
         var layerImage:CGImage!
         if let castedView = sender.view as? AnimationView{
-                layerImage = castedView.isFliped ? castedView.bottomLayer.contents as! CGImage : castedView.topLayer.contents as! CGImage
-        }
-        var imageIndex = 0
-        for index in 0...(item.thumbnailImage?.count)! - 1{
-            if item.thumbnailImage![index].cgImage == layerImage{
-                break
+            if castedView.bottomLayer.contents == nil{
+                layerImage = castedView.topLayer.contents as! CGImage
+            }else{
+                layerImage = castedView.bottomLayer.contents as! CGImage
             }
-            imageIndex += 1
         }
+        let imageIndex = item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)) == nil ? 0 : (item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)))!
         
         if sender.direction == .right{
             if imageIndex > 0{
                 if (sender.view as? AnimationView) != nil{
-                    scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex - 1])
+                    UIView.beginAnimations(nil, context: nil)
+                    scaledImageView.flip(to: AnimationView.Direction.right, with: item.thumbnailImage![imageIndex - 1])
+                    UIView.commitAnimations()
                 }
             }
             
         } else if sender.direction == .left{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
+                    UIView.beginAnimations(nil, context: nil)
                     scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex + 1])
+                    UIView.commitAnimations() 
                 }
             }
         }

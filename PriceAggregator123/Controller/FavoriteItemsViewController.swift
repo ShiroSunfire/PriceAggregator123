@@ -83,7 +83,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
-        DBManager().removeData(from: .basket, item: cell.item!)
+        DBManager().removeData(from: sourceDatabase!, item: cell.item!)
         if let index = items.index(of: cell.item!){
                 self.items.remove(at: index)
         }
@@ -92,12 +92,12 @@ extension FavoriteItemsViewController: NormalCellDelegate{
     }
     
     func buyButtonTapped(db: String, item: Item) {
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
             self.dismiss(animated: true, completion: nil)
         })
-        DBManager().saveData(database: sourceDatabase!, item: item)
+        DBManager().saveData(database: .basket, item: item)
     }
 }
 

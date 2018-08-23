@@ -19,12 +19,12 @@ class DescriptionCollectionViewCell: UICollectionViewCell {
         addTapGestureRecognizer()
     }
     
-    func addTapGestureRecognizer(){
+    private func addTapGestureRecognizer(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler(sender:)))
         self.addGestureRecognizer(tap)
     }
     
-    @objc func tapGestureHandler(sender: UITapGestureRecognizer){
+    @objc private func tapGestureHandler(sender: UITapGestureRecognizer){
         isFullScreeen = !isFullScreeen
         delegate?.cellTaped(sender: sender)
     }
