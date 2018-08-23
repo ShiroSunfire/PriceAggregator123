@@ -30,7 +30,7 @@ class CategoriesViewController: UITableViewController {
     
     private func getCategories() {
         if !isDownload {
-            refresh = RefreshImageView(center: CGPoint(x: self.view.center.x-70, y: self.view.center.y))
+            refresh = RefreshImageView(center: CGPoint(x: self.view.center.x-70, y: self.view.center.y-70))
             self.view.addSubview(refresh!)
             getItems(currentUrl: URL(string: categoriesUrl)!)
             isDownload = true
@@ -42,6 +42,15 @@ class CategoriesViewController: UITableViewController {
     }
     
     func getCategoriesFromURL(_ json: JSON) {
+        if json == JSON.null {
+            let alert = UIAlertController(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""), preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+                self.dismiss(animated: true, completion: nil)
+                self.closeAllCategoryVC()
+            })
+            return
+        }
         categoryArray = gjson.setCategories(json: json["categories"])
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -67,14 +76,17 @@ class CategoriesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if categoryArray[indexPath.row].childen.count == 0 {
-            delegate?.searchButtonTapped(with: categoryArray[indexPath.row].id!)
-            delegate?.needCloseLastSubviews()
-            while let child = self.parent?.childViewControllers.first {
-                child.removeFromParentViewController()
-            }
+            closeAllCategoryVC(index: indexPath.row)
             return
         }
         openNewCategoryVC(indexPath: indexPath)
+    }
+    
+    private func closeAllCategoryVC(index: Int = -1) {
+        if index != -1 {
+            delegate?.searchButtonTapped(with: categoryArray[index].id!)
+        }
+        delegate?.needCloseLastSubviews()
     }
     
     private func openNewCategoryVC(indexPath: IndexPath) {
