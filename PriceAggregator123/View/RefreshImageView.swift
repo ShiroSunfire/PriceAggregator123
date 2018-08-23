@@ -11,8 +11,8 @@ import UIKit
 class RefreshImageView: UIImageView {
 
     init(center: CGPoint) {
-        super.init(image: #imageLiteral(resourceName: "refresh.png"))
-        self.center = CGPoint(x: center.x, y: center.y - 50)
+        super.init(image: #imageLiteral(resourceName: "loading"))
+        self.center = CGPoint(x: center.x, y: center.y)
         animation()
     }
     

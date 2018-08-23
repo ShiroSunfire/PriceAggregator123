@@ -7,6 +7,8 @@ protocol SearchViewControllerDelegate {
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet weak var noInternet: UIView!
+    @IBOutlet weak var allLabel: UILabel!
     @IBOutlet private weak var changeViewButton: UIButton!
     @IBOutlet private weak var fromPrice: UITextField!
     @IBOutlet private weak var toPrice: UITextField!
@@ -19,7 +21,7 @@ class SearchViewController: UIViewController {
     private var nibShow = "Normal"
     private var changeView = false
     private var isOpenCategory = false
-    private var isOnline = true
+    //private var isOnline = true
     private var refresh:RefreshImageView?
     private var delegate: SearchViewControllerDelegate?
     private let gjson = GetJSON()
@@ -28,7 +30,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   //     UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }
@@ -92,14 +93,30 @@ class SearchViewController: UIViewController {
             }
         }
         if JSON.null == json {
-            isOnline = false
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                self.allLabel.text = "No internet connection"
+                self.noInternet.isHidden = false
+            }
             showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
             return
         }
+        DispatchQueue.main.async {
+            self.noInternet.isHidden = true
+        }
         if json["totalResults"].int == 0 {
+            DispatchQueue.main.async {
+                self.noInternet.isHidden = false
+                self.allLabel.text = NSLocalizedString("No items found", comment: "")
+                self.collectionView.reloadData()
+            }
             showAlert(title: NSLocalizedString("No items found, please try another products", comment: ""), message: "")
             return
         }
+        setItemsInArray(json: json)
+    }
+    
+    private func setItemsInArray(json: JSON) {
         jsonItems = json["items"]
         var i = 0
         while json["items"][i] != JSON.null && i<10 {
@@ -126,10 +143,6 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
-        if !isOnline {
-            showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
-            return
-        }
         if isOpenCategory {
             needCloseLastSubviews()
             return
@@ -272,6 +285,8 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.endEditing(true)
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
+        collectionView.reloadData()
+        needCloseLastSubviews()
         getItems(with: getURL())
         toPrice.isEnabled = true
         fromPrice.isEnabled = true
@@ -292,6 +307,7 @@ extension SearchViewController: UITextFieldDelegate {
         }
         urlCreate["facetRange"] = "&facet.range=price:[\(from!)%20TO%20\(to!)]"
         setRefresh()
+        collectionView.reloadData()
         getItems(with: getURL())
         return true
     }
@@ -300,6 +316,9 @@ extension SearchViewController: UITextFieldDelegate {
 extension SearchViewController: CategoriesViewControllerDelegate {
     func needCloseLastSubviews() {
         isOpenCategory = false
+        while let child = self.childViewControllers.first {
+            child.removeFromParentViewController()
+        }
         for sub in self.view.subviews {
             if sub is UITableView {
                 UIView.animate(withDuration: 1, animations: {
@@ -326,6 +345,7 @@ extension SearchViewController: CategoriesViewControllerDelegate {
         searchBar.text = ""
         toPrice.isEnabled = false
         fromPrice.isEnabled = false
+        collectionView.reloadData()
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }
@@ -333,7 +353,6 @@ extension SearchViewController: CategoriesViewControllerDelegate {
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String, item: Item) {
         showAlert(title: NSLocalizedString("Item added to basket", comment: ""), message: "")
-        
         DBManager().saveData(database: .basket, item: item)
     }
     
