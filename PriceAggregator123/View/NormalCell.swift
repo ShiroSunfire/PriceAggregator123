@@ -32,7 +32,7 @@ class NormalCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
-        quantityLabel.isHidden = true
+        quantityLabel?.isHidden = true
     }
     
     @IBAction func buyButtonTapped(_ sender: Any) {
