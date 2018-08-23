@@ -12,13 +12,12 @@ import SwiftyJSON
 
 
 class DescriptionViewController: UIViewController {
-    
-    private let apiKey = "jx9ztwc42y6mfvvhfa4y87hk"
+
     private let cellId = "DescribingCell"
     private var itemId:Int!
     var item:Item = Item()
     private var gjson = GetJSON()
-    var scaledImageView:AnimationView!{
+    private var scaledImageView:AnimationView!{
         didSet{
             addSwipeGestureForScaledImage()
             addTapGestureForScaledImage()
@@ -33,7 +32,7 @@ class DescriptionViewController: UIViewController {
     @IBOutlet private weak var addToBasketButton: UIButton!
     @IBOutlet private weak var addToFavoritesButton: UIButton!
 
-    var refresh: RefreshImageView!
+    private var refresh: RefreshImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,12 +43,11 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        unparseDataAboutItem()
+        loadDataAboutItem()
     }
     
     @IBAction private func addToBasketPressed(_ sender: UIButton) {
-        let db = DBManager()
-        db.saveData(database: .basket, item: item)
+        DBManager().saveData(database: .basket, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to basket" ,comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -57,8 +55,8 @@ class DescriptionViewController: UIViewController {
         })
     }
     @IBAction private func addToFavoritesPressed(_ sender: UIButton) {
-        let db = DBManager()
-        db.saveData(database: .favorites, item: item)
+        
+        DBManager().saveData(database: .favorites, item: item)
         let alert = UIAlertController(title: NSLocalizedString("Item added to favorite", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -71,36 +69,24 @@ class DescriptionViewController: UIViewController {
         print(sender.currentPage)
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
-    
-    func getItemFromURL(_ json: JSON) {
-        if json["imageEntities"].array != nil{
-            if self.item.thumbnailImage != nil{
-                for index in 0...json["imageEntities"].count - 1{
-                    let element = json["imageEntities"][index]["largeImage"].string!
-                    self.downloadImage(with: element, to: self.item)
-                }
-            }
-        } else {
-            self.downloadImage(with: json["largeImage"].string!, to: self.item)
+
+   private func loadDataAboutItem(){
+        let isNil = item.thumbnailImage == nil
+        let opCompleted = {
+            self.addImagesToCellImages()
         }
-        self.addImagesToCellImages()
-    }
-    
-    func unparseDataAboutItem(){
-        let urlString = "https://api.walmartlabs.com/v1/items/\(item.id!)?apiKey=\(apiKey)&lsPublisherId=&format=json"
-        gjson.getItems(with: URL(string: urlString), completion: getItemFromURL(_:))
+    gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+        
     }
 
-    func downloadImage(with url:String,to item:Item) {
-        guard let url = URL(string: url) else { return }
-        gjson.downloadImage(with: url, i: 0) { (image, index) in
-            item.thumbnailImage?.append(image)
-            self.addImagesToCellImages()
-            self.refresh?.removeFromSuperview()
-        }
+    private func imageLoaded(_ image :UIImage){
+        item.thumbnailImage?.append(image)
+        addImagesToCellImages()
+        refresh?.removeFromSuperview()
     }
+
     
-    func setDataToView(){
+    private func setDataToView(){
         if let price = item.price{
             let priceLabelText = NSLocalizedString("Price: ", comment: "")
             priceLabel.text! = priceLabelText + String(price) + "$"
@@ -119,7 +105,7 @@ class DescriptionViewController: UIViewController {
         addToBasketButton.setTitle(NSLocalizedString("To Basket", comment: ""), for: .normal)
     }
     
-    func addImagesToCellImages(){
+    private func addImagesToCellImages(){
         if item.thumbnailImage != nil{
             DispatchQueue.main.async {
                 self.itemImageCollection.reloadData()
@@ -169,15 +155,6 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     
 }
 
-extension DescriptionViewController: SearchViewControllerDelegate{
-    func cellWasTapped(id: Int) {
-        itemId = id
-        refresh = RefreshImageView(center: self.view.center)
-        self.view.addSubview(refresh)
-        unparseDataAboutItem()
-    }
-}
-
 
 extension DescriptionViewController: DescriptionCellDelegate{
     func cellTaped(sender: UITapGestureRecognizer) {
@@ -195,12 +172,12 @@ extension DescriptionViewController: DescriptionCellDelegate{
         }
     }
     
-    func addTapGestureForScaledImage(){
+    private func addTapGestureForScaledImage(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(scaledImageTapHandler(sender:)))
         scaledImageView?.addGestureRecognizer(tap)
     }
     
-    func addSwipeGestureForScaledImage(){
+    private func addSwipeGestureForScaledImage(){
         let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(scaledImageSwipeHandler(sender: )))
         swipeGestureLeft.direction = .left
         scaledImageView?.addGestureRecognizer(swipeGestureLeft)
@@ -211,7 +188,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
     
     
     
-    @objc func scaledImageTapHandler(sender: UITapGestureRecognizer){
+    @objc private func scaledImageTapHandler(sender: UITapGestureRecognizer){
         
         UIView.animate(withDuration: 1.0, animations: {
             self.scaledImageView.alpha = 0.0
@@ -221,7 +198,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
         }
     }
     
-    @objc func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
+    @objc private func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
         var layerImage:CGImage!
         if let castedView = sender.view as? AnimationView{
                 layerImage = castedView.isFliped ? castedView.bottomLayer.contents as! CGImage : castedView.topLayer.contents as! CGImage

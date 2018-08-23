@@ -49,7 +49,6 @@ class DBManager {
         case .basket:
             let newItem = getDatabaseWithContext(context: context, Database: database) as! Basket
             newItem.configure(item: item)
-            
         case .favorites:
             let newItem = getDatabaseWithContext(context: context, Database: database) as! Favourites
             newItem.configure(item: item)
@@ -189,6 +188,7 @@ extension Array where Element: UIImage {
     }
 }
 
+
 extension Data {
     func imageArray() -> ImageArray? {
         if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: self) as? NSArray {
@@ -203,6 +203,11 @@ extension Data {
         }
     }
 }
+
+
+
+
+
 
 extension Basket{
     func configure(item:Item){

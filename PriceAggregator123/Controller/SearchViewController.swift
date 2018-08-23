@@ -19,6 +19,7 @@ class SearchViewController: UIViewController {
     private var nibShow = "Normal"
     private var changeView = false
     private var isOpenCategory = false
+    private var isOnline = true
     private var refresh:RefreshImageView?
     private var delegate: SearchViewControllerDelegate?
     private let gjson = GetJSON()
@@ -27,6 +28,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+   //     UserDefaults.standard.removeObject(forKey: "UserID")
         if UserDefaults.standard.string(forKey: "UserID") == nil {
             showLoginVC()
         }
@@ -83,12 +85,19 @@ class SearchViewController: UIViewController {
     }
     
     func returnJson(_ json: JSON) {
-        if json["totalResults"].int == 0 {
+        if json["totalResults"].int == 0 || JSON.null == json {
             DispatchQueue.main.async {
                 self.refresh?.removeFromSuperview()
                 self.refresh = nil
-                self.showAlert(title: "No items found, please try another products", message: "")
             }
+        }
+        if JSON.null == json {
+            isOnline = false
+            showAlert(title: "Offline", message: "You can see products that have been added to favorites or to basket")
+            return
+        }
+        if json["totalResults"].int == 0 {
+            showAlert(title: "No items found, please try another products", message: "")
             return
         }
         jsonItems = json["items"]
@@ -99,9 +108,6 @@ class SearchViewController: UIViewController {
             i+=1
             j+=1
         }
-        DispatchQueue.main.asyncAfter(wallDeadline: .now()+2) {
-            self.collectionView.reloadData()
-        }
     }
     
     func saveDownloadImage(_ image: UIImage, _ index: Int) {
@@ -110,10 +116,8 @@ class SearchViewController: UIViewController {
         }
         arrayItems[index].thumbnailImage = [UIImage]()
         arrayItems[index].thumbnailImage?.append(image)
-        if (index+1)%10 == 0 {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
     
@@ -123,6 +127,10 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
+        if !isOnline {
+            showAlert(title: "Offline", message: "You can see products that have been added to favorites or to basket")
+            return
+        }
         if isOpenCategory {
             needCloseLastSubviews()
             return
@@ -247,7 +255,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         controller.item = arrayItems[index]
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -267,6 +274,8 @@ extension SearchViewController: UISearchBarDelegate {
         urlCreate["query"] = searchBar.text!
         arrayItems.removeAll()
         getItems(with: getURL())
+        toPrice.isEnabled = true
+        fromPrice.isEnabled = true
     }
 }
 
@@ -316,6 +325,8 @@ extension SearchViewController: CategoriesViewControllerDelegate {
         toPrice.text = ""
         fromPrice.text = ""
         searchBar.text = ""
+        toPrice.isEnabled = false
+        fromPrice.isEnabled = false
         getItems(with: URL(string: "http://api.walmartlabs.com/v1/paginated/items?format=json&category=\(id)&apiKey=jx9ztwc42y6mfvvhfa4y87hk")!)
     }
 }
@@ -323,14 +334,13 @@ extension SearchViewController: CategoriesViewControllerDelegate {
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to basket", message: "")
-        let db = DBManager()
-        db.saveData(database: .basket, item: item)
+        
+        DBManager().saveData(database: .basket, item: item)
     }
     
     func favoriteButtonTapped(db: String, item: Item) {
         showAlert(title: "Item added to favorite", message: "")
-        let db = DBManager()
-        db.saveData(database: .favorites, item: item)
+        DBManager().saveData(database: .favorites, item: item)
     }
 }
 
