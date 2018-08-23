@@ -83,7 +83,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
-        DBManager().removeData(from: .basket, item: cell.item!)
+        DBManager().removeData(from: sourceDatabase!, item: cell.item!)
         if let index = items.index(of: cell.item!){
                 self.items.remove(at: index)
         }

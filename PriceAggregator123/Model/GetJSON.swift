@@ -87,10 +87,10 @@ class GetJSON {
         return item
     }
     
-    func downloadImage(with url: URL, i: Int = 0, completion: @escaping (UIImage, Int)->()) {
+    func downloadImage(with url: URL, item: Item, completion: @escaping (UIImage, Item)->()) {
         let data = try? Data(contentsOf: url)
         if let imageData = data {
-            completion(UIImage(data: imageData)!, i)
+            completion(UIImage(data: imageData)!, item)
         }
     }
     

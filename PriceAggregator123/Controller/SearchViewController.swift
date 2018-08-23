@@ -101,21 +101,20 @@ class SearchViewController: UIViewController {
             return
         }
         jsonItems = json["items"]
-        var i = 0, j = arrayItems.count
+        var i = 0
         while json["items"][i] != JSON.null && i<10 {
             arrayItems.append(gjson.appendInArrayItem(json: json["items"], i: i))
-            gjson.downloadImage(with: URL(string: json["items"][i]["thumbnailImage"].string!)!, i: j, completion: saveDownloadImage(_:_:))
+            gjson.downloadImage(with: URL(string: json["items"][i]["thumbnailImage"].string!)!, item: arrayItems[arrayItems.count-1], completion: saveDownloadImage(_:_:))
             i+=1
-            j+=1
         }
     }
     
-    func saveDownloadImage(_ image: UIImage, _ index: Int) {
-        if index > arrayItems.count {
+    func saveDownloadImage(_ image: UIImage, _ item: Item?) {
+        if item == nil {
             return
         }
-        arrayItems[index].thumbnailImage = [UIImage]()
-        arrayItems[index].thumbnailImage?.append(image)
+        item!.thumbnailImage = [UIImage]()
+        item!.thumbnailImage?.append(image)
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -205,9 +204,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RectangleCell", for: indexPath) as! NormalCell
         }
         cell.delegate = self
-        cell.labelDescription.text = arrayItems[indexPath.row].name!
+        cell.labelDescription.text = arrayItems[indexPath.row].name ?? "name"
         cell.item = arrayItems[indexPath.row]
-        cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first
+        cell.image.image = arrayItems[indexPath.row].thumbnailImage?.first ?? #imageLiteral(resourceName: "image")
         cell.priceLabel.text = "$" + String(arrayItems[indexPath.row].price ?? 0)
         return cell
     }
@@ -237,7 +236,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             var i = count
             while i < count + 10 && self.jsonItems![i] != JSON.null {
                 self.arrayItems.append(self.gjson.appendInArrayItem(json: self.jsonItems!, i: i))
-                self.gjson.downloadImage(with: URL(string: self.jsonItems![i]["thumbnailImage"].string!)!, i: i, completion: self.saveDownloadImage(_:_:))
+                self.gjson.downloadImage(with: URL(string: self.jsonItems![i]["thumbnailImage"].string!)!, item: self.arrayItems[self.arrayItems.count-1], completion: self.saveDownloadImage(_:_:))
                 i += 1
             }
         }
