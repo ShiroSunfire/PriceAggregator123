@@ -13,7 +13,6 @@ class FavoriteItemsViewController: UIViewController {
     @IBOutlet weak var emptyImageField: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteProductsCollection: UICollectionView!
-    let db = DBManager()
     
     var sourceDatabase:DBManager.Databases?
     
@@ -24,14 +23,15 @@ class FavoriteItemsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Favorites"
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let OurDB = DBManager()
-        items = OurDB.loadData(from: sourceDatabase!)
+        parent?.title = self.title
+        items = DBManager().loadData(from: sourceDatabase!)
         emptyView()
         navigationController?.delegate = self
         choosenView = nil
@@ -83,7 +83,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
-        db.removeData(from: sourceDatabase!, item: cell.item!)
+        DBManager().removeData(from: .basket, item: cell.item!)
         if let index = items.index(of: cell.item!){
                 self.items.remove(at: index)
         }
@@ -92,16 +92,19 @@ extension FavoriteItemsViewController: NormalCellDelegate{
     }
     
     func buyButtonTapped(db: String, item: Item) {
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
             self.dismiss(animated: true, completion: nil)
         })
-        self.db.saveData(database: sourceDatabase!, item: item)
+        DBManager().saveData(database: sourceDatabase!, item: item)
     }
 }
 
 extension FavoriteItemsViewController: UINavigationControllerDelegate{
+    
+    
+    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
         UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push{
@@ -115,8 +118,9 @@ extension FavoriteItemsViewController: UINavigationControllerDelegate{
         }else{
             return CustomPop()
         }
-        
     }
+    
+    
     
 }
 

@@ -18,18 +18,6 @@ class DescriptionCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         addTapGestureRecognizer()
     }
-    func downloadImage(with url:String){
-        let currUrl = URL(string: url)
-        URLSession.shared.dataTask(with: currUrl!) { (data, response, error) in
-            if error != nil{
-                print(error!)
-                return
-            }
-            DispatchQueue.main.async {
-                self.cellImage.image = UIImage(data: data!)
-            }
-        }.resume()
-    }
     
     func addTapGestureRecognizer(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler(sender:)))

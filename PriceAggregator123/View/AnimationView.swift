@@ -31,7 +31,7 @@ class AnimationView: UIView {
         topLayer.contentsGravity = kCAGravityResizeAspect
     }
     
-    func defInit(){
+    private func defInit(){
         self.layer.isDoubleSided = true
         self.layer.backgroundColor = UIColor.white.cgColor
         

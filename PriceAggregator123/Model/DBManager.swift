@@ -13,15 +13,16 @@ import CoreData
 class DBManager {
     
     private var CDataArray = NSMutableArray()
-    
+    private let DatabaseProjectName = "DataModel"
     enum Databases:String{
         case basket = "Basket"
         case favorites = "Favourites"
     }
     
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DataModel")
+        let container = NSPersistentContainer(name: DatabaseProjectName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -49,7 +50,6 @@ class DBManager {
         case .basket:
             let newItem = getDatabaseWithContext(context: context, Database: database) as! Basket
             newItem.configure(item: item)
-            
         case .favorites:
             let newItem = getDatabaseWithContext(context: context, Database: database) as! Favourites
             newItem.configure(item: item)
@@ -71,8 +71,9 @@ class DBManager {
             case .basket:
                 if let itemsArray = fetchedResult as? [Basket]{
                     for anItem in itemsArray{
+                        print(anItem.id)
                         if anItem.id == item.id!{
-                            itemsArray.first?.quantity += 1
+                            anItem.quantity += 1
                             saveContext()
                             return
                         }
@@ -108,6 +109,7 @@ class DBManager {
             return Favourites(context: context)
         }
     }
+    
     
     func loadData(from database:Databases) -> [Item] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: database.rawValue)
@@ -189,6 +191,7 @@ extension Array where Element: UIImage {
     }
 }
 
+
 extension Data {
     func imageArray() -> ImageArray? {
         if let mySavedData = NSKeyedUnarchiver.unarchiveObject(with: self) as? NSArray {
@@ -203,6 +206,11 @@ extension Data {
         }
     }
 }
+
+
+
+
+
 
 extension Basket{
     func configure(item:Item){
