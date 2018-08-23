@@ -23,13 +23,14 @@ class FavoriteItemsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Favorites"
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        parent?.title = self.title
         items = DBManager().loadData(from: sourceDatabase!)
         emptyView()
         navigationController?.delegate = self
@@ -101,6 +102,9 @@ extension FavoriteItemsViewController: NormalCellDelegate{
 }
 
 extension FavoriteItemsViewController: UINavigationControllerDelegate{
+    
+    
+    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
         UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push{
@@ -114,8 +118,9 @@ extension FavoriteItemsViewController: UINavigationControllerDelegate{
         }else{
             return CustomPop()
         }
-        
     }
+    
+    
     
 }
 

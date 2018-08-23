@@ -9,12 +9,19 @@
 import UIKit
 import SwiftyJSON
 
+protocol GetJSONDelegate {
+    func JSONNotRetrieved()
+}
+
 class GetJSON {
     private static let APIKEY = "jx9ztwc42y6mfvvhfa4y87hk"
+    
+    var delegate:GetJSONDelegate?
     
     var getItemURL: (Int)->(String) = {
         return "https://api.walmartlabs.com/v1/items/\($0)?apiKey=\(APIKEY)&lsPublisherId=&format=json"
     }
+    
     
     func getItems(with url: URL?, completion: @escaping (_ json: JSON) -> ()) {
         guard let url = url else { return }
@@ -38,8 +45,13 @@ class GetJSON {
         let session = URLSession.shared
         session.dataTask(with: url) { (data, responce, error) in
             do {
-                let json = try JSON(data: data!)
-                self.getItemFromURL(json, imageLoaded: imageLoaded, operationCompleted: operationCompleted, isNil: isNil)
+                if let existedData = data {
+                    let json = try JSON(data: existedData)
+                    self.getItemFromURL(json, imageLoaded: imageLoaded, operationCompleted: operationCompleted, isNil: isNil)
+                }
+                else{
+                    self.delegate?.JSONNotRetrieved()
+                }
             } catch {
                 return
             }
@@ -75,10 +87,10 @@ class GetJSON {
         return item
     }
     
-    func downloadImage(with url: URL, i: Int = 0, completion: @escaping (UIImage, Int)->()) {
+    func downloadImage(with url: URL, item: Item, completion: @escaping (UIImage, Item)->()) {
         let data = try? Data(contentsOf: url)
         if let imageData = data {
-            completion(UIImage(data: imageData)!, i)
+            completion(UIImage(data: imageData)!, item)
         }
     }
     
