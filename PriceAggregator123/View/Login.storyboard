@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,6 +19,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social" translatesAutoresizingMaskIntoConstraints="NO" id="Qpv-Vt-TD2">
+                                <rect key="frame" x="0.0" y="409.5" width="375" height="257.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Qpv-Vt-TD2" secondAttribute="height" multiplier="375:257" id="mBH-Pw-lhy"/>
+                                </constraints>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8a-82-q3W" userLabel="logview">
                                 <rect key="frame" x="77.5" y="0.0" width="220" height="667"/>
                                 <subviews>
@@ -54,7 +61,6 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="KDr-9v-Yfa" secondAttribute="trailing" id="CYS-LS-HMs"/>
                                             <constraint firstItem="KDr-9v-Yfa" firstAttribute="leading" secondItem="M4R-fA-wdo" secondAttribute="leading" id="HRd-iL-WbH"/>
@@ -70,7 +76,6 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="M4R-fA-wdo" firstAttribute="centerX" secondItem="d8a-82-q3W" secondAttribute="centerX" constant="-0.5" id="9TT-tA-PH2"/>
                                     <constraint firstItem="M4R-fA-wdo" firstAttribute="centerY" secondItem="d8a-82-q3W" secondAttribute="centerY" id="Tcb-SI-Xjz"/>
@@ -80,9 +85,12 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="d8a-82-q3W" firstAttribute="centerY" secondItem="zMj-LU-Njr" secondAttribute="centerY" id="4cj-6g-xel"/>
+                            <constraint firstItem="Qpv-Vt-TD2" firstAttribute="leading" secondItem="ItW-bO-FBH" secondAttribute="leading" id="ARW-Ut-MEP"/>
+                            <constraint firstItem="Qpv-Vt-TD2" firstAttribute="bottom" secondItem="ItW-bO-FBH" secondAttribute="bottom" id="HRC-QL-4TT"/>
+                            <constraint firstItem="Qpv-Vt-TD2" firstAttribute="trailing" secondItem="ItW-bO-FBH" secondAttribute="trailing" id="O76-wL-W2X"/>
                             <constraint firstItem="d8a-82-q3W" firstAttribute="centerY" secondItem="zMj-LU-Njr" secondAttribute="centerY" id="QGI-0W-aGD"/>
                             <constraint firstItem="d8a-82-q3W" firstAttribute="top" secondItem="zMj-LU-Njr" secondAttribute="top" id="lRT-1G-ne9"/>
                             <constraint firstItem="d8a-82-q3W" firstAttribute="centerX" secondItem="zMj-LU-Njr" secondAttribute="centerX" id="tjE-jo-0j5"/>
@@ -92,12 +100,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnf-B8-EuH" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1757.5999999999999" y="396.79802955665025"/>
+            <point key="canvasLocation" x="-1757.5999999999999" y="396.25187406296857"/>
         </scene>
     </scenes>
     <resources>
         <image name="fbLog" width="220" height="34"/>
         <image name="gLog" width="219" height="34"/>
+        <image name="social" width="640" height="449"/>
         <image name="twLog" width="220" height="34"/>
     </resources>
 </document>

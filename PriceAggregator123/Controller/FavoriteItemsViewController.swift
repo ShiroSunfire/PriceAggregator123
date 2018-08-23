@@ -92,7 +92,7 @@ extension FavoriteItemsViewController: NormalCellDelegate{
     }
     
     func buyButtonTapped(db: String, item: Item) {
-        let alert = UIAlertController(title: "Item added to basket", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("Item added to basket", comment: ""), message: "", preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
             self.dismiss(animated: true, completion: nil)

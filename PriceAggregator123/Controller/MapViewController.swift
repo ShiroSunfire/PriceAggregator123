@@ -73,21 +73,15 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        showAlert(title: "Error", message: "You need to allow identify location that we can show shops near you.")
+        showAlert(title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("You need to allow identify location that we can show shops near you.", comment: ""))
     }
 
     func returnJSON(_ json: JSON) {
         if json == JSON.null {
-            let alert = UIAlertController(title: "Offline", message: "You can see products that have been added to favorites or to basket", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) in
-                self.dismiss(animated: true, completion: nil)
-            }
-            alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
-            return
+            showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
         }
         if json.isEmpty {
-            showAlert(title: "No shops", message: "There are no shops in your area.")
+            showAlert(title: NSLocalizedString("No shops", comment: ""), message: NSLocalizedString("There are no shops in your area.", comment: ""))
             return
         }
         DispatchQueue.main.async {

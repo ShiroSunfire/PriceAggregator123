@@ -93,11 +93,11 @@ class SearchViewController: UIViewController {
         }
         if JSON.null == json {
             isOnline = false
-            showAlert(title: "Offline", message: "You can see products that have been added to favorites or to basket")
+            showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
             return
         }
         if json["totalResults"].int == 0 {
-            showAlert(title: "No items found, please try another products", message: "")
+            showAlert(title: NSLocalizedString("No items found, please try another products", comment: ""), message: "")
             return
         }
         jsonItems = json["items"]
@@ -128,7 +128,7 @@ class SearchViewController: UIViewController {
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
         if !isOnline {
-            showAlert(title: "Offline", message: "You can see products that have been added to favorites or to basket")
+            showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
             return
         }
         if isOpenCategory {
@@ -178,7 +178,7 @@ class SearchViewController: UIViewController {
             changeView = false
         } else {
             changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
-            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "viewlist.png"), for: UIControlState.normal)
             changeView = true
         }
         collectionView.reloadData()
@@ -333,13 +333,13 @@ extension SearchViewController: CategoriesViewControllerDelegate {
 
 extension SearchViewController: NormalCellDelegate {
     func buyButtonTapped(db: String, item: Item) {
-        showAlert(title: "Item added to basket", message: "")
+        showAlert(title: NSLocalizedString("Item added to basket", comment: ""), message: "")
         
         DBManager().saveData(database: .basket, item: item)
     }
     
     func favoriteButtonTapped(db: String, item: Item) {
-        showAlert(title: "Item added to favorite", message: "")
+        showAlert(title: NSLocalizedString("Item added to favorite", comment: ""), message: "")
         DBManager().saveData(database: .favorites, item: item)
     }
 }
