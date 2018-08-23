@@ -43,7 +43,7 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
-        gjson.delegate = self
+        self.setDataToView()
         loadDataAboutItem()
         
     }
@@ -82,7 +82,9 @@ class DescriptionViewController: UIViewController {
     }
 
     private func imageLoaded(_ image :UIImage){
-        item.thumbnailImage?.append(image)
+        if !(self.item.thumbnailImage?.contains(image))!{
+            item.thumbnailImage?.append(image)
+        }
         addImagesToCellImages()
         refresh?.removeFromSuperview()
     }
@@ -111,7 +113,6 @@ class DescriptionViewController: UIViewController {
         if item.thumbnailImage != nil{
             DispatchQueue.main.async {
                 self.itemImageCollection.reloadData()
-                self.setDataToView()
             }
         }
     }
@@ -227,12 +228,6 @@ extension DescriptionViewController: DescriptionCellDelegate{
                 }
             }
         }
-    }
-}
-
-extension DescriptionViewController: GetJSONDelegate{
-    func JSONNotRetrieved() {
-        addImagesToCellImages()
     }
 }
 

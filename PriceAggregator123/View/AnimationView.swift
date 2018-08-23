@@ -11,10 +11,10 @@ import UIKit
 class AnimationView: UIView {
     
     
-    private var isFliped = false
+    var isFliped = false
     private var doubleSidedLayer:CATransformLayer?
-    private var topLayer = CALayer()
-    private var bottomLayer = CALayer()
+    var topLayer = CALayer()
+    var bottomLayer = CALayer()
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
