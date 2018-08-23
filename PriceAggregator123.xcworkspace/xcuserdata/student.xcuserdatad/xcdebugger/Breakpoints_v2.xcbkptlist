@@ -3,6 +3,9 @@
    type = "0"
    version = "2.0">
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3bd73c389462721e75fd4ad1fadbc701b741bbf5
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
@@ -11,7 +14,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PriceAggregator123/AppDelegate.swift"
+<<<<<<< HEAD
+            timestampString = "556644294.768539"
+=======
             timestampString = "556708522.6361459"
+>>>>>>> 3bd73c389462721e75fd4ad1fadbc701b741bbf5
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
@@ -21,6 +28,9 @@
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> 06acc2609902e2b1a66c612cb16e211d63f3d0b7
+>>>>>>> 3bd73c389462721e75fd4ad1fadbc701b741bbf5
 </Bucket>
