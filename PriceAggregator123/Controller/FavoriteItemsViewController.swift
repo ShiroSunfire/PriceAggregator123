@@ -23,7 +23,7 @@ class FavoriteItemsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Favorites"
+        self.title = NSLocalizedString("Favorites", comment: "")
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
@@ -83,7 +83,7 @@ extension FavoriteItemsViewController: UICollectionViewDataSource,UICollectionVi
 
 extension FavoriteItemsViewController: NormalCellDelegate{
     func deleteCell(cell: NormalCell){
-        DBManager().removeData(from: .basket, item: cell.item!)
+        DBManager().removeData(from: sourceDatabase!, item: cell.item!)
         if let index = items.index(of: cell.item!){
                 self.items.remove(at: index)
         }

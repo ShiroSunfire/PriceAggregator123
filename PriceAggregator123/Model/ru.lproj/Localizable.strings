@@ -12,6 +12,7 @@
 "from" = "от";
 "to" = "до";
 "All" = "Все";
+"Favorites" = "Избранное";
 "Favorite" = "Избранное";
 "Basket" = "Корзина";
 "Add something in Favourites" = "Добавьте что-нибудь в Избранное";
@@ -36,4 +37,4 @@
 "Offline" = "Нет сети";
 "You can see products that have been added to favorites or to basket" = "Вы можете увидеть только те продукты, которые были добавлены в избранное или в корзину";
 "You can't Login now. Please connect to the network" = "Вы не можете авторизироваться. Пожалуйста подключитесь к интернету.";
-
+"No internet connection" = "Нет подключения к интернету";
