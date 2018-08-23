@@ -7,6 +7,7 @@ class BasketViewController: FavoriteItemsViewController{
     override func viewDidLoad() {
         favoriteProductsCollection = basketProductsCollection
         super.viewDidLoad()
+        self.title = "Basket"
     }
 
     required init?(coder aDecoder: NSCoder) {

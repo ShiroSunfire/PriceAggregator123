@@ -13,15 +13,16 @@ import CoreData
 class DBManager {
     
     private var CDataArray = NSMutableArray()
-    
+    private let DatabaseProjectName = "DataModel"
     enum Databases:String{
         case basket = "Basket"
         case favorites = "Favourites"
     }
     
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DataModel")
+        let container = NSPersistentContainer(name: DatabaseProjectName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -70,8 +71,9 @@ class DBManager {
             case .basket:
                 if let itemsArray = fetchedResult as? [Basket]{
                     for anItem in itemsArray{
+                        print(anItem.id)
                         if anItem.id == item.id!{
-                            itemsArray.first?.quantity += 1
+                            anItem.quantity += 1
                             saveContext()
                             return
                         }
@@ -108,42 +110,6 @@ class DBManager {
         }
     }
     
-//    func loadItem(with id:Int32) -> Item{
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: database.rawValue)
-//        fetchRequest.returnsObjectsAsFaults = false
-//        let context = self.persistentContainer.viewContext
-//        var item = Item
-//        do {
-//            let result = try context.fetch(fetchRequest)
-//            if database == .favorites {
-//                for data in result as! [Favourites] {
-//                    if data
-//                    let newItem = Item()
-//                    newItem.descriptionItem = data.descript
-//                    newItem.name = data.name
-//                    newItem.price = data.price
-//                    newItem.id = data.id
-//                    newItem.thumbnailImage = data.image?.imageArray()
-//                    item.append(newItem)
-//                }
-//            } else {
-//                for data in result as! [Basket] {
-//                    let newItem = Item()
-//                    newItem.descriptionItem = data.descript
-//                    newItem.name = data.name
-//                    newItem.price = data.price
-//                    newItem.id = data.id
-//                    newItem.quantity = Int(data.quantity)
-//                    newItem.thumbnailImage = data.image?.imageArray()
-//                    item.append(newItem)
-//                }
-//            }
-//        } catch {
-//            print("Failed")
-//        }
-//        print(item)
-//        return item
-//    }
     
     func loadData(from database:Databases) -> [Item] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: database.rawValue)
