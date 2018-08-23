@@ -15,7 +15,7 @@ class DescriptionViewController: UIViewController {
 
     private let cellId = "DescribingCell"
     private var itemId:Int!
-    var item:Item = Item()
+    var item:Item!
     private var gjson = GetJSON()
     private var scaledImageView:AnimationView!{
         didSet{
@@ -36,14 +36,16 @@ class DescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.item.thumbnailImage = [UIImage]()
+//        self.item.thumbnailImage = [UIImage]()
         itemName.textAlignment = .center
         itemImageCollection.delegate = self
         itemImageCollection.dataSource = self
         itemImageCollection.isPagingEnabled = true
         imagePageControl.addTarget(self, action: #selector(pageControlTapHandler), for: .touchUpInside)
         priceLabel.text = ""
+        gjson.delegate = self
         loadDataAboutItem()
+        
     }
     
     @IBAction private func addToBasketPressed(_ sender: UIButton) {
@@ -225,6 +227,12 @@ extension DescriptionViewController: DescriptionCellDelegate{
                 }
             }
         }
+    }
+}
+
+extension DescriptionViewController: GetJSONDelegate{
+    func JSONNotRetrieved() {
+        addImagesToCellImages()
     }
 }
 

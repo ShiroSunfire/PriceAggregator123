@@ -108,6 +108,43 @@ class DBManager {
         }
     }
     
+//    func loadItem(with id:Int32) -> Item{
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: database.rawValue)
+//        fetchRequest.returnsObjectsAsFaults = false
+//        let context = self.persistentContainer.viewContext
+//        var item = Item
+//        do {
+//            let result = try context.fetch(fetchRequest)
+//            if database == .favorites {
+//                for data in result as! [Favourites] {
+//                    if data
+//                    let newItem = Item()
+//                    newItem.descriptionItem = data.descript
+//                    newItem.name = data.name
+//                    newItem.price = data.price
+//                    newItem.id = data.id
+//                    newItem.thumbnailImage = data.image?.imageArray()
+//                    item.append(newItem)
+//                }
+//            } else {
+//                for data in result as! [Basket] {
+//                    let newItem = Item()
+//                    newItem.descriptionItem = data.descript
+//                    newItem.name = data.name
+//                    newItem.price = data.price
+//                    newItem.id = data.id
+//                    newItem.quantity = Int(data.quantity)
+//                    newItem.thumbnailImage = data.image?.imageArray()
+//                    item.append(newItem)
+//                }
+//            }
+//        } catch {
+//            print("Failed")
+//        }
+//        print(item)
+//        return item
+//    }
+    
     func loadData(from database:Databases) -> [Item] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: database.rawValue)
         fetchRequest.returnsObjectsAsFaults = false

@@ -101,6 +101,9 @@ extension FavoriteItemsViewController: NormalCellDelegate{
 }
 
 extension FavoriteItemsViewController: UINavigationControllerDelegate{
+    
+    
+    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
         UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push{
@@ -114,8 +117,9 @@ extension FavoriteItemsViewController: UINavigationControllerDelegate{
         }else{
             return CustomPop()
         }
-        
     }
+    
+    
     
 }
 
