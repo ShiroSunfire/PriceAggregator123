@@ -11,10 +11,10 @@ import UIKit
 class AnimationView: UIView {
     
     
-    var isFliped = false
+    private var isFliped = false
     private var doubleSidedLayer:CATransformLayer?
-    var topLayer = CALayer()
-    var bottomLayer = CALayer()
+    private var topLayer = CALayer()
+    private var bottomLayer = CALayer()
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -31,7 +31,7 @@ class AnimationView: UIView {
         topLayer.contentsGravity = kCAGravityResizeAspect
     }
     
-    func defInit(){
+    private func defInit(){
         self.layer.isDoubleSided = true
         self.layer.backgroundColor = UIColor.white.cgColor
         
