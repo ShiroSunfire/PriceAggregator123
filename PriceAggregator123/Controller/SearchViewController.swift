@@ -171,7 +171,7 @@ class SearchViewController: UIViewController {
             changeView = false
         } else {
             changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
-            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "viewlist.png"), for: UIControlState.normal)
             changeView = true
         }
         collectionView.reloadData()
