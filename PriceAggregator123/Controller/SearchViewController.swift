@@ -95,7 +95,7 @@ class SearchViewController: UIViewController {
         if JSON.null == json {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-                self.allLabel.text = "No internet connection"
+                self.allLabel.text = NSLocalizedString("No internet connection", comment: "")
                 self.noInternet.isHidden = false
             }
             showAlert(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can see products that have been added to favorites or to basket", comment: ""))
@@ -190,7 +190,7 @@ class SearchViewController: UIViewController {
             changeView = false
         } else {
             changeViewButton.setBackgroundImage(nil, for: UIControlState.normal)
-            changeViewButton.setBackgroundImage(UIImage(named: "viewlist.png"), for: UIControlState.normal)
+            changeViewButton.setBackgroundImage(UIImage(named: "menuline.png"), for: UIControlState.normal)
             changeView = true
         }
         collectionView.reloadData()
