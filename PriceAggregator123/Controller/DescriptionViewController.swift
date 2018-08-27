@@ -213,7 +213,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
             if imageIndex > 0{
                 if (sender.view as? AnimationView) != nil{
                     UIView.beginAnimations(nil, context: nil)
-                    scaledImageView.flip(to: AnimationView.Direction.right, with: item.thumbnailImage![imageIndex - 1])
+                    scaledImageView.flip(with: item.thumbnailImage![imageIndex - 1])
                     UIView.commitAnimations()
                 }
             }
@@ -222,7 +222,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
                     UIView.beginAnimations(nil, context: nil)
-                    scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex + 1])
+                    scaledImageView.flip(with: item.thumbnailImage![imageIndex + 1])
                     UIView.commitAnimations() 
                 }
             }
