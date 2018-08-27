@@ -139,7 +139,8 @@ class SearchViewController: UIViewController {
     
     func getItems(with url: URL?) {
         setRefresh()
-        self.gjson.getItems(with: url, completion: returnJson(_:))
+        gjson.cancelSession()
+        gjson.getItems(with: url, completion: returnJson(_:))
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {

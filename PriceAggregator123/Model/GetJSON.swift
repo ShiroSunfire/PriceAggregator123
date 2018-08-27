@@ -12,30 +12,36 @@ import SwiftyJSON
 
 class GetJSON {
     private static let APIKEY = "jx9ztwc42y6mfvvhfa4y87hk"
-    
     private var getItemURL: (Int)->(String) = {
         return "https://api.walmartlabs.com/v1/items/\($0)?apiKey=\(APIKEY)&lsPublisherId=&format=json"
     }
-    
+    private var task: URLSessionTask?
+    private var isCancel = false
     
     func getItems(with url: URL?, completion: @escaping (_ json: JSON) -> ()) {
         guard let url = url else { return }
         let session = URLSession.shared
-        session.dataTask(with: url) { (data, responce, error) in
+        task = session.dataTask(with: url) { (data, responce, error) in
             do {
                 if let currData = data{
                     let json = try JSON(data:currData)
                     completion(json)
-                }
-                else {
+                } else if (self.isCancel) {
+                    self.isCancel = false
+                } else {
                     completion(JSON.null)
                 }
             } catch { print(error) }
-        }.resume()
+        }
+        task?.resume()
     }
     
+    func cancelSession() {
+        isCancel = true
+        task?.cancel()
+    }
     
-    func getItems(with id: Int, imageLoaded: @escaping (UIImage) -> (),operationCompleted: @escaping ()->())  {
+    func getItems(with id: Int, imageLoaded: @escaping (UIImage) -> (),operationCompleted: @escaping ()->()) {
         guard let url = URL(string: getItemURL(id)) else {return}
         let session = URLSession.shared
         session.dataTask(with: url) { (data, responce, error) in
@@ -51,16 +57,16 @@ class GetJSON {
         
     }
     
-    private func getItemFromURL(_ json: JSON,imageLoaded: @escaping (UIImage)->(),operationCompleted: @escaping ()->()) {
-        
-            if json["imageEntities"].array != nil{
-                for index in 0...json["imageEntities"].count - 1{
-                    let element = json["imageEntities"][index]["largeImage"].string!
-                    guard let url = URL(string: element) else { return }
-                    downloadImage(with: url, completion: imageLoaded)
-                }
+    private func getItemFromURL(_ json: JSON,imageLoaded: @escaping (UIImage)->(),operationCompleted: @escaping ()->())
+    {
+        if json["imageEntities"].array != nil{
+            for index in 0...json["imageEntities"].count - 1{
+                let element = json["imageEntities"][index]["largeImage"].string!
+                guard let url = URL(string: element) else { return }
+                downloadImage(with: url, completion: imageLoaded)
             }
-            operationCompleted()
+        }
+        operationCompleted()
     }
     
     func appendInArrayItem(json: JSON, i:Int) -> Item {

@@ -71,15 +71,8 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
 
-   private func loadDataAboutItem(){
-        let opCompleted = {
-            self.addImagesToCellImages()
-        }
-    if (item.thumbnailImage?.count)! <= 1{
-        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted)
-    }
-    
-        
+    private func loadDataAboutItem(){
+        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: addImagesToCellImages)
     }
 
     private func imageLoaded(_ image :UIImage){
