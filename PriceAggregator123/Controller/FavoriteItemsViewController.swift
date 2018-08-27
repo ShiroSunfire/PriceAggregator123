@@ -23,7 +23,7 @@ class FavoriteItemsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Favorites"
+        self.title = NSLocalizedString("Favorites", comment: "")
         favoriteProductsCollection.backgroundColor = UIColor.white
         favoriteProductsCollection.register(UINib(nibName: cellXibId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }

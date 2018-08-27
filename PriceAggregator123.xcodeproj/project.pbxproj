@@ -25,6 +25,7 @@
 		3F689678212C546A00E5A988 /* TwitterLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F689675212C546A00E5A988 /* TwitterLogin.swift */; };
 		3FB6C1D221256A1200D5DD36 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB6C1D121256A1200D5DD36 /* AnimationView.swift */; };
 		3FBAF163212D426300B3276E /* GoogleLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF162212D426300B3276E /* GoogleLogin.swift */; };
+		3FBAF165212EADF400B3276E /* InternetConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF164212EADF400B3276E /* InternetConnection.swift */; };
 		3FBAF2EA2127175400076362 /* TouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAF2E92127175400076362 /* TouchView.swift */; };
 		3FCA350C212C0DDC0016B9C4 /* InfoPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */; };
 		3FCA350E212C0DE90016B9C4 /* InfoPlace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */; };
@@ -65,6 +66,7 @@
 		3F689675212C546A00E5A988 /* TwitterLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterLogin.swift; sourceTree = "<group>"; };
 		3FB6C1D121256A1200D5DD36 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
 		3FBAF162212D426300B3276E /* GoogleLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLogin.swift; sourceTree = "<group>"; };
+		3FBAF164212EADF400B3276E /* InternetConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetConnection.swift; sourceTree = "<group>"; };
 		3FBAF2E92127175400076362 /* TouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchView.swift; sourceTree = "<group>"; };
 		3FCA350B212C0DDC0016B9C4 /* InfoPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlace.swift; sourceTree = "<group>"; };
 		3FCA350D212C0DE90016B9C4 /* InfoPlace.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoPlace.xib; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				3FF35903212461C90091A943 /* FavoriteItemsViewController.swift */,
 				3FF655DD212ABE0F000185BB /* MapViewController.swift */,
 				3F6492F621242B330077E531 /* LoginViewController.swift */,
+				3FBAF164212EADF400B3276E /* InternetConnection.swift */,
 				3FBAF161212D3F1900B3276E /* Login */,
 			);
 			path = Controller;
@@ -423,6 +426,7 @@
 				3FBAF163212D426300B3276E /* GoogleLogin.swift in Sources */,
 				3FF358FA21240CFC0091A943 /* Item.swift in Sources */,
 				3FF358DB212403F70091A943 /* AppDelegate.swift in Sources */,
+				3FBAF165212EADF400B3276E /* InternetConnection.swift in Sources */,
 				3FF35904212461C90091A943 /* FavoriteItemsViewController.swift in Sources */,
 				3F223BD22124251000274675 /* CategoriesViewController.swift in Sources */,
 				3FCA3512212D40BC0016B9C4 /* Categories.swift in Sources */,

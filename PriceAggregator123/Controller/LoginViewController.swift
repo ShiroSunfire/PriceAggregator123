@@ -6,8 +6,6 @@
 //  Copyright © 2018 student. All rights reserved.
 //
 
-// google api sign-in 501283990325-b879hgv8qdnci8j23duftjv89h234bps.apps.googleusercontent.com
-
 
 import UIKit
 import FBSDKCoreKit
@@ -34,15 +32,35 @@ class LoginViewController: UIViewController, FacebookLoginDelegate, GoogleLoginD
     }
     
     @IBAction func fbLog(_ sender: Any) {
+        if connection() {
         fbLogin.fbConnect()
+        }
     }
     
     @IBAction func twLog(_ sender: Any) {
+        if connection() {
         twLogin.twitterConnect()
+        }
     }
     
     @IBAction func gmLog(_ sender: Any) {
+        if connection() {
         gLogin.gConnect()
+        }
+    }
+    
+    func connection()-> Bool{
+        if InternetConnection.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            return true
+        } else {
+            let alert = UIAlertController(title: NSLocalizedString("Offline", comment: ""), message: NSLocalizedString("You can't Login now. Please connect to the network", comment: ""), preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self.dismiss(animated: true, completion: nil)
+                })
+            return false
+        }
     }
     
     //Mark: - Delegate

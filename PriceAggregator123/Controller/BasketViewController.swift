@@ -7,7 +7,7 @@ class BasketViewController: FavoriteItemsViewController{
     override func viewDidLoad() {
         favoriteProductsCollection = basketProductsCollection
         super.viewDidLoad()
-        self.title = "Basket"
+        self.title = NSLocalizedString("Basket", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {
