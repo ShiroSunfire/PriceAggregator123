@@ -208,29 +208,26 @@ extension DescriptionViewController: DescriptionCellDelegate{
     @objc private func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
         var layerImage:CGImage!
         if let castedView = sender.view as? AnimationView{
-            if castedView.bottomLayer.contents == nil{
-                layerImage = castedView.topLayer.contents as! CGImage
-            }else{
+            if castedView.isFliped{
                 layerImage = castedView.bottomLayer.contents as! CGImage
+            }else{
+                layerImage = castedView.topLayer.contents as! CGImage
             }
+           
         }
         let imageIndex = item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)) == nil ? 0 : (item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)))!
         
         if sender.direction == .right{
             if imageIndex > 0{
                 if (sender.view as? AnimationView) != nil{
-                    UIView.beginAnimations(nil, context: nil)
-                    scaledImageView.flip(to: AnimationView.Direction.right, with: item.thumbnailImage![imageIndex - 1])
-                    UIView.commitAnimations()
+                    scaledImageView.flip(with: item.thumbnailImage![imageIndex - 1])
                 }
             }
             
         } else if sender.direction == .left{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
-                    UIView.beginAnimations(nil, context: nil)
-                    scaledImageView.flip(to: AnimationView.Direction.left, with: item.thumbnailImage![imageIndex + 1])
-                    UIView.commitAnimations() 
+                    scaledImageView.flip(with: item.thumbnailImage![imageIndex + 1])
                 }
             }
         }
