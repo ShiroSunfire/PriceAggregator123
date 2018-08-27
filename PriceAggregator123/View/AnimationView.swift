@@ -72,9 +72,9 @@ class AnimationView: UIView {
         perspective.m34 = 1.0 / -500
         doubleSidedLayer?.transform = perspective
         if isFliped{
-            topLayer.contents = image.cgImage
-        }else{
             bottomLayer.contents = image.cgImage
+        }else{
+            topLayer.contents = image.cgImage
         }
         bottomLayer.contentsGravity = kCAGravityResizeAspect
         topLayer.contentsGravity = kCAGravityResizeAspect
@@ -85,7 +85,6 @@ class AnimationView: UIView {
         }else{
             doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
         }
-        
         
         CATransaction.commit()
         isFliped = !isFliped

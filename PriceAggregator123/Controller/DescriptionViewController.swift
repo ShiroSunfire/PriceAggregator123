@@ -71,15 +71,10 @@ class DescriptionViewController: UIViewController {
         itemImageCollection.scrollToItem(at: index, at: [], animated: true)
     }
 
-   private func loadDataAboutItem(){
-        let opCompleted = {
-            self.addImagesToCellImages()
+    private func loadDataAboutItem(){
+        if (item.thumbnailImage?.count)! <= 1{
+            gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: addImagesToCellImages)
         }
-    if (item.thumbnailImage?.count)! <= 1{
-        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted)
-    }
-    
-        
     }
 
     private func imageLoaded(_ image :UIImage){
@@ -147,7 +142,6 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = targetContentOffset.pointee.x
-        print(x)
         imagePageControl.currentPage = Int((x / scrollView.frame.width).rounded())
     }
     
@@ -228,6 +222,7 @@ extension DescriptionViewController: DescriptionCellDelegate{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
                     scaledImageView.flip(with: item.thumbnailImage![imageIndex + 1])
+
                 }
             }
         }

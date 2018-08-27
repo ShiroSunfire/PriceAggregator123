@@ -57,6 +57,16 @@ class SearchViewController: UIViewController {
         self.parent?.title = NSLocalizedString("All", comment: "")
         navigationController?.delegate = self
         collectionView.reloadData()
+        searchRefresh()
+    }
+    
+    private func searchRefresh() {
+        if refresh != nil {
+            let center = refresh!.center
+            refresh?.removeFromSuperview()
+            refresh = RefreshImageView(center: center)
+            self.view.addSubview(refresh!)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -139,7 +149,8 @@ class SearchViewController: UIViewController {
     
     func getItems(with url: URL?) {
         setRefresh()
-        self.gjson.getItems(with: url, completion: returnJson(_:))
+        gjson.cancelSession()
+        gjson.getItems(with: url, completion: returnJson(_:))
     }
     
     @IBAction func categoriesButtonTapped(_ sender: UIButton) {
