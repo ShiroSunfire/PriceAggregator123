@@ -73,11 +73,8 @@ class DescriptionViewController: UIViewController {
     }
 
    private func loadDataAboutItem(){
-        let isNil = item.thumbnailImage == nil
-        let opCompleted = {
-            self.addImagesToCellImages()
-        }
-    gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: opCompleted, isNil: isNil)
+
+    gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: addImagesToCellImages)
         
     }
 

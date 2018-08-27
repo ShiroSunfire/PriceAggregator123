@@ -97,14 +97,11 @@ extension FavoriteItemsViewController: NormalCellDelegate{
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
             self.dismiss(animated: true, completion: nil)
         })
-        DBManager().saveData(database: sourceDatabase!, item: item)
+        DBManager().saveData(database: .basket, item: item)
     }
 }
 
 extension FavoriteItemsViewController: UINavigationControllerDelegate{
-    
-    
-    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC:
         UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push{

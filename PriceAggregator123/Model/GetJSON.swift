@@ -40,7 +40,7 @@ class GetJSON {
     }
     
     
-    func getItems(with id: Int, imageLoaded: @escaping (UIImage) -> (),operationCompleted: @escaping ()->(),isNil:Bool) {
+    func getItems(with id: Int, imageLoaded: @escaping (UIImage) -> (),operationCompleted: @escaping ()->()) {
         guard let url = URL(string: getItemURL(id)) else {return}
         let session = URLSession.shared
         session.dataTask(with: url) { (data, responce, error) in
