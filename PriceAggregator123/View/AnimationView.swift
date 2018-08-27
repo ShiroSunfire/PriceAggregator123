@@ -12,7 +12,6 @@ class AnimationView: UIView {
     
     var isFliped = false
     private var doubleSidedLayer:CATransformLayer?
-    var lastDir:Direction!
     var topLayer = CALayer()
     var bottomLayer = CALayer()
     required init?(coder aDecoder: NSCoder) {
@@ -80,12 +79,13 @@ class AnimationView: UIView {
         bottomLayer.contentsGravity = kCAGravityResizeAspect
         topLayer.contentsGravity = kCAGravityResizeAspect
         CATransaction.begin()
-        CATransaction.setAnimationDuration(0.75)
-        if !isFliped{
-            doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
-        }else{
+        CATransaction.setAnimationDuration(1.0)
+        if isFliped{
             doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
+        }else{
+            doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
         }
+        
         CATransaction.commit()
         isFliped = !isFliped
     }

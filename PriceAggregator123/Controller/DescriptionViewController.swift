@@ -72,7 +72,9 @@ class DescriptionViewController: UIViewController {
     }
 
     private func loadDataAboutItem(){
-        gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: addImagesToCellImages)
+        if (item.thumbnailImage?.count)! <= 1{
+            gjson.getItems(with: Int(item.id!), imageLoaded: imageLoaded(_:), operationCompleted: addImagesToCellImages)
+        }
     }
 
     private func imageLoaded(_ image :UIImage){
@@ -140,7 +142,6 @@ extension DescriptionViewController: UICollectionViewDataSource,UICollectionView
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = targetContentOffset.pointee.x
-        print(x)
         imagePageControl.currentPage = Int((x / scrollView.frame.width).rounded())
     }
     
@@ -201,29 +202,27 @@ extension DescriptionViewController: DescriptionCellDelegate{
     @objc private func scaledImageSwipeHandler(sender:  UISwipeGestureRecognizer){
         var layerImage:CGImage!
         if let castedView = sender.view as? AnimationView{
-            if castedView.bottomLayer.contents == nil{
-                layerImage = castedView.topLayer.contents as! CGImage
-            }else{
+            if castedView.isFliped{
                 layerImage = castedView.bottomLayer.contents as! CGImage
+            }else{
+                layerImage = castedView.topLayer.contents as! CGImage
             }
+           
         }
         let imageIndex = item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)) == nil ? 0 : (item.thumbnailImage?.index(of: UIImage(cgImage: layerImage)))!
         
         if sender.direction == .right{
             if imageIndex > 0{
                 if (sender.view as? AnimationView) != nil{
-                    UIView.beginAnimations(nil, context: nil)
                     scaledImageView.flip(with: item.thumbnailImage![imageIndex - 1])
-                    UIView.commitAnimations()
                 }
             }
             
         } else if sender.direction == .left{
             if imageIndex <   (item.thumbnailImage?.count)! - 1{
                 if (sender.view as? AnimationView) != nil{
-                    UIView.beginAnimations(nil, context: nil)
                     scaledImageView.flip(with: item.thumbnailImage![imageIndex + 1])
-                    UIView.commitAnimations() 
+
                 }
             }
         }
