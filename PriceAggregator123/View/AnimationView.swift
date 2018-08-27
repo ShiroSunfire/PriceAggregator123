@@ -68,26 +68,25 @@ class AnimationView: UIView {
     
    
     
-    func flip(to direction:Direction, with image:UIImage){
-        doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
+    func flip(with image:UIImage){
         var perspective = CATransform3DIdentity
         perspective.m34 = 1.0 / -500
         doubleSidedLayer?.transform = perspective
-
-        if lastDir != nil{
-                let temp = bottomLayer.contents
-                bottomLayer.contents = image.cgImage
-                topLayer.contents = temp
-
-        }else{
+        if isFliped{
             bottomLayer.contents = image.cgImage
+        }else{
+            topLayer.contents = image.cgImage
         }
-
         bottomLayer.contentsGravity = kCAGravityResizeAspect
         topLayer.contentsGravity = kCAGravityResizeAspect
-        
-        doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
-        lastDir = direction
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.75)
+        if !isFliped{
+            doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(.pi, 0, 1, 0)
+        }else{
+            doubleSidedLayer?.sublayerTransform = CATransform3DMakeRotation(0, 0, 1, 0)
+        }
+        CATransaction.commit()
         isFliped = !isFliped
     }
 }

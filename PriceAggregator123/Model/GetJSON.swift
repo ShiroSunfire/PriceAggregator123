@@ -79,9 +79,12 @@ class GetJSON {
     }
     
     func downloadImage(with url: URL, item: Item, completion: @escaping (UIImage, Item)->()) {
-        let data = try? Data(contentsOf: url)
-        if let imageData = data {
-            completion(UIImage(data: imageData)!, item)
+        let cuncurrent = DispatchQueue(label: "com.concurrent.quene", qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        cuncurrent.async {
+            let data = try? Data(contentsOf: url)
+            if let imageData = data {
+                completion(UIImage(data: imageData)!, item)
+            }
         }
     }
     
